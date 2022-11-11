@@ -1,8 +1,8 @@
-package Model;
+package com.NWT_KTS_project.model;
 
-import Model.Enumerations.CarMaker;
-import Model.Enumerations.CarType;
-import Model.Enumerations.Colors;
+import com.NWT_KTS_project.model.Enumerations.CarMaker;
+import com.NWT_KTS_project.model.Enumerations.CarType;
+import com.NWT_KTS_project.model.Enumerations.Colors;
 
 public class Car {
 

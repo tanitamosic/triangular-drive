@@ -1,6 +1,6 @@
-package Model;
+package com.NWT_KTS_project.model;
 
-import Model.Enumerations.Cities;
+import com.NWT_KTS_project.model.Enumerations.Cities;
 
 public class User {
 

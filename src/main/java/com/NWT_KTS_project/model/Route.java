@@ -1,4 +1,4 @@
-package Model;
+package com.NWT_KTS_project.model;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package Model;
+package com.NWT_KTS_project.model;
 
-import Model.Enumerations.RideStatus;
+import com.NWT_KTS_project.model.Enumerations.RideStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
