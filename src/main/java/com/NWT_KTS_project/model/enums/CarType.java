@@ -1,4 +1,4 @@
-package com.NWT_KTS_project.model.Enumerations;
+package com.NWT_KTS_project.model.enums;
 
 public enum CarType {
     LIMOUSINE,

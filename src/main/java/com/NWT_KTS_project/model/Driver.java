@@ -1,6 +1,6 @@
 package com.NWT_KTS_project.model;
 
-import com.NWT_KTS_project.model.Enumerations.DriverStatus;
+import com.NWT_KTS_project.model.enums.DriverStatus;
 
 import java.util.List;
 
