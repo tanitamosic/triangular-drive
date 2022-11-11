@@ -1,5 +1,7 @@
-package com.NWT_KTS_project.model;
+package com.NWT_KTS_project.model.users;
 
+import com.NWT_KTS_project.model.Car;
+import com.NWT_KTS_project.model.Ride;
 import com.NWT_KTS_project.model.enums.DriverStatus;
 
 import java.util.List;

@@ -3,6 +3,9 @@ import com.NWT_KTS_project.model.enums.RideStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.NWT_KTS_project.model.users.Client;
+import com.NWT_KTS_project.model.users.Driver;
 import lombok.Getter;
 import lombok.Setter;
 
