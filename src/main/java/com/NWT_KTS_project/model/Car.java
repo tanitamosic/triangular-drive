@@ -35,6 +35,8 @@ public class Car {
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private CarType type;
+    @Column(name = "score")
+    private Float score;
 }
 
 
