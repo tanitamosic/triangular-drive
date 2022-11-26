@@ -4,8 +4,11 @@ import com.NWT_KTS_project.model.Photo;
 import lombok.Setter;
 import lombok.Getter;
 import com.NWT_KTS_project.model.enums.City;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
-public abstract class User {
+public abstract class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,5 +45,8 @@ public abstract class User {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "photo_id")
     private Photo photo;
+
+
+
 
 }
