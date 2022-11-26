@@ -2,6 +2,7 @@ package com.NWT_KTS_project.model;
 
 import com.NWT_KTS_project.model.enums.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Setter;
 import lombok.Getter;
 
@@ -37,6 +38,22 @@ public class Car {
     private CarType type;
     @Column(name = "score")
     private Float score;
+    @JsonIgnore
+    private String description;
+
+    public Car(int id, String model, CarMake make, Integer seats, Color color,
+               Boolean petFriendly, Boolean babyFriendly, CarType type, Float score) {
+        this.id = id;
+        this.model = model;
+        this.make = make;
+        this.seats = seats;
+        this.color = color;
+        this.petFriendly = petFriendly;
+        this.babyFriendly = babyFriendly;
+        this.type = type;
+        this.score = score;
+        this.description = this.type.desctiption;
+    }
 }
 
 

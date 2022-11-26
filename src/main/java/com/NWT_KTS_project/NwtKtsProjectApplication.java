@@ -1,6 +1,7 @@
 package com.NWT_KTS_project;
 
 import com.NWT_KTS_project.repository.AddressRepository;
+import com.NWT_KTS_project.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,6 +11,7 @@ import java.util.Scanner;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class}, scanBasePackages = {"com"})
 public class NwtKtsProjectApplication {
+
 	public static void main(String[] args) {
 		SpringApplication.run(NwtKtsProjectApplication.class, args);
 	}
