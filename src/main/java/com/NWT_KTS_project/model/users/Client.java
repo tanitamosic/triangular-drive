@@ -2,45 +2,33 @@ package com.NWT_KTS_project.model.users;
 
 import com.NWT_KTS_project.model.Ride;
 import com.NWT_KTS_project.model.Route;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Getter
+@Setter
+@Entity
+@DiscriminatorValue("CL")
 public class Client extends User{
 
+    @Column(name = "paypal")
     private String paypal;
+    @Column(name = "wallet")
     private String wallet;
-    private List<Ride> rideHistory;
+    @Column(name = "credit_available")
+    private Float creditAvailable;
+    @Column(name = "credit_reserved")
+    private Float creditReserved;
+
+    //TODO: da li cuvati ovde ili izvlaciti iz rides?
+    //private List<Ride> rideHistory;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "saved_routes",
+            joinColumns = {@JoinColumn(name = "passenger_id")},
+            inverseJoinColumns = {@JoinColumn(name = "route_id")})
     private List<Route> savedRoutes;
-
-    public String getPaypal() {
-        return paypal;
-    }
-
-    public void setPaypal(String paypal) {
-        this.paypal = paypal;
-    }
-
-    public String getWallet() {
-        return wallet;
-    }
-
-    public void setWallet(String wallet) {
-        this.wallet = wallet;
-    }
-
-    public List<Ride> getRideHistory() {
-        return rideHistory;
-    }
-
-    public void setRideHistory(List<Ride> rideHistory) {
-        this.rideHistory = rideHistory;
-    }
-
-    public List<Route> getSavedRoutes() {
-        return savedRoutes;
-    }
-
-    public void setSavedRoutes(List<Route> savedRoutes) {
-        this.savedRoutes = savedRoutes;
-    }
 }

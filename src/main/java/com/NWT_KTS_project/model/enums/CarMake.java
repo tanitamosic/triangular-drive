@@ -10,7 +10,7 @@ public enum CarMake {
     TOYOTA,
     RENAULT,
     FORD,
-    VOLKS_WAGEN,
+    VOLKSWAGEN,
     OPEL,
     CITROEN,
     HONDA,

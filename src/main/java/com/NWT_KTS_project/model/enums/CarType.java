@@ -1,7 +1,10 @@
 package com.NWT_KTS_project.model.enums;
 
 public enum CarType {
-    LIMOUSINE,
-    VAN,
-    STANDARD
+    LIMOUSINE, // lux
+    VAN, // prevoz tereta
+    STANDARD,
+    MINIVAN, // vise ljudi i ili prevoz tereta
+    CARAVAN, // vise prostora u gepeku
+    SUV
 }
