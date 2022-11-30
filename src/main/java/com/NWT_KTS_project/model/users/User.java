@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Getter
@@ -40,6 +41,8 @@ public abstract class User implements UserDetails {
     private Boolean blocked;
     @Column(name = "activated")
     private Boolean activated;
+    @Column(name="last_password_reset_date")  // nullable = true
+    private Timestamp lastPasswordResetDate;
 
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

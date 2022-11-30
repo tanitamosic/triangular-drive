@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.NWT_KTS_project.model.users.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -177,10 +178,13 @@ public class TokenUtils {
 
 
     public Boolean validateToken(String token, UserDetails userDetails) {
+        User u = (User) userDetails;
         final String username = getUsernameFromToken(token);
         final Date created = getIssuedAtDateFromToken(token);
 
-        return (username != null && username.equals(userDetails.getUsername()));
+        return (username != null
+                && username.equals(userDetails.getUsername())
+                && !isCreatedBeforeLastPasswordReset(created, u.getLastPasswordResetDate()));
     }
 
 
