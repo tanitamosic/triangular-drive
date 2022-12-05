@@ -24,6 +24,7 @@ public class WebSecurityConf {
                 .authorizeRequests().antMatchers("/client/*").hasRole("CLIENT").and()
                 .authorizeRequests().antMatchers("/driver/*").hasRole("DRIVER").and()
                 .authorizeRequests().antMatchers("/history/**").hasRole("ADMIN").and()
+                .authorizeRequests().antMatchers("/api/**").permitAll().and()
 
                 // ALWAYS AT THE END OF THE CHAIN
                 .authorizeRequests().anyRequest().authenticated();
