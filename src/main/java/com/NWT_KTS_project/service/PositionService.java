@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class PositionService implements PositionService {
+public class PositionService {
 
     private Map<Integer, Position> positions;
 

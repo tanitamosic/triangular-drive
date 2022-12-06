@@ -9,13 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RideService implements RideService {
+public class RideService{
 
     @Autowired
     private RideRepository rideRepository;
 
-
-    @Override
     public List<Ride> getRidesByUserId(int id, RideComparator comparator) {
         List<Ride> rides = rideRepository.findByPassengersId(id);
         rides.addAll(rideRepository.findByDriverId(id));
