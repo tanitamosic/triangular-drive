@@ -49,6 +49,7 @@ public abstract class User implements UserDetails {
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
+    public abstract String getRole();
 
 
 

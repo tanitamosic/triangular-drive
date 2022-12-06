@@ -50,6 +50,12 @@ public class Driver extends User{
         return retval;
     }
 
+    @JsonIgnore
+    @Override
+    public String getRole() {
+        return "ROLE_DRIVER";
+    }
+
     /**
      * Returns the username used to authenticate the user. Cannot return
      * <code>null</code>.

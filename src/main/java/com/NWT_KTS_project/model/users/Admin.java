@@ -30,6 +30,12 @@ public class Admin extends User {
         return retval;
     }
 
+    @JsonIgnore
+    @Override
+    public String getRole() {
+        return "ROLE_ADMIN";
+    }
+
     /**
      * Returns the username used to authenticate the user. Cannot return
      * <code>null</code>.

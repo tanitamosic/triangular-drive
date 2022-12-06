@@ -49,6 +49,12 @@ public class Client extends User{
         retval.add(r);
         return retval;
     }
+    @JsonIgnore
+    @Override
+    public String getRole() {
+        return "ROLE_CLIENT";
+    }
+
 
     /**
      * Returns the username used to authenticate the user. Cannot return

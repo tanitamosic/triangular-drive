@@ -40,11 +40,11 @@ insert into cars (model, make, seats, color, pet_friendly, baby_friendly, type) 
 
 -- ADMINS
 insert into users (type, name, last_name, email, password, phone, city, blocked, activated) values
-('AD', 'Tanita', 'Mošić', 'admintm@siit.com', 'admin', '064481513','NS', FALSE, TRUE);
+('AD', 'Tanita', 'Mošić', 'admintm@siit.com', '{bcrypt}$2a$10$nlwpRrP8gTFa7ngDwDuB7.TmV1JmiU5nanPEdhbKdwCG/BrVhoIta', '064481513','NS', FALSE, TRUE);
 insert into users (type, name, last_name, email, password, phone, city, blocked, activated) values
-('AD', 'Petar', 'Kupusarević', 'adminpk@siit.com', 'admin', '06444865','NS', FALSE, TRUE);
+('AD', 'Petar', 'Kupusarević', 'adminpk@siit.com', '{bcrypt}$2a$10$nlwpRrP8gTFa7ngDwDuB7.TmV1JmiU5nanPEdhbKdwCG/BrVhoIta', '06444865','NS', FALSE, TRUE);
 insert into users (type, name, last_name, email, password, phone, city, blocked, activated) values
-('AD', 'Mihajlo', 'Đorđević', 'adminmdj@siit.com', 'admin', '06459613','NS', FALSE, TRUE);
+('AD', 'Mihajlo', 'Đorđević', 'adminmdj@siit.com', '{bcrypt}$2a$10$nlwpRrP8gTFa7ngDwDuB7.TmV1JmiU5nanPEdhbKdwCG/BrVhoIta', '06459613','NS', FALSE, TRUE);
 -- CLIENTS
 insert into users (type, name, last_name, email, password, phone, city, credit_available, credit_reserved, blocked, activated) values
 ('CL', 'Marko', 'Trijanić', 'markotrijanic@gmail.com', 'markotrija', '0602135578','NS', 800, 120, FALSE, TRUE);
