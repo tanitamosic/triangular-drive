@@ -1,6 +1,15 @@
 package com.NWT_KTS_project.service;
 
-public interface UserService {
 
+import com.NWT_KTS_project.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
 
 }
+
