@@ -1,0 +1,24 @@
+<div>
+  <div class="cell">
+    <span class="p-float-label">
+    <input id="float-input" type="text" pInputText [(ngModel)]="email">
+    <label for="float-input">Email</label>
+  </span>
+  </div>
+  <div class="cell">
+    <span class="p-float-label">
+    <input id="float-input-2" type="password" pInputText [(ngModel)]="password">
+    <label for="float-input-2">Password</label>
+  </span>
+  </div>
+  <div class="cell">
+    <p-button label="Login" icon="pi pi-check" (onClick)="login($event)"></p-button>
+    <button style="margin-left: 20px;" pButton label="Login" (click)="login($event)"></button>
+  </div>
+
+  <p>{{email}}</p>
+  <p>{{password}}</p>
+
+  {{ response }}
+
+</div>
