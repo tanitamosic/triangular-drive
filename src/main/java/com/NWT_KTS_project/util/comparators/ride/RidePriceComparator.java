@@ -2,7 +2,7 @@ package com.NWT_KTS_project.util.comparators.ride;
 
 import com.NWT_KTS_project.model.Ride;
 
-public class RidePriceDescComparator implements RideComparator {
+public class RidePriceComparator implements RideComparator {
     @Override
     public int compare(Ride o1, Ride o2) {
         if( o1.getPrice() > o2.getPrice() ) {

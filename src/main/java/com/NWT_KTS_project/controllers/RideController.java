@@ -2,10 +2,7 @@ package com.NWT_KTS_project.controllers;
 
 import com.NWT_KTS_project.model.Ride;
 import com.NWT_KTS_project.service.RideService;
-import com.NWT_KTS_project.util.comparators.ride.RideComparator;
-import com.NWT_KTS_project.util.comparators.ride.RideDateDescComparator;
-import com.NWT_KTS_project.util.comparators.ride.RideDistanceDescComparator;
-import com.NWT_KTS_project.util.comparators.ride.RidePriceDescComparator;
+import com.NWT_KTS_project.util.comparators.ride.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,16 +32,19 @@ public class RideController {
         switch (sort)
         {
             case "date":
-                comparator = new RideDateDescComparator();
+                comparator = new RideDateComparator();
                 break;
             case "price":
-                comparator = new RidePriceDescComparator();
+                comparator = new RidePriceComparator();
                 break;
             case "distance":
-                comparator = new RideDistanceDescComparator();
+                comparator = new RideDistanceComparator();
+                break;
+            case "status":
+                comparator = new RideStatusComparator();
                 break;
             default:
-                comparator = new RideDateDescComparator();
+                comparator = new RideDateComparator();
                 break;
         }
 
