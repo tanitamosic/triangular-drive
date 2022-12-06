@@ -1,16 +1,24 @@
-<p>login works!</p>
-<div class="field">
-  <label for="email" class="block">Username</label>
-  <input id="email" type="username" aria-describedby="email-help" pInputText [(ngModel)]="email" />
-  <small id="email-help" class="block">Enter your username.</small>
-</div>
-<div class="field">
-  <label for="password" class="block">Username</label>
-  <input id="password" type="username" aria-describedby="password-help" pInputText [(ngModel)]="password" />
-  <small id="password-help" class="block">Enter your password.</small>
-</div>
-<p-button label="Login" icon="pi pi-check" (onClick)="login($event)"></p-button>
-<p>{{email}}</p>
-<p>{{password}}</p>
+<div>
+  <div class="cell">
+    <span class="p-float-label">
+    <input id="float-input" type="text" pInputText [(ngModel)]="email">
+    <label for="float-input">Email</label>
+  </span>
+  </div>
+  <div class="cell">
+    <span class="p-float-label">
+    <input id="float-input-2" type="password" pInputText [(ngModel)]="password">
+    <label for="float-input-2">Password</label>
+  </span>
+  </div>
+  <div class="cell">
+    <p-button label="Login" icon="pi pi-check" (onClick)="login($event)"></p-button>
+    <button style="margin-left: 20px;" pButton label="Login" (click)="login($event)"></button>
+  </div>
 
-{{ response }}
+  <p>{{email}}</p>
+  <p>{{password}}</p>
+
+  {{ response }}
+
+</div>

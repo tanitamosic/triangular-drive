@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginService} from "./login.service";
+import { AuthorizationService } from '../authorizationService'
 
 @Component({
   selector: 'app-login',
@@ -11,19 +12,22 @@ export class LoginComponent implements OnInit {
   email: String = '';
   password: String = '';
   loginService: LoginService;
+  authService: AuthorizationService;
 
-  response: String = '';
+  response: any;
 
-  constructor(service: LoginService) {
+  constructor(service: LoginService, authService: AuthorizationService) {
     this.loginService = service;
+    this.authService = authService;
   }
 
   login(event: any): void {
-    this.loginService.get().subscribe(
-      (res) => {
-        this.response = res;
-      }
-    );
+    let request = this.loginService.post('adminmdj@siit.com', 'admin');
+    request.subscribe((response) => {
+      this.response = response;
+      // check validity
+      this.authService.setToken(this.response);
+    });
   }
 
   ngOnInit(): void {

@@ -16,17 +16,16 @@ export class LoginService {
     this.http = httpClient;
   }
 
-  get(): Observable<String>{
-    return this.http.get('/api/temp', {responseType: 'text'});
-  }
-
-  post() {
-    let response;
-    const request = this.http.post('/api/temp', {});
-    request.subscribe((res) => {
-      console.log(res);
-      response = res;
-    });
-    return response;
+  post(email: String, password: String) {
+    const request = this.http.post('/api/login', {'email': email, 'password': password}, {responseType: 'text'});
+    request.pipe(
+      tap(
+        {
+          next: value => { console.log("This is tap success log: " + value); },
+          error: err => { console.log("This is tap error log: " + err); }
+        }
+      )
+    )
+    return request;
   }
 }
