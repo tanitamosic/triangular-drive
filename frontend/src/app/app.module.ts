@@ -7,7 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { InputTextModule } from "primeng/inputtext";
-import {ButtonModule} from "primeng/button";
+import { ButtonModule } from "primeng/button";
+import { httpInterceptorProviders } from "./httpInterceptorProviders";
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import {ButtonModule} from "primeng/button";
     InputTextModule,
     ButtonModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
