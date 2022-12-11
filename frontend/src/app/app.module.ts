@@ -9,12 +9,20 @@ import { LoginComponent } from './login/login.component';
 import { InputTextModule } from "primeng/inputtext";
 import { ButtonModule } from "primeng/button";
 import { httpInterceptorProviders } from "./httpInterceptorProviders";
+import { LoggedNavbarComponent } from './navbars/logged-navbar/logged-navbar.component';
+import { UnloggedNavbarComponent } from './navbars/unlogged-navbar/unlogged-navbar.component';
+import { MenubarModule } from 'primeng/menubar';
+import { RippleModule } from "primeng/ripple";
+import { DialogModule } from 'primeng/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    LoggedNavbarComponent,
+    UnloggedNavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +30,11 @@ import { httpInterceptorProviders } from "./httpInterceptorProviders";
     HttpClientModule,
     FormsModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    MenubarModule,
+    RippleModule,
+    DialogModule,
+    BrowserAnimationsModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

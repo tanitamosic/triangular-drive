@@ -1,1 +1,7 @@
-<app-login></app-login>
+<div class="nav">
+  <app-logged-navbar *ngIf="loggedIn"></app-logged-navbar>
+  <app-unlogged-navbar (loggedIn)="loggedIn=true" *ngIf="!loggedIn"></app-unlogged-navbar>
+</div>
+<div style="margin-top: 75px;">
+</div>
+

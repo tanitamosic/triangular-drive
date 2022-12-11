@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {LoginService} from "./login.service";
 import { AuthorizationService } from '../authorizationService'
 
@@ -14,6 +14,10 @@ export class LoginComponent implements OnInit {
   loginService: LoginService;
   authService: AuthorizationService;
 
+  @Output() loggedIn = new EventEmitter<boolean>();
+  @Output() modalClosed = new EventEmitter<boolean>();
+  loginSuccessful: boolean = false;
+
   response: any;
 
   constructor(service: LoginService, authService: AuthorizationService) {
@@ -27,6 +31,9 @@ export class LoginComponent implements OnInit {
       this.response = response;
       // check validity
       this.authService.setToken(this.response);
+      this.loggedIn.emit(true);
+      this.modalClosed.emit(true);
+      this.loginSuccessful = true;
     });
   }
 

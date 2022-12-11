@@ -1,0 +1,17 @@
+<p-menubar [model]="items">
+  <ng-template pTemplate="start">
+    <img src="assets/showcase/images/primeng.svg" height="40" class="mr-2" alt="No img :(">
+  </ng-template>
+  <ng-template pTemplate="end">
+<!--    MODAL BUTTON   -->
+    <button pButton label="Login" pRipple (click)="displayLoginModal=true"></button>
+  </ng-template>
+</p-menubar>
+<!--    MODAL   -->
+<p-dialog header="Please enter your credentials" [(visible)]="displayLoginModal" [modal]="true" [style]="{width: 'auto'}"
+          [draggable]="false" [resizable]="false">
+  <app-login (loggedIn)="onLogin($event)" (modalClosed)="displayLoginModal=false"></app-login>
+  <ng-template pTemplate="footer">
+<!--    <p-button icon="pi pi-check" (click)="displayLoginModal=false" label="Ok" styleClass="p-button-text"></p-button>-->
+  </ng-template>
+</p-dialog>

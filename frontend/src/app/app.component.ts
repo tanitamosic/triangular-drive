@@ -9,6 +9,7 @@ import { PrimeNGConfig } from 'primeng/api';
 })
 export class AppComponent {
   title = 'frontend';
+  loggedIn: boolean = false;
 
   constructor(private primengConfig: PrimeNGConfig) {}
 
