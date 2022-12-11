@@ -1,5 +1,6 @@
 package com.NWT_KTS_project.model;
 
+import com.NWT_KTS_project.model.users.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,5 +23,8 @@ public class Review {
     private Integer carRating;
     @Column(name = "comment")
     private String comment;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "passenger_id")
+    private User passenger;
 
 }

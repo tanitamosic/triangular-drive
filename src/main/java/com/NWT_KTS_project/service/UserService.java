@@ -1,5 +1,6 @@
 package com.NWT_KTS_project.service;
 
+
 import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserDetailsService {
 
+
     @Autowired
     private UserRepository userRepository;
+
 
     /**
      * Locates the user based on the username. In the actual implementation, the search
@@ -35,4 +38,6 @@ public class UserService implements UserDetailsService {
         return retUser;
     }
 
+
 }
+
