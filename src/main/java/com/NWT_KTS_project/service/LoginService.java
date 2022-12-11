@@ -22,6 +22,7 @@ public class LoginService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User u = (User) authentication.getPrincipal();
 
+        // TODO: ADD EXCEPTIONS FOR EACH CONDITION
         return u.getActivated() && !u.getBlocked() ? u : null;
     }
 }

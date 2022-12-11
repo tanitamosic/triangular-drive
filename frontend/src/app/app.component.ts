@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { PrimeNGConfig } from 'primeng/api';
+import {UserService} from "./user.service";
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,11 @@ export class AppComponent {
   title = 'frontend';
   loggedIn: boolean = false;
 
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(private primengConfig: PrimeNGConfig, private userService: UserService) {}
 
   ngOnInit() {
     this.primengConfig.ripple = true;
+    this.userService.onLoad();
+
   }
 }
