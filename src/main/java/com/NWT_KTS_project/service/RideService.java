@@ -1,8 +1,12 @@
 package com.NWT_KTS_project.service;
 
+import com.NWT_KTS_project.model.Address;
 import com.NWT_KTS_project.model.Ride;
+import com.NWT_KTS_project.model.Route;
 import com.NWT_KTS_project.model.enums.DriverStatus;
 import com.NWT_KTS_project.model.enums.RideStatus;
+import com.NWT_KTS_project.model.users.Client;
+import com.NWT_KTS_project.model.users.Driver;
 import com.NWT_KTS_project.repository.RideRepository;
 import com.NWT_KTS_project.util.comparators.ride.RideComparator;
 import com.NWT_KTS_project.util.comparators.ride.RideDateComparator;
@@ -57,5 +61,24 @@ public class RideService{
             return pendingRides.get(0);
         }
         return null;
+    }
+
+
+    public Ride createRide(Driver driver, List<Address> addresses, List<Client> clients){
+        Ride ride = new Ride();
+        ride.setDriver(driver);
+        ride.setPassengers(clients);
+        Route route = new Route();
+        route.setStart(addresses.get(0));
+        route.setDestination(addresses.get(addresses.size()-1));
+        ArrayList<Address> stops = new ArrayList<Address>();
+        for(int i = 1; i < addresses.size()-1; i++){
+            stops.add(addresses.get(i));
+        }
+        route.setStops(stops);
+        ride.setRoute(route);
+        ride.setStatus(RideStatus.PENDING);
+        rideRepository.save(ride);
+        return ride;
     }
 }

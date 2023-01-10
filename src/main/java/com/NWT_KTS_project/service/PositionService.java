@@ -1,8 +1,10 @@
 package com.NWT_KTS_project.service;
 
+import com.NWT_KTS_project.model.Address;
 import com.NWT_KTS_project.model.Position;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +51,17 @@ public class PositionService {
     }
 
     public static final double MAX_DISTANCE = 2000;
+
+
+    public double getDistanceForAddresses(ArrayList<Address> stops){
+        double distance = 0;
+        for(int i = 0; i < stops.size() - 1; i++){
+            Position p1 = new Position(stops.get(i).getLatitude(), stops.get(i).getLongitude());
+            Position p2 = new Position(stops.get(i+1).getLatitude(), stops.get(i+1).getLongitude());
+            distance += getDistance(p1, p2);
+        }
+        return distance;//meters
+    }
 
 
 }
