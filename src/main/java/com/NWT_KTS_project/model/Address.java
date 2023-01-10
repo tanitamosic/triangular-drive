@@ -24,6 +24,12 @@ public class Address {
     @Column(name = "number", nullable = false)
     private String number;
 
+    @Column(name = "latitude", nullable = false)
+    private double latitude;
+
+    @Column(name = "longitude", nullable = false)
+    private double longitude;
+
     public String toString(){
         return street + " " + number + ", " + city.name;
     }
