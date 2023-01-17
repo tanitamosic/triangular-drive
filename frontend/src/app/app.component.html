@@ -3,5 +3,6 @@
   <app-unlogged-navbar (loggedIn)="loggedIn=true" *ngIf="!loggedIn"></app-unlogged-navbar>
 </div>
 <div style="margin-top: 75px;">
+  <router-outlet name="content"></router-outlet>
 </div>
 
