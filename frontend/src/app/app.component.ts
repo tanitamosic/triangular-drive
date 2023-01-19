@@ -17,6 +17,8 @@ export class AppComponent {
   ngOnInit() {
     this.primengConfig.ripple = true;
     this.userService.onLoad();
-
+    if (this.userService.user != undefined) {
+      this.loggedIn = true;
+    }
   }
 }

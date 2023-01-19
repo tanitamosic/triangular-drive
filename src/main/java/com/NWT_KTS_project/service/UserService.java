@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -36,6 +38,10 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User with entered email doesn't exist!");
         }
         return retUser;
+    }
+
+    public User loadUserById(Integer id) {
+        return userRepository.findById(id).orElse(null);
     }
 
 

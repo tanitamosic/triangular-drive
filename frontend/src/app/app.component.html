@@ -2,7 +2,7 @@
   <app-logged-navbar *ngIf="loggedIn"></app-logged-navbar>
   <app-unlogged-navbar (loggedIn)="loggedIn=true" *ngIf="!loggedIn"></app-unlogged-navbar>
 </div>
-<div style="margin-top: 75px;">
-  <router-outlet name="content"></router-outlet>
+<div style="margin-top: 75px; horiz-align: center; margin-left: auto; margin-right: auto; width: 70%; text-align: center;">
+  <router-outlet></router-outlet>
 </div>
 
