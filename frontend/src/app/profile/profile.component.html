@@ -1,26 +1,43 @@
 <div class="profile-page">
-
-  <div class="user-info">
-    <div class="container">
-      <div class="row">
-
-        <div class="col-xs-12 col-md-10 offset-md-1">
-          <img [src]="user.photo" alt="No image >.<"/>
-          <h4>{{user.name}} {{user.lastName}}</h4>
-          <p>Phone: {{user.phone}}</p>
-          <p>Email: {{user.email}}</p>
-          <p>City: {{user.city}}</p>
-          <p>
-            <button class="p-button-success" icon="pi pi-file-import" pButton label="Upload image"></button>
-          </p>
-          <p>
-            <button icon="pi pi-save" pButton label="Save changes"></button>
-          </p>
-
-      </div>
-    </div>
+  <img [src]="img" alt="No image >.<"/>
+  <div class="cell">
+    <span class="p-float-label">
+      <input id="float-input-name" type="text" pInputText [(ngModel)]="profile.name" [attr.disabled]="profile.id!==user.id ? '' : null">
+      <label for="float-input-name">Name</label>
+    </span>
+  </div>
+  <div class="cell">
+    <span class="p-float-label">
+      <input id="float-input-lastname" type="text" pInputText [(ngModel)]="profile.lastName" [attr.disabled]="profile.id!==user.id ? '' : null">
+      <label for="float-input-lastname">Last name</label>
+    </span>
+  </div>
+  <div class="cell">
+    <span class="p-float-label">
+      <input id="float-input-phone" type="text" pInputText [(ngModel)]="profile.phone" [attr.disabled]="profile.id!==user.id ? '' : null">
+      <label for="float-input-phone">Phone</label>
+    </span>
+  </div>
+  <div class="cell">
+    <span class="p-float-label">
+      <input id="float-input-email" type="text" pInputText [(ngModel)]="profile.email" [attr.disabled]="profile.id!==user.id  ? '' : null">
+      <label for="float-input-email">Email</label>
+    </span>
   </div>
 
-</div>
+  <p><p-dropdown [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name" [showClear]="true"
+                 [disabled]="profile.id!==user.id"></p-dropdown></p>
+  <p *ngIf="profile.id===user.id">
+    <label class="file-upload">
+      <i class="pi pi-file-import"></i>
+      <input type="file" accept="image/*" (change)="addImg($event)"/>
+        Upload image
+    </label>
+
+  </p>
+  <p *ngIf="profile.id===user.id">
+    <button icon="pi pi-save" pButton label="Save changes" (click)="updateProfile()"></button>
+  </p>
+
 </div>
 

@@ -16,6 +16,8 @@ import { RippleModule } from "primeng/ripple";
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileComponent } from './profile/profile.component';
+import {FileUploadModule} from "primeng/fileupload";
+import {DropdownModule} from "primeng/dropdown";
 
 
 @NgModule({
@@ -26,18 +28,20 @@ import { ProfileComponent } from './profile/profile.component';
     UnloggedNavbarComponent,
     ProfileComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    InputTextModule,
-    ButtonModule,
-    MenubarModule,
-    RippleModule,
-    DialogModule,
-    BrowserAnimationsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        InputTextModule,
+        ButtonModule,
+        MenubarModule,
+        RippleModule,
+        DialogModule,
+        BrowserAnimationsModule,
+        FileUploadModule,
+        DropdownModule
+    ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
