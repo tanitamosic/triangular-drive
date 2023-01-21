@@ -15,6 +15,9 @@ import { MenubarModule } from 'primeng/menubar';
 import { RippleModule } from "primeng/ripple";
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ClientComponent } from './client/client.component';
+import { DriverComponent } from './driver/driver.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 @NgModule({
@@ -22,7 +25,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     LoginComponent,
     LoggedNavbarComponent,
-    UnloggedNavbarComponent
+    UnloggedNavbarComponent,
+    ClientComponent,
+    DriverComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
