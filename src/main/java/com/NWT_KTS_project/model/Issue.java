@@ -22,16 +22,16 @@ public class Issue {
     private int id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "message_id")
+    @JoinColumn(name = "issue_id")
     private List<Message> messages;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "client")
-    private Client client;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "admin")
-    private Admin admin;
+    @JoinColumn(name = "admin_id")
+    private User admin;
 
     @Column(name = "status")
     private IssueStatus status;
