@@ -3,7 +3,13 @@ package com.NWT_KTS_project.DTO;
 import com.NWT_KTS_project.model.Photo;
 import com.NWT_KTS_project.model.enums.City;
 import com.NWT_KTS_project.model.users.User;
+import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class LoggedUserDTO {
 
     /**

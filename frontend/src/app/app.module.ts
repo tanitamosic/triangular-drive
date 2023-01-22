@@ -18,6 +18,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClientComponent } from './client/client.component';
 import { DriverComponent } from './driver/driver.component';
 import { AdminComponent } from './admin/admin.component';
+import { ProfileComponent } from './profile/profile.component';
+import {FileUploadModule} from "primeng/fileupload";
+import {DropdownModule} from "primeng/dropdown";
+import {PasswordModule} from "primeng/password";
+import {DividerModule} from "primeng/divider";
 
 
 @NgModule({
@@ -28,7 +33,8 @@ import { AdminComponent } from './admin/admin.component';
     UnloggedNavbarComponent,
     ClientComponent,
     DriverComponent,
-    AdminComponent
+    AdminComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +46,11 @@ import { AdminComponent } from './admin/admin.component';
     MenubarModule,
     RippleModule,
     DialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FileUploadModule,
+    DropdownModule,
+    PasswordModule,
+    DividerModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
