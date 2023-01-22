@@ -38,6 +38,21 @@
   <p *ngIf="profile.id===user.id">
     <button icon="pi pi-save" pButton label="Save changes" (click)="updateProfile()"></button>
   </p>
-
+      <p-divider></p-divider>
+      <div *ngIf="profile.id===user.id">
+        <div class="cell">
+            <p-password placeholder="Old password" [(ngModel)]="oldPassword" [toggleMask]="true" [feedback]="false"></p-password>
+        </div>
+        <div class="cell">
+            <p-password placeholder="New password" [(ngModel)]="newPassword1" [toggleMask]="true"></p-password>
+        </div>
+        <div class="cell">
+            <p-password placeholder="Re-enter new password" [(ngModel)]="newPassword2" [toggleMask]="true"
+            (keydown)="consumeKey($event, newPassword2)"></p-password>
+        </div>
+        <p>
+          <button icon="pi pi-save" pButton label="Change password" (click)="updatePassword()"></button>
+        </p>
+      </div>
 </div>
 

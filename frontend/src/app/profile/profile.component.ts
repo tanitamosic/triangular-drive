@@ -18,6 +18,9 @@ export class ProfileComponent implements OnInit {
   img: String = '';
   cities: City[] = [];
   selectedCity: any;
+  oldPassword: String = '';
+  newPassword1: String = '';
+  newPassword2: String = '';
 
 
   constructor(private userService: UserService,
@@ -109,6 +112,32 @@ export class ProfileComponent implements OnInit {
         return;
       }
     })
+  }
+
+  updatePassword() {
+    if (this.oldPassword.length === 0 || this.newPassword1.length === 0 || this.newPassword2.length === 0) {
+      alert("Password fields cant be empty");
+      return;
+    } else if (this.newPassword1 !== this.newPassword2) {
+      alert("New passwords aren't matching")
+      return;
+    } else if (this.newPassword1.length < 6) {
+      alert("New password must have minimum length of 6 characters");
+      return;
+    }
+
+    const request = this.profileService.postChangePasswordRequest(this.oldPassword, this.newPassword1, this.newPassword2, this.user.id);
+    request.subscribe((response) => {
+      alert(response);
+    }, (error) => {
+      alert(error.message);
+    })
+  }
+
+  consumeKey($event: KeyboardEvent, newPassword: String) {
+    if (newPassword.length === 16) {
+      $event.preventDefault();
+    }
   }
 
 }

@@ -27,7 +27,7 @@ export class LoggedNavbarComponent implements OnInit {
   }
 
   myProfile(): void {
-    this.router.navigate(['user/profile/', this.user.id], {relativeTo: this.route}).then(r => {})
+    this.router.navigate(['user/profile/', this.user.id]).then(r => {})
   }
 
 }

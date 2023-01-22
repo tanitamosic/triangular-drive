@@ -2,16 +2,17 @@ package com.NWT_KTS_project.service;
 
 
 import com.NWT_KTS_project.DTO.LoggedUserDTO;
+import com.NWT_KTS_project.DTO.PasswordChangeDTO;
 import com.NWT_KTS_project.model.Photo;
-import com.NWT_KTS_project.model.users.Admin;
-import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.repository.PhotoRepository;
 import com.NWT_KTS_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +33,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    @Lazy
+    private PasswordEncoder pe;
 
     /**
      * Locates the user based on the username. In the actual implementation, the search
@@ -101,6 +105,31 @@ public class UserService implements UserDetailsService {
             u.setPhoto(ludto.getPhoto());
             userRepository.saveAndFlush(u);
             return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean changePassword(PasswordChangeDTO dto) {
+        String oldPassword = dto.getOldPassword();
+        String newPassword1 = dto.getNewPassword1();
+        String newPassword2 = dto.getNewPassword2();
+        Integer id = dto.getUserId();
+        Optional<User> u = userRepository.findById(id);
+        if (u.isPresent()) {
+            User user = u.get();
+            if (newPassword1.equals(newPassword2) && newPassword1.length() >= 6 && newPassword1.length() <= 16) {
+                if (pe.matches(oldPassword, user.getPassword())) {
+                    String newPassword = pe.encode(newPassword1);
+                    user.setPassword(newPassword);
+                    userRepository.saveAndFlush(user);
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

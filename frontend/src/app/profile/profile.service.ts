@@ -35,4 +35,15 @@ export class ProfileService {
     return request;
   }
 
+  postChangePasswordRequest(oldPassword: String, newPassword1: String, newPassword2: String, userId: Number) {
+    let body = {
+      oldPassword: oldPassword,
+      newPassword1: newPassword1,
+      newPassword2: newPassword2,
+      userId: userId
+    }
+    const request = this.http.post('/api/user/change-password', body, {responseType: 'text'});
+    return request;
+  }
+
 }
