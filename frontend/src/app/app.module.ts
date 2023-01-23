@@ -15,6 +15,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { RippleModule } from "primeng/ripple";
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MapComponent } from './map/map.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     LoginComponent,
     LoggedNavbarComponent,
-    UnloggedNavbarComponent
+    UnloggedNavbarComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
