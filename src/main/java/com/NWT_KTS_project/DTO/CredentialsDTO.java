@@ -1,4 +1,4 @@
-package com.NWT_KTS_project.DTO;
+package com.NWT_KTS_project.dto;
 
 public class CredentialsDTO {
 

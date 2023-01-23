@@ -1,6 +1,6 @@
 package com.NWT_KTS_project.service;
 
-import com.NWT_KTS_project.DTO.TokenState;
+import com.NWT_KTS_project.dto.TokenState;
 import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;

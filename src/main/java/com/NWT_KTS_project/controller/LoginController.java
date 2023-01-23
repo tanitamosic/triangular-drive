@@ -1,8 +1,8 @@
 package com.NWT_KTS_project.controller;
 
-import com.NWT_KTS_project.DTO.CredentialsDTO;
-import com.NWT_KTS_project.DTO.LoggedUserDTO;
-import com.NWT_KTS_project.DTO.TokenState;
+import com.NWT_KTS_project.dto.CredentialsDTO;
+import com.NWT_KTS_project.dto.LoggedUserDTO;
+import com.NWT_KTS_project.dto.TokenState;
 import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.service.LoginService;
 import com.NWT_KTS_project.service.TokenService;

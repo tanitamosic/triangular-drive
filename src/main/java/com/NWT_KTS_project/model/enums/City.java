@@ -13,4 +13,14 @@ public enum City {
     private City(String name){
         this.name = name;
     }
+    public String getName() {return this.name;}
+
+    public static City fromString(String text) {
+        for (City c : City.values()) {
+            if (c.name.equalsIgnoreCase(text)) {
+                return c;
+            }
+        }
+        return null;
+    }
 }

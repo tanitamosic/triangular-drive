@@ -26,6 +26,8 @@ public class Client extends User{
     private Float creditAvailable;
     @Column(name = "credit_reserved")
     private Float creditReserved;
+    @Column(name = "confirmation_number")
+    private String confirmationNumber;
 
     //TODO: da li cuvati ovde ili izvlaciti iz rides?
     //private List<Ride> rideHistory;
