@@ -24,6 +24,9 @@ import { DropdownModule } from "primeng/dropdown";
 import { PasswordModule } from "primeng/password";
 import { DividerModule } from "primeng/divider";
 import { DriverRegistrationComponent } from './driver.registration/driver.registration.component';
+import {ToggleButtonModule} from "primeng/togglebutton";
+import {CardModule} from "primeng/card";
+import {InputNumberModule} from "primeng/inputnumber";
 
 
 @NgModule({
@@ -53,6 +56,9 @@ import { DriverRegistrationComponent } from './driver.registration/driver.regist
     DropdownModule,
     PasswordModule,
     DividerModule,
+    ToggleButtonModule,
+    CardModule,
+    InputNumberModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

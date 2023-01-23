@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../user.service";
-import {User} from "../user.class";
+import {User} from "../model/user.class";
 import {ActivatedRoute} from '@angular/router';
 import {ProfileService} from "./profile.service";
-import {City} from "../city.class";
+import {City} from "../model/city.class";
 
 @Component({
   selector: 'app-profile',

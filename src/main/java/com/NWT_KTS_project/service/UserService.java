@@ -53,6 +53,9 @@ public class UserService implements UserDetailsService {
     @Lazy
     private PasswordEncoder pe;
 
+    @Autowired
+    private MailingService mailingService;
+
 
     /**
      * Locates the user based on the username. In the actual implementation, the search
@@ -82,7 +85,7 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
-    public void registerDriver(NewDriverDTO newDriverDTO) {
+    public boolean registerDriver(NewDriverDTO newDriverDTO) {
         Driver driver = new Driver();
         Car c = newDriverDTO.getCar();
         carRepository.save(c);
@@ -94,15 +97,24 @@ public class UserService implements UserDetailsService {
         driver.setPhone(newDriverDTO.getPhone());
         driver.setCity(newDriverDTO.getCity());
 
-        String encodedPassword = pe.encode(newDriverDTO.getPassword());
-        driver.setPassword(encodedPassword);
+        String password1 = newDriverDTO.getPassword1();
+        String password2 = newDriverDTO.getPassword2();
+        if (password1.equals(password2) && password2.length() <= 16 && password2.length() >= 6) {
+            String encodedPassword = pe.encode(newDriverDTO.getPassword1());
+            driver.setPassword(encodedPassword);
+        } else {
+            return false;
+        }
 
         driver.setScore(0.0f);
         driver.setBlocked(false);
-        driver.setActivated(false);
+        driver.setActivated(true);
         driver.setStatus(DriverStatus.OFFLINE);
         driver.setLastPasswordResetDate(Timestamp.from(Instant.now()));
         userRepository.save(driver);
+
+        mailingService.sendRegAcceptMail(driver.getEmail());
+        return true;
     }
 
 

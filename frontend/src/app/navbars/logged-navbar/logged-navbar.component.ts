@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MenuItem} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../user.service";
-import {User} from "../../user.class";
+import {User} from "../../model/user.class";
 
 @Component({
   selector: 'app-logged-navbar',
@@ -38,10 +38,10 @@ export class LoggedNavbarComponent implements OnInit {
   }
 
   myProfile(): void {
-    this.router.navigate(['user/profile/', this.user.id]).then(r => {})
+    this.router.navigate(['user/profile/', this.user.id]).then(r => {});
   }
 
   private registerDriver() {
-
+    this.router.navigate(['admin/register-driver']).then(r => {});
   }
 }

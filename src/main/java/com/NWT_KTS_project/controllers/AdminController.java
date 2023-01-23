@@ -48,12 +48,14 @@ public class AdminController {
     @PostMapping("/register-driver")
     public ResponseEntity<String> registerDriver(@RequestBody NewDriverDTO newDriverDTO) {
         try {
-            this.userService.registerDriver(newDriverDTO);
+            if (this.userService.registerDriver(newDriverDTO)) {
+                return ResponseEntity.ok("Driver registration successful!");
+            } else {
+                return new ResponseEntity<String>("Bad request", HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<String>("Bad request", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("Something went wromg, sowwy uwu", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return ResponseEntity.ok("Driver registration successful!");
     }
 }
