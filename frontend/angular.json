@@ -33,9 +33,10 @@
               "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
-              "node_modules/leaflet/dist/leaflet.css"
+              "node_modules/leaflet/dist/leaflet.css",
+              "src/app/map/leaflet-routing-machine.css"
             ],
-            "scripts": []
+            "scripts": ["src/app/map/leaflet-routing-machine.min.js"]
           },
           "configurations": {
             "production": {
