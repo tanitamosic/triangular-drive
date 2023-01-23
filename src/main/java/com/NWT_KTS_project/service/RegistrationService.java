@@ -1,7 +1,7 @@
 package com.NWT_KTS_project.service;
 
-import com.NWT_KTS_project.dto.ConfirmationDTO;
-import com.NWT_KTS_project.dto.RegistrationDTO;
+import com.NWT_KTS_project.DTO.ConfirmationDTO;
+import com.NWT_KTS_project.DTO.RegistrationDTO;
 import com.NWT_KTS_project.model.enums.City;
 import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.User;

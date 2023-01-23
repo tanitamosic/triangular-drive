@@ -12,11 +12,18 @@ import {User} from "../../user.class";
 export class LoggedNavbarComponent implements OnInit {
   items: MenuItem[] = [];
   user: User;
+
   constructor(private router: Router, private route: ActivatedRoute, private userService: UserService) {
     this.user = userService.getUser();
   }
 
   ngOnInit(): void {
+    let driver_reg_item = {
+      label: 'Register new driver',
+      icon: 'pi pi-fw pi-user-plus',
+      command: () => this.registerDriver()
+    }
+
     this.items = [
       {
         label: 'My profile',
@@ -24,10 +31,17 @@ export class LoggedNavbarComponent implements OnInit {
         command: () => this.myProfile()
       }
     ];
+
+    if (this.user.role === 'ROLE_ADMIN'){
+      this.items.push(driver_reg_item);
+    }
   }
 
   myProfile(): void {
     this.router.navigate(['user/profile/', this.user.id]).then(r => {})
   }
 
+  private registerDriver() {
+
+  }
 }

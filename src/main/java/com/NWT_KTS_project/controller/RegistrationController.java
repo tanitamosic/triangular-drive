@@ -1,6 +1,6 @@
 package com.NWT_KTS_project.controller;
 
-import com.NWT_KTS_project.dto.*;
+import com.NWT_KTS_project.DTO.*;
 import com.NWT_KTS_project.model.enums.City;
 import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.User;

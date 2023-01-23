@@ -33,5 +33,4 @@ export class UserService {
   getUser(): User {
     return <User>this.user;
   }
-
 }

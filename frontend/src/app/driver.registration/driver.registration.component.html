@@ -1,0 +1,42 @@
+<div>
+  <div class="cell">
+      <span class="p-float-label">
+      <input id="float-input" type="text" pInputText [(ngModel)]="driverEmail">
+      <label for="float-input">Email</label>
+    </span>
+  </div>
+  <div class="cell">
+      <span class="p-float-label">
+      <input id="float-input-2" type="password" pInputText [(ngModel)]="driverPassword">
+      <label for="float-input-2">Password</label>
+    </span>
+  </div>
+  <div class="cell">
+      <span class="p-float-label">
+      <input id="float-input-6" type="password" pInputText [(ngModel)]="driverPasswordConfirm">
+      <label for="float-input-6">Confirm password</label>
+    </span>
+  </div>
+  <div class="cell">
+      <span class="p-float-label">
+      <input id="float-input-3" type="text" pInputText [(ngModel)]="name">
+      <label for="float-input-3">First name</label>
+    </span>
+  </div>
+  <div class="cell">
+      <span class="p-float-label">
+      <input id="float-input-4" type="text" pInputText [(ngModel)]="lastName">
+      <label for="float-input-4">Last name</label>
+    </span>
+  </div>
+  <div class="cell">
+      <span class="p-float-label">
+      <input id="float-input-5" type="text" pInputText [(ngModel)]="phone">
+      <label for="float-input-5">Phone</label>
+    </span>
+    <p><p-dropdown [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name" [showClear]="true"></p-dropdown></p>
+  </div>
+  <div class="cell">
+    <button style="margin-left: 20px;" pButton label="Register" (click)="register($event)"></button>
+  </div>
+</div>

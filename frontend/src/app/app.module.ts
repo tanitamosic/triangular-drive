@@ -19,11 +19,11 @@ import { ClientComponent } from './client/client.component';
 import { DriverComponent } from './driver/driver.component';
 import { AdminComponent } from './admin/admin.component';
 import { ProfileComponent } from './profile/profile.component';
-import {FileUploadModule} from "primeng/fileupload";
-import {DropdownModule} from "primeng/dropdown";
-import {PasswordModule} from "primeng/password";
-import {DividerModule} from "primeng/divider";
-import { RegisterComponent } from './register/register.component';
+import { FileUploadModule } from "primeng/fileupload";
+import { DropdownModule } from "primeng/dropdown";
+import { PasswordModule } from "primeng/password";
+import { DividerModule } from "primeng/divider";
+import { DriverRegistrationComponent } from './driver.registration/driver.registration.component';
 
 
 @NgModule({
@@ -35,11 +35,8 @@ import { RegisterComponent } from './register/register.component';
     ClientComponent,
     DriverComponent,
     AdminComponent,
-<<<<<<< Updated upstream
     ProfileComponent,
-=======
-    RegisterComponent
->>>>>>> Stashed changes
+    DriverRegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +52,7 @@ import { RegisterComponent } from './register/register.component';
     FileUploadModule,
     DropdownModule,
     PasswordModule,
-    DividerModule
+    DividerModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

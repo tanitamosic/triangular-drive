@@ -1,4 +1,4 @@
-package com.NWT_KTS_project.dto;
+package com.NWT_KTS_project.DTO;
 
 import com.NWT_KTS_project.model.users.Admin;
 import com.NWT_KTS_project.model.users.Client;
