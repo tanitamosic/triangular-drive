@@ -23,6 +23,7 @@ import {FileUploadModule} from "primeng/fileupload";
 import {DropdownModule} from "primeng/dropdown";
 import {PasswordModule} from "primeng/password";
 import {DividerModule} from "primeng/divider";
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -34,7 +35,11 @@ import {DividerModule} from "primeng/divider";
     ClientComponent,
     DriverComponent,
     AdminComponent,
+<<<<<<< Updated upstream
     ProfileComponent,
+=======
+    RegisterComponent
+>>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
