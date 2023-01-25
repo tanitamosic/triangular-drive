@@ -11,8 +11,16 @@
   .map-frame {
     border: 2px solid black;
     height: 100%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: 0;
   }
 
   #map {
     height: 100%;
   }
+
+.btn1 {
+  margin-bottom: 15px;
+}
+

@@ -34,9 +34,12 @@
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/leaflet/dist/leaflet.css",
-              "src/app/map/leaflet-routing-machine.css"
+              "src/app/map/leaflet-routing-machine.css",
+              "node_modules/leaflet-geosearch/dist/geosearch.css"
             ],
-            "scripts": ["src/app/map/leaflet-routing-machine.min.js"]
+            "scripts": [
+              "src/app/map/leaflet-routing-machine.min.js"
+            ]
           },
           "configurations": {
             "production": {
