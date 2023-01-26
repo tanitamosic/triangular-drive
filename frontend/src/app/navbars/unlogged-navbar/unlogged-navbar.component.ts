@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { MenuItem } from "primeng/api";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-unlogged-navbar',
@@ -11,7 +12,7 @@ export class UnloggedNavbarComponent implements OnInit {
   displayLoginModal: boolean = false;
   @Output() loggedIn = new EventEmitter<boolean>();
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
@@ -19,5 +20,9 @@ export class UnloggedNavbarComponent implements OnInit {
 
   onLogin($event: boolean) {
     this.loggedIn.emit(true);
+  }
+
+  toRegistrationPage() {
+    this.router.navigateByUrl('registration').then(r => {});
   }
 }

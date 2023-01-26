@@ -21,14 +21,17 @@ public class RegistrationService {
         return true;
     }
 
-    public Client registerClient(RegistrationDTO dto){
+    public Client registerClient(RegistrationDTO dto) throws Exception {
         Client c = new Client();
         c.setEmail(dto.email);
-        c.setPassword(new BCryptPasswordEncoder().encode(dto.password));
+        if (!dto.password1.equals(dto.password2) || dto.password1.length() < 6 || dto.password1.length() > 16) {
+            throw new Exception("Passwords do not match");
+        }
+        c.setPassword(new BCryptPasswordEncoder().encode(dto.password1));
         c.setName(dto.name);
         c.setLastName(dto.lastName);
         c.setPhone(dto.phone);
-        c.setCity(City.fromString(dto.city));
+        c.setCity(dto.city);
         c.setBlocked(false);
         c.setActivated(false);
         c.setCreditAvailable(0f);
@@ -45,6 +48,7 @@ public class RegistrationService {
         boolean res = data.confNum.equals(c.getConfirmationNumber());
         if (res){
             c.setActivated(true);
+            repository.saveAndFlush(c);
         }
         return res;
     }

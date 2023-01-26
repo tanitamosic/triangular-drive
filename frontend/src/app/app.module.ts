@@ -27,6 +27,9 @@ import { DriverRegistrationComponent } from './driver.registration/driver.regist
 import {ToggleButtonModule} from "primeng/togglebutton";
 import {CardModule} from "primeng/card";
 import {InputNumberModule} from "primeng/inputnumber";
+import {RegisterComponent} from "./register/register.component";
+import { AccountActivationComponent } from './register/account.activation/account.activation.component';
+import {InputMaskModule} from "primeng/inputmask";
 
 
 @NgModule({
@@ -40,6 +43,8 @@ import {InputNumberModule} from "primeng/inputnumber";
     AdminComponent,
     ProfileComponent,
     DriverRegistrationComponent,
+    RegisterComponent,
+    AccountActivationComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +64,7 @@ import {InputNumberModule} from "primeng/inputnumber";
     ToggleButtonModule,
     CardModule,
     InputNumberModule,
+    InputMaskModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
