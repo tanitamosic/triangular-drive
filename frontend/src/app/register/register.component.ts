@@ -1,8 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import { RegistrationService } from './registration.service';
-import {City} from "../city.class";
+
 import {ProfileService} from "../profile/profile.service";
+import {City} from "../model/city.class";
 
 
 @Component({
