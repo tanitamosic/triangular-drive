@@ -24,6 +24,10 @@ import { DropdownModule } from "primeng/dropdown";
 import { PasswordModule } from "primeng/password";
 import { DividerModule } from "primeng/divider";
 import { DriverRegistrationComponent } from './driver.registration/driver.registration.component';
+import {RegisterComponent} from "./register/register.component";
+import {CardModule} from "primeng/card";
+import { AccountActivationComponent } from './register/account.activation/account.activation.component';
+import {InputMaskModule} from "primeng/inputmask";
 
 
 @NgModule({
@@ -37,6 +41,8 @@ import { DriverRegistrationComponent } from './driver.registration/driver.regist
     AdminComponent,
     ProfileComponent,
     DriverRegistrationComponent,
+    RegisterComponent,
+    AccountActivationComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +59,8 @@ import { DriverRegistrationComponent } from './driver.registration/driver.regist
     DropdownModule,
     PasswordModule,
     DividerModule,
+    CardModule,
+    InputMaskModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

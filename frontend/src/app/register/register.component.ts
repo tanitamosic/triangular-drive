@@ -13,17 +13,15 @@ import {ProfileService} from "../profile/profile.service";
 
 export class RegisterComponent implements OnInit {
   email: String = '';
-  password: String = '';
+  password1: String = '';
+  password2: String = '';
   name: String = '';
   lastName: String = '';
   phone: String = '';
-  selectedCity: String = '';
+  selectedCity: any;
   cities: City[] = [];
   profileService: ProfileService;
   regService: RegistrationService;
-
-  @Output() registered = new EventEmitter<boolean>();
-  @Output() modalClosed = new EventEmitter<boolean>();
 
   constructor(regService:RegistrationService, profService: ProfileService, private router: Router, private route: ActivatedRoute) {
     this.regService = regService;
@@ -36,20 +34,34 @@ export class RegisterComponent implements OnInit {
         })
    }
 
-  
+
 
   ngOnInit(): void {
-    
+
   }
 
   register(event: any): void{
+    if (this.password1 !== this.password2 || this.password1 === '' || this.password1.length < 6 || this.password1.length > 16) {
+      alert('Input proper passwords, dummy. uwu');
+      return;
+    }
+    let body = {
+      name: this.name,
+      lastName: this.lastName,
+      email: this.email,
+      password1: this.password1,
+      password2: this.password2,
+      phone: this.phone,
+      city: this.selectedCity.code
+    }
+    let request = this.regService.postRegisterRequest(body);
+    request.subscribe((response) => {
+      this.router.navigateByUrl('activate/' + response).then(r => {})
+    });
 
-    let request = this.regService.post(this.email,this.password,this.name,this.lastName,this.phone,this.selectedCity);
-    request.subscribe();
 
-    
   }
-  
+
 
 }
 

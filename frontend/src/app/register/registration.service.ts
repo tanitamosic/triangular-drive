@@ -15,9 +15,8 @@ export class RegistrationService {
 
 
 
-  post(email:String,password:String,name:String,lastName:String,phone:String,city:String){
-    const request = this.http.post('/api/register', {'email': email, 'password': password, 
-    'name':name, 'lastName':lastName, 'phone': phone, 'city':city}, {responseType: 'text'});
+  postRegisterRequest(body: Object){
+    const request = this.http.post('/api/register', body, {responseType: 'text'});
     request.pipe(
       tap(
         {
@@ -26,6 +25,11 @@ export class RegistrationService {
         }
       )
     )
+    return request;
+  }
+
+  postActivationCode(body: Object) {
+    const request = this.http.post('/api/register/confirm', body, {responseType: 'text'});
     return request;
   }
 }

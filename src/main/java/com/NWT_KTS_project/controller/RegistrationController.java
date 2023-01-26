@@ -31,9 +31,15 @@ public class RegistrationController {
 
     @PostMapping(value="/register")
     public ResponseEntity<String> beginRegistration(@RequestBody RegistrationDTO dto) {
-        Client c = service.registerClient(dto);
-        mailingService.sendRegAuthMail(c.getEmail(), c.getConfirmationNumber());
-        return ResponseEntity.ok(c.getEmail());
+        try {
+            Client c = service.registerClient(dto);
+            mailingService.sendRegAuthMail(c.getEmail(), c.getConfirmationNumber());
+            return ResponseEntity.ok(c.getEmail());
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+
     }
 
     @PostMapping(value="/register/confirm")
@@ -41,7 +47,7 @@ public class RegistrationController {
         if (service.tryConfirmation(data)){
             return ResponseEntity.ok("Confirmation successful.");
         } else {
-            return ResponseEntity.of(Optional.of("Confirmation number not matched."));
+            return new ResponseEntity<>("Confirmation number not matched.", HttpStatus.BAD_REQUEST);
         }
     }
 }

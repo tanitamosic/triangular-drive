@@ -1,0 +1,20 @@
+<p-card [style]="{'width': '800px', 'margin-left': 'auto', 'margin-right': 'auto'}">
+
+    <div >
+      <span style="padding: 20px; font-weight: bold; font-size: 30px;">
+      ACTIVATE YOUR ACCOUNT
+    </span>
+    </div>
+
+  <div>
+    <p>We sent the activation code to your email. Enter it to activate your account</p>
+  </div>
+  <div>
+    <span>Code</span><br>
+    <p-inputMask mask="999999" [(ngModel)]="code" placeholder="999999"></p-inputMask>
+  </div>
+  <div style="margin-top: 30px;">
+    <button pButton pRipple label="Activate" (click)="activateAccount()"></button>
+  </div>
+
+</p-card>
