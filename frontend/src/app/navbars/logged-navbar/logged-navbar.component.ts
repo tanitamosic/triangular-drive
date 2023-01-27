@@ -23,6 +23,12 @@ export class LoggedNavbarComponent implements OnInit {
       icon: 'pi pi-fw pi-user-plus',
       command: () => this.registerDriver()
     }
+    let reports = {
+      label: 'Reports',
+      icon: 'pi pi-fw pi-exclamation-triangle',
+      command: () => this.seeReports()
+    }
+
 
     this.items = [
       {
@@ -34,6 +40,7 @@ export class LoggedNavbarComponent implements OnInit {
 
     if (this.user.role === 'ROLE_ADMIN'){
       this.items.push(driver_reg_item);
+      this.items.push(reports);
     }
   }
 
@@ -43,5 +50,9 @@ export class LoggedNavbarComponent implements OnInit {
 
   private registerDriver() {
     this.router.navigate(['admin/register-driver']).then(r => {});
+  }
+
+  private seeReports() {
+    this.router.navigateByUrl('admin/reports').then(r => {})
   }
 }

@@ -1,0 +1,5 @@
+<div class="container">
+  <div *ngFor="let rep of reports">
+    <app-report-card *ngIf="!rep.solved" [report]="rep"></app-report-card>
+  </div>
+</div>

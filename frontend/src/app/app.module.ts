@@ -30,6 +30,8 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {RegisterComponent} from "./register/register.component";
 import { AccountActivationComponent } from './register/account.activation/account.activation.component';
 import {InputMaskModule} from "primeng/inputmask";
+import { ReportsComponent } from 'src/app/reports/reports.component';
+import { ReportCardComponent } from 'src/app/reports/report.card/report.card.component';
 
 
 @NgModule({
@@ -45,6 +47,8 @@ import {InputMaskModule} from "primeng/inputmask";
     DriverRegistrationComponent,
     RegisterComponent,
     AccountActivationComponent,
+    ReportsComponent,
+    ReportCardComponent
   ],
   imports: [
     BrowserModule,

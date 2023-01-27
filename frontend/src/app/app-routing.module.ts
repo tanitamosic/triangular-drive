@@ -7,6 +7,7 @@ import { ProfileComponent } from "./profile/profile.component";
 import {DriverRegistrationComponent} from "./driver.registration/driver.registration.component";
 import {RegisterComponent} from "./register/register.component";
 import {AccountActivationComponent} from "./register/account.activation/account.activation.component";
+import {ReportsComponent} from "./reports/reports.component";
 
 const routes: Routes = [
   { path: 'client/home', component: ClientComponent },
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'user/profile/:profileId', component: ProfileComponent },
   { path: 'admin/register-driver', component: DriverRegistrationComponent },
   { path: 'registration', component: RegisterComponent },
-  { path: 'activate/:email', component: AccountActivationComponent }
+  { path: 'activate/:email', component: AccountActivationComponent },
+  { path: 'admin/reports', component: ReportsComponent}
 ]
 
 @NgModule({

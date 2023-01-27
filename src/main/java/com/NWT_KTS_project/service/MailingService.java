@@ -70,5 +70,13 @@ public class MailingService {
         mailSender.send(email);
     }
 
+    public void sendWarning(String target) {
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(target);
+        email.setSubject("Obavestenje: You have redcieved a warning uwu");
+        email.setText("greemtings\r\n, we hamve beemn notimfied of youmr recemnt behamvior and decimded to issuem you a warnimng. keemp in mind thamt repeamted offemnses wimll resumlt in a ban.\r\nmuch regamrds,\r\ntriangular drive team.");
+        mailSender.send(email);
+    }
+
 
 }

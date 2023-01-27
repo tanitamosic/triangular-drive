@@ -36,6 +36,8 @@ import java.util.Optional;
 import java.sql.Timestamp;
 import java.time.Instant;
 
+import java.util.Optional;
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -207,5 +209,17 @@ public class UserService implements UserDetailsService {
             return false;
         }
     }
+    public boolean blockUser(Integer userid) {
+        Optional<User> u = userRepository.findById(userid);
+        if (u.isPresent()) {
+            User user = u.get();
+            user.setBlocked(true);
+            userRepository.saveAndFlush(user);
+        } else {
+            return false;
+        }
+        return true;
+    }
+
 }
 

@@ -1,0 +1,12 @@
+<p-card header="Reportee: {{report.reportee.name}} {{report.reportee.lastName}}" subheader="Reporter: {{report.reporter.name}}  {{report.reporter.lastName}}" [style]="{width: '350px', height: '300px;', margin: '20px'}" styleClass="p-card-shadow">
+  <ng-template pTemplate="header">
+    <img alt="Card" *ngIf="null !== report.reportee.photo" [src]="report.reportee.photo.path">
+    <img alt="Card" *ngIf="null === report.reportee.photo" src="../../../assets/profile-images/default_profile_image.jpg">
+  </ng-template>
+  <p>{{report.text}}</p>
+  <ng-template pTemplate="footer">
+    <p-button label="Warning" (onClick)="sendWarning()" styleClass="p-button-sm p-button-warning" icon="pi pi-check"></p-button>
+    <p-button label="Block" (onClick)="block()" styleClass="p-button-sm p-button-danger" [style]="{'margin-left': '.5em'}"></p-button>
+    <p-button label="Ignore" (onClick)="solve()" styleClass="p-button-sm p-button-secondary" [style]="{'margin-left': '2em', 'margin-right': '0'}"></p-button>
+  </ng-template>
+</p-card>
