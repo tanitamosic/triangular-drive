@@ -16,6 +16,18 @@ import { RippleModule } from "primeng/ripple";
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapComponent } from './map/map.component';
+import { ClientComponent } from './client/client.component';
+import { DriverComponent } from './driver/driver.component';
+import { AdminComponent } from './admin/admin.component';
+import { ProfileComponent } from './profile/profile.component';
+import { FileUploadModule } from "primeng/fileupload";
+import { DropdownModule } from "primeng/dropdown";
+import { PasswordModule } from "primeng/password";
+import { DividerModule } from "primeng/divider";
+import { DriverRegistrationComponent } from './driver.registration/driver.registration.component';
+import {ToggleButtonModule} from "primeng/togglebutton";
+import {CardModule} from "primeng/card";
+import {InputNumberModule} from "primeng/inputnumber";
 
 
 @NgModule({
@@ -24,7 +36,12 @@ import { MapComponent } from './map/map.component';
     LoginComponent,
     LoggedNavbarComponent,
     UnloggedNavbarComponent,
-    MapComponent
+    MapComponent,
+    ClientComponent,
+    DriverComponent,
+    AdminComponent,
+    ProfileComponent,
+    DriverRegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +53,14 @@ import { MapComponent } from './map/map.component';
     MenubarModule,
     RippleModule,
     DialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FileUploadModule,
+    DropdownModule,
+    PasswordModule,
+    DividerModule,
+    ToggleButtonModule,
+    CardModule,
+    InputNumberModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AddressService {
@@ -29,6 +31,16 @@ public class AddressService {
         }
 
         return addresses;
+    }
+    public List<Map<String, Object>> getCities() {
+        List<Map<String, Object>> retval = new ArrayList<>();
+        for (City c: List.of(City.values())) {
+            Map<String, Object> obj = new HashMap<>();
+            obj.put("code", c);
+            obj.put("name", c.name);
+            retval.add(obj);
+        }
+        return retval;
     }
 }
 

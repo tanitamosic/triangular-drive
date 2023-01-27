@@ -1,0 +1,100 @@
+<p-card [style]="{'width': '800px', 'margin-left': 'auto', 'margin-right': 'auto'}">
+  <table [cellSpacing]="25">
+    <thead>
+      <td colspan="2" [style]="{'text-align': 'center'}">
+        <h2>Driver registration form</h2>
+      </td>
+    </thead>
+    <tr class="cell">
+      <td colspan="2">
+        <span class="p-float-label">
+          <input id="float-input" type="text" pInputText [(ngModel)]="driverEmail">
+          <label for="float-input">Email</label>
+        </span>
+      </td>
+    </tr>
+    <tr class="cell">
+      <td>
+        <span class="p-float-label">
+          <input id="float-input-2" type="password" pInputText [(ngModel)]="driverPassword">
+          <label for="float-input-2">Password</label>
+        </span>
+      </td>
+      <td>
+        <span class="p-float-label">
+          <input id="float-input-6" type="password" pInputText [(ngModel)]="driverPasswordConfirm">
+          <label for="float-input-6">Confirm password</label>
+        </span>
+      </td>
+    </tr>
+
+    <tr class="cell">
+      <td>
+        <span class="p-float-label">
+          <input id="float-input-3" type="text" pInputText [(ngModel)]="name">
+          <label for="float-input-3">First name</label>
+        </span>
+      </td>
+      <td>
+        <span class="p-float-label">
+          <input id="float-input-4" type="text" pInputText [(ngModel)]="lastName">
+          <label for="float-input-4">Last name</label>
+        </span>
+      </td>
+    </tr>
+
+    <tr class="cell">
+      <td>
+        <span class="p-float-label">
+          <input id="float-input-5" type="text" pInputText [(ngModel)]="phone">
+          <label for="float-input-5">Phone</label>
+        </span>
+      </td>
+      <td>
+        <p-dropdown [style]="{'width':'100%'}" [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name" [showClear]="true"></p-dropdown>
+      </td>
+    </tr>
+  </table>
+  <p-divider></p-divider>
+  <table [cellSpacing]="5" [style]="{'width': '710px'}">
+    <thead>
+      <td colspan="6" [style]="{'text-align': 'center'}">
+        <h3>Car information</h3>
+      </td>
+    </thead>
+    <tr class="cell">
+      <td colspan="2">
+        <p-dropdown [style]="{'width': '100%'}" [options]="carMakes" [(ngModel)]="selectedCarMake" placeholder="Select car maker" optionLabel="name" [showClear]="true"></p-dropdown>
+      </td>
+      <td colspan="2">
+        <p-dropdown [style]="{'width': '100%'}" [options]="carTypes" [(ngModel)]="selectedCarType" placeholder="Select car type" optionLabel="name" [showClear]="true"></p-dropdown>
+      </td>
+      <td>
+         <span class="p-float-label">
+          <input [style]="{'width': '100%'}" id="float-input-7" type="text" pInputText [(ngModel)]="carModel">
+          <label for="float-input-7">Model</label>
+        </span>
+      </td>
+      <td>
+        <p-inputNumber [size]="10" [(ngModel)]="seats" suffix=" seats"></p-inputNumber>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <p-toggleButton [style]="{'width': '100%'}" [(ngModel)]="babyFriendly" onLabel="Child friendly" offLabel="Not child friendly" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+      </td>
+      <td colspan="2">
+        <p-toggleButton [style]="{'width': '100%'}" [(ngModel)]="petFriendly" onLabel="Pet friendly" offLabel="Not pet friendly" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+      </td>
+      <td colspan="2">
+        <p-dropdown [style]="{'width': '100%'}" [options]="colors" [(ngModel)]="selectedColor" placeholder="Select car color" optionLabel="name" [showClear]="true"></p-dropdown>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" [style]="{'text-align': 'center', 'margin': 'auto'}">
+        <button class="p-button-success" [style]="{'width': '100%'}" pButton label="Register" (click)="register($event)"></button>
+      </td>
+    </tr>
+  </table>
+
+</p-card>
