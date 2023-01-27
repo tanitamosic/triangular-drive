@@ -43,7 +43,12 @@ export class LoginComponent implements OnInit {
 
       switch(this.userService.getUser().role) {
         case 'ROLE_CLIENT': { this.router.navigate(['client/home'], {relativeTo: this.route}).then(r => {}); break;}
-        case 'ROLE_DRIVER': { this.router.navigate(['driver/home'], {relativeTo: this.route}).then(r => {});break;}
+        case 'ROLE_DRIVER': {
+          this.router.navigate(['driver/home'], {relativeTo: this.route}).then(r => {});
+          const request = this.userService.updateDriverStatusRequest(this.userService.getUser().id, "AVAILABLE");
+          request.subscribe();
+          break;
+        }
         case 'ROLE_ADMIN': { this.router.navigate(['admin/home'], {relativeTo: this.route}).then(r => {});break;}
         default: { alert("Something went oogabooga wwonggg, we awe sowwy fou dee inconvenince uwu >.< :3");break;}
 
