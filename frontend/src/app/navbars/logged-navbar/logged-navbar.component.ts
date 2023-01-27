@@ -129,6 +129,7 @@ export class LoggedNavbarComponent implements OnInit {
     this.userService.removeUserFromStorage();
     this.router.navigateByUrl("").then(r=>{});
     if (this.user.role === 'ROLE_DRIVER') {
+      this.stopPolling()
       const request = this.userService.updateDriverStatusRequest(this.user.id, "OFFLINE");
       request.subscribe();
     }
