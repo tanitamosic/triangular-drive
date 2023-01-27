@@ -5,6 +5,7 @@ import {GeoSearchControl, OpenStreetMapProvider} from 'leaflet-geosearch';
 import "node_modules/leaflet-geosearch/dist/geosearch.css"
 import {MapRoute, Stop} from "./MapRoute";
 import {SearchResult} from "leaflet-geosearch/lib/providers/provider";
+import { MapService } from './map.service';
 
 declare var L: any;
 
@@ -24,15 +25,19 @@ export class MapComponent implements AfterViewInit  {
   dest3: String = '';
   dest4: String = '';
   final: String = '';
+  price: String = '0';
+  distance: number = 0;
 
   provider: OpenStreetMapProvider;
   searchControl: any;
+  mapService:MapService;
 
   mapRoute: MapRoute;
 
-  constructor() {
+  constructor(mapService:MapService) {
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
+    this.mapService = mapService;
   }
 
   ngAfterViewInit(): void {
@@ -54,6 +59,31 @@ export class MapComponent implements AfterViewInit  {
     });
     tiles.addTo(this.map);
   }
+
+  
+  getDistance() {
+    this.distance = 0;
+    for (let i = 0; i<this.mapRoute.stops.length-1; ++i){
+        let current=this.mapRoute.stops[i];
+        let next = this.mapRoute.stops[i+1];
+        let ll_current= L.latLng(current.x,current.y);
+        let ll_next = L.latLng(next.x,next.y);
+        this.distance+=ll_current.distanceTo(ll_next);
+    }
+    // console.log("Distance: "+this.distance);
+    // console.log(this.mapRoute);
+}
+
+    getPrice() {
+      const request = this.mapService.get(this.distance);
+      request.subscribe(data => {
+        this.price = data;
+        console.log(this.price);
+      });
+      
+      //this.price = result;
+      
+    }
 
    search() {
       if ((this.start === '' || this.final === '') || this.start.length < 10 || this.final.length < 10) {
@@ -114,6 +144,8 @@ export class MapComponent implements AfterViewInit  {
 
          this.addStopToRoute(r);
        });
+       this.getDistance();
+       this.getPrice();
   }
 
   private addStopToRoute(r: SearchResult<Object>[]) {
