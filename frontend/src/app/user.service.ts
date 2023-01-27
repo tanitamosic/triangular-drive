@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {User} from "./model/user.class";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class UserService {
 
   user: User | undefined;
 
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
   setUser(u: String) {
     this.user = new User(u);
@@ -32,5 +33,14 @@ export class UserService {
 
   getUser(): User {
     return <User>this.user;
+  }
+
+  removeUserFromStorage() {
+    localStorage.removeItem("user");
+  }
+
+  updateDriverStatusRequest(id: Number, status: String) {
+    const request = this.httpClient.get("/api/driver/set-status/" + id + "/" + status);
+    return request;
   }
 }

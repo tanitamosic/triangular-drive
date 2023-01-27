@@ -3,6 +3,7 @@ import {MenuItem} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../user.service";
 import {User} from "../../model/user.class";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-logged-navbar',
@@ -13,7 +14,10 @@ export class LoggedNavbarComponent implements OnInit {
   items: MenuItem[] = [];
   user: User;
 
-  constructor(private router: Router, private route: ActivatedRoute, private userService: UserService) {
+  pollingInterval: NodeJS.Timer | undefined;
+
+  constructor(private router: Router, private route: ActivatedRoute, private userService: UserService,
+              private http: HttpClient) {
     this.user = userService.getUser();
   }
 
@@ -35,7 +39,71 @@ export class LoggedNavbarComponent implements OnInit {
     if (this.user.role === 'ROLE_ADMIN'){
       this.items.push(driver_reg_item);
     }
+
+    this.addDriverItems();
   }
+
+  addDriverItems() {
+    let check = 'pi pi-fw pi-check-circle';
+    let available = {
+      label: 'Available',
+      icon: check,
+      command: () => {
+        available.icon = check;
+        busy.icon = '';
+        offline.icon = '';
+        this.stopPolling();
+        this.driverStatusPolling('AVAILABLE')
+      }
+    }
+    let busy = {
+      label: 'Busy',
+      icon: '',
+      command: () => {
+        busy.icon = check;
+        available.icon = '';
+        offline.icon = '';
+        this.stopPolling();
+        this.driverStatusPolling('BUSY');
+      }
+    }
+    let offline = {
+      label: 'Offline',
+      icon: '',
+      command: () => {
+        offline.icon = check;
+        available.icon = '';
+        busy.icon = '';
+        this.stopPolling();
+        this.driverStatusPolling('OFFLINE');
+      }
+    }
+
+    let status = {
+      label: 'Status',
+      icon: 'pi pi-fw pi-prime',
+      items: [
+        available,
+        busy,
+        offline
+      ]
+    }
+    if (this.user.role === 'ROLE_DRIVER') {
+      this.items.push(status);
+    }
+  }
+
+  driverStatusPolling(status: String) {
+    this.pollingInterval = setInterval(() => {
+      this.http.get('/api/driver/set-status/' + this.user.id + '/' + status).subscribe(data => {
+        console.log(status);
+      });
+    }, 5000);  // 5000ms = 5s
+  }
+  stopPolling() {
+    clearInterval(this.pollingInterval);
+  }
+
 
   myProfile(): void {
     this.router.navigate(['user/profile/', this.user.id]).then(r => {});
@@ -43,5 +111,19 @@ export class LoggedNavbarComponent implements OnInit {
 
   private registerDriver() {
     this.router.navigate(['admin/register-driver']).then(r => {});
+  }
+
+
+
+
+  logout() {
+    this.userService.removeUserFromStorage();
+    this.router.navigateByUrl("").then(r=>{});
+    if (this.user.role === 'ROLE_DRIVER') {
+      const request = this.userService.updateDriverStatusRequest(this.user.id, "OFFLINE");
+      request.subscribe();
+    }
+    window.location.reload();
+
   }
 }
