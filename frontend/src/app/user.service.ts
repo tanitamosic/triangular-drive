@@ -30,4 +30,8 @@ export class UserService {
     }
   }
 
+  getUser() {
+    return <User>this.user;
+  }
+
 }

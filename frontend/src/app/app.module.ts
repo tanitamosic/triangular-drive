@@ -15,6 +15,9 @@ import { MenubarModule } from 'primeng/menubar';
 import { RippleModule } from "primeng/ripple";
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReportsComponent } from 'src/app/reports/reports.component';
+import { ReportCardComponent } from 'src/app/reports/report.card/report.card.component';
+import {CardModule} from "primeng/card";
 
 
 @NgModule({
@@ -22,7 +25,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     LoginComponent,
     LoggedNavbarComponent,
-    UnloggedNavbarComponent
+    UnloggedNavbarComponent,
+    ReportsComponent,
+    ReportCardComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +39,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MenubarModule,
     RippleModule,
     DialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CardModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

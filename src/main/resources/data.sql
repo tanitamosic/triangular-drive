@@ -63,3 +63,6 @@ insert into users (type, name, last_name, email, password, phone, city, blocked,
 ('DR', 'Ognjen', 'Mirković', 'ognjenmirkovic@gmail.com', 'ognjenmir', '062896525','NS', FALSE, TRUE,3);
 
 
+INSERT INTO REPORT (solved, text, reportee, reporter) VALUES (false, 'stringcina', 4, 8);
+INSERT INTO REPORT (solved, text, reportee, reporter) VALUES (false, 'stringcina', 5, 9);
+INSERT INTO REPORT (solved, text, reportee, reporter) VALUES (false, 'stringcina', 10, 6);
