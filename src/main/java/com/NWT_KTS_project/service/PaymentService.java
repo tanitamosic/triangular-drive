@@ -16,8 +16,6 @@ public class PaymentService {
     public static final double PRICE_PER_KM = 120;
     private double carTypeStaringPrice(CarType type){
         switch (type){
-            case STANDARD:
-                return 150;
             case MINIVAN:
                 return 180;
             case CARAVAN:

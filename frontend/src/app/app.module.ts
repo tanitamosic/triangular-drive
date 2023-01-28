@@ -15,6 +15,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { RippleModule } from "primeng/ripple";
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MapComponent } from './map/map.component';
 import { ClientComponent } from './client/client.component';
 import { DriverComponent } from './driver/driver.component';
 import { AdminComponent } from './admin/admin.component';
@@ -40,6 +41,7 @@ import { ReportCardComponent } from 'src/app/reports/report.card/report.card.com
     LoginComponent,
     LoggedNavbarComponent,
     UnloggedNavbarComponent,
+    MapComponent,
     ClientComponent,
     DriverComponent,
     AdminComponent,
