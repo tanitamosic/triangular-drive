@@ -6,6 +6,8 @@ import "node_modules/leaflet-geosearch/dist/geosearch.css"
 import {MapRoute, Stop} from "./MapRoute";
 import {SearchResult} from "leaflet-geosearch/lib/providers/provider";
 import { MapService } from './map.service';
+import { City } from '../model/city.class';
+import { ProfileService } from '../profile/profile.service';
 
 declare var L: any;
 
@@ -26,7 +28,9 @@ export class MapComponent implements AfterViewInit  {
   dest4: String = '';
   final: String = '';
   price: String = '0';
-  distance: number = 0;
+  distance: string = "0";
+  selectedCity: any;
+  cities: City[] = [];
 
   provider: OpenStreetMapProvider;
   searchControl: any;
@@ -34,10 +38,20 @@ export class MapComponent implements AfterViewInit  {
 
   mapRoute: MapRoute;
 
-  constructor(mapService:MapService) {
+  constructor(mapService:MapService, private profileService: ProfileService) {
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
     this.mapService = mapService;
+    const citiesRequest = this.profileService.getCitiesRequest();
+    citiesRequest.subscribe((response) => {
+      this.cities = response as City[];
+      this.cities.forEach(c=>{
+        if (c.code==="NS"){
+          this.selectedCity = c;
+        }
+      });
+    });
+    
   }
 
   ngAfterViewInit(): void {
@@ -62,14 +76,16 @@ export class MapComponent implements AfterViewInit  {
 
   
   getDistance() {
-    this.distance = 0;
+    let dist = 0;
     for (let i = 0; i<this.mapRoute.stops.length-1; ++i){
         let current=this.mapRoute.stops[i];
         let next = this.mapRoute.stops[i+1];
         let ll_current= L.latLng(current.x,current.y);
         let ll_next = L.latLng(next.x,next.y);
-        this.distance+=ll_current.distanceTo(ll_next);
+        dist+=ll_current.distanceTo(ll_next);
     }
+    dist = dist/1000;
+    this.distance = dist.toPrecision(2);
     // console.log("Distance: "+this.distance);
     // console.log(this.mapRoute);
 }
@@ -85,6 +101,15 @@ export class MapComponent implements AfterViewInit  {
       
     }
 
+    filterByCity(r:any): any{
+      let res: any = [];
+      for (let i=0; i<r.length;++i){
+        if (r[i].label.includes(this.selectedCity.name))
+          res.push(r[i]);
+      }
+      return res;
+    }
+
    search() {
       if ((this.start === '' || this.final === '') || this.start.length < 10 || this.final.length < 10) {
         alert('Your route needs beginning and the end, dummy.')
@@ -92,10 +117,12 @@ export class MapComponent implements AfterViewInit  {
       }
       let previousStop = {x: 0, y: 0};
       this.getQueryResult(this.start).then(r => {
-        previousStop.x = r[0].x;
-        previousStop.y = r[0].y;
+          let rf:any = this.filterByCity(r);
+          previousStop.x = r[0].x;
+          previousStop.y = r[0].y;
+  
+          this.addStopToRoute(r);
 
-        this.addStopToRoute(r);
       });
 
       if (this.dest1 !== '' && this.dest1.length > 10) {

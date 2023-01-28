@@ -9,6 +9,11 @@
     <table [style]="{'width': '20%', 'min-width': '10%'}">
       <tr>
         <td>
+          <p-dropdown [style]="{'width':'100%'}" [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name" [showClear]="true"></p-dropdown>
+        </td>
+      </tr>
+      <tr>
+        <td>
           <button pButton pRipple label="Add destination" icon="pi pi-plus" class="p-button-success" (click)="addDest()"></button>
         </td>
         <td>
@@ -52,12 +57,12 @@
       </tr>
       <tr>
         <td colspan="2" style="padding-top:15px;font-weight:bold; font-size:large; font-family: 'Lucida Sans';">
-          <label>Distance: {{distance}}</label>
+          <label>Distance: {{distance}}km</label>
         </td>
       </tr>
       <tr>
         <td colspan="2" style="padding-top:5px;font-weight:bold; font-size:large; font-family: 'Lucida Sans';">
-          <label>Price: {{price}} </label>
+          <label>Price: {{price}}din</label>
         </td>
       </tr>
     </table>

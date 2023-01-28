@@ -14,7 +14,7 @@ export class MapService {
     this.http = httpClient;
   }
 
-  get(distance:number) {
+  get(distance:string) {
     const params = new HttpParams().append('distance', distance);
     let request =  this.http.get('/api/route/price', {params, responseType: 'text'}); 
     return request;
