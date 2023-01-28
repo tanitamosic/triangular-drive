@@ -17,9 +17,9 @@ public class RouteService {
 
     //TODO: add pricing by car type
     public double getPrice(int distance) {
-        return distance*0.12;
+        return distance*120;
     }
     public double getPriceByType(int distance, CarType type){
-        return distance * 0.12 + priceRepository.getPriceByType(type);
+        return distance * 120 + priceRepository.getPriceByType(type);
     }
 }

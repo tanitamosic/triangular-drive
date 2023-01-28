@@ -16,14 +16,14 @@ public class RouteController {
 
     @GetMapping("/price")
     public ResponseEntity<String> getPrice(@RequestParam String distance){
-        int dist = Integer.parseInt(distance);
+        int dist = (int)Double.parseDouble(distance);
         String res = String.valueOf(service.getPrice(dist));
         return new ResponseEntity<String>(res,HttpStatus.OK);
     }
 
     @GetMapping("/price/{carType}")
     public ResponseEntity<String> getPriceByType(@RequestParam String distance, @PathVariable  CarType carType){
-        int dist = Integer.parseInt(distance);
+        int dist = (int)Double.parseDouble(distance);
         String res = String.valueOf(service.getPriceByType(dist,carType));
         return new ResponseEntity<String>(res,HttpStatus.OK);
     }

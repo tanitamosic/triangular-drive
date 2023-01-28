@@ -63,12 +63,13 @@ insert into users (type, name, last_name, email, password, phone, city, blocked,
 ('DR', 'Ognjen', 'Mirković', 'ognjenmirkovic@gmail.com', '{bcrypt}$2a$10$aqO4W5nLe1PETNw922drIOG097Tjn7yI90LeX0X9j5sB66QHmNbSS', '062896525','NS', FALSE, TRUE,3);
 
 -- PRICES BY CAR TYPE
-insert into prices(car_type,price) values ('STANDARD',0);
-insert into prices(car_type,price) values ('CARAVAN',50);
-insert into prices(car_type,price) values ('LIMOUSINE',400);
-insert into prices(car_type,price) values ('VAN',150);
-insert into prices(car_type,price) values ('MINIVAN',100);
-insert into prices(car_type,price) values ('SUV',200);
+insert into prices(car_type,price) values ('STANDARD',100);
+insert into prices(car_type,price) values ('CARAVAN',170);
+insert into prices(car_type,price) values ('LIMOUSINE',250);
+insert into prices(car_type,price) values ('VAN',200);
+insert into prices(car_type,price) values ('MINIVAN',180);
+insert into prices(car_type,price) values ('SUV',190);
+
 
 
 
