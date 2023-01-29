@@ -52,35 +52,36 @@ export class LoggedNavbarComponent implements OnInit {
 
   addDriverItems() {
     let check = 'pi pi-fw pi-check-circle';
+    let circle = 'pi pi-fw pi-circle';
     let available = {
       label: 'Available',
       icon: check,
       command: () => {
         available.icon = check;
-        busy.icon = '';
-        offline.icon = '';
+        busy.icon = circle;
+        offline.icon = circle;
         this.stopPolling();
         this.driverStatusPolling('AVAILABLE')
       }
     }
     let busy = {
       label: 'Busy',
-      icon: '',
+      icon: circle,
       command: () => {
         busy.icon = check;
-        available.icon = '';
-        offline.icon = '';
+        available.icon = circle;
+        offline.icon = circle;
         this.stopPolling();
         this.driverStatusPolling('BUSY');
       }
     }
     let offline = {
       label: 'Offline',
-      icon: '',
+      icon: circle,
       command: () => {
         offline.icon = check;
-        available.icon = '';
-        busy.icon = '';
+        available.icon = circle;
+        busy.icon = circle;
         this.stopPolling();
         this.driverStatusPolling('OFFLINE');
       }
@@ -127,13 +128,13 @@ export class LoggedNavbarComponent implements OnInit {
 
   logout() {
     this.userService.removeUserFromStorage();
-    this.router.navigateByUrl("").then(r=>{});
+    delete this.userService.user;
+    this.router.navigate([""]).then(r=>{});
     if (this.user.role === 'ROLE_DRIVER') {
       this.stopPolling()
       const request = this.userService.updateDriverStatusRequest(this.user.id, "OFFLINE");
       request.subscribe();
     }
-    window.location.reload();
 
   }
 }

@@ -1,0 +1,29 @@
+<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />-->
+<!--<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>-->
+<link rel="stylesheet" href="leaflet-routing-machine.css" />
+<!-- Load geocoding plugin after Leaflet -->
+
+
+<div>
+  <div class="input-container">
+    <table [style]="{'width': '20%', 'min-width': '10%'}">
+      <tr>
+        <td colspan="2" style="padding-top:15px;font-weight:bold; font-size:large; font-family: 'Lucida Sans';">
+          <label>Distance: {{distance}}km</label>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding-top:5px;font-weight:bold; font-size:large; font-family: 'Lucida Sans';">
+          <label>Price: {{price}}din</label>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="map-container">
+    <div class="map-frame">
+      <div id="map-driver"></div>
+    </div>
+  </div>
+  <script src="leaflet-routing-machine.min.js"></script>
+</div>
+

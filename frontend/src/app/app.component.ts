@@ -11,8 +11,10 @@ import {UserService} from "./user.service";
 export class AppComponent {
   title = 'frontend';
   loggedIn: boolean = false;
-
-  constructor(private primengConfig: PrimeNGConfig, private userService: UserService) {}
+  userService: UserService;
+  constructor(private primengConfig: PrimeNGConfig, userService: UserService) {
+    this.userService = userService
+  }
 
   ngOnInit() {
     this.primengConfig.ripple = true;

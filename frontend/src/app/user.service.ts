@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {User} from "./model/user.class";
 import {HttpClient} from "@angular/common/http";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class UserService {
 
   user: User | undefined;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private router: Router) {}
 
   setUser(u: String) {
     this.user = new User(u);
@@ -28,6 +29,12 @@ export class UserService {
       // @ts-ignore
       this.user = JSON.parse(localStorage.getItem("user"));
       console.log(this.user);
+      // @ts-ignore
+      switch (this.user.role) {
+        case 'ROLE_ADMIN': { this.router.navigateByUrl('admin/home').then(r => {}); break; }
+        case 'ROLE_CLIENT': { this.router.navigateByUrl('client/home').then(r => {}); break; }
+        case 'ROLE_DRIVER': { this.router.navigateByUrl('driver/home').then(r => {}); break; }
+      }
     }
   }
 

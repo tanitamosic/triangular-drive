@@ -51,7 +51,7 @@ export class MapComponent implements AfterViewInit  {
         }
       });
     });
-    
+
   }
 
   ngAfterViewInit(): void {
@@ -74,7 +74,7 @@ export class MapComponent implements AfterViewInit  {
     tiles.addTo(this.map);
   }
 
-  
+
   getDistance() {
     let dist = 0;
     for (let i = 0; i<this.mapRoute.stops.length-1; ++i){
@@ -96,9 +96,9 @@ export class MapComponent implements AfterViewInit  {
         this.price = data;
         console.log(this.price);
       });
-      
+
       //this.price = result;
-      
+
     }
 
     filterByCity(r:any): any{
@@ -120,7 +120,7 @@ export class MapComponent implements AfterViewInit  {
           let rf:any = this.filterByCity(r);
           previousStop.x = r[0].x;
           previousStop.y = r[0].y;
-  
+
           this.addStopToRoute(r);
 
       });

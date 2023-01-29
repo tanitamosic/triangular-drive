@@ -24,7 +24,7 @@ import { FileUploadModule } from "primeng/fileupload";
 import { DropdownModule } from "primeng/dropdown";
 import { PasswordModule } from "primeng/password";
 import { DividerModule } from "primeng/divider";
-import { DriverRegistrationComponent } from './driver.registration/driver.registration.component';
+import { DriverRegistrationComponent } from './driver/driver.registration/driver.registration.component';
 import {ToggleButtonModule} from "primeng/togglebutton";
 import {CardModule} from "primeng/card";
 import {InputNumberModule} from "primeng/inputnumber";
@@ -33,6 +33,8 @@ import { AccountActivationComponent } from './register/account.activation/accoun
 import {InputMaskModule} from "primeng/inputmask";
 import { ReportsComponent } from 'src/app/reports/reports.component';
 import { ReportCardComponent } from 'src/app/reports/report.card/report.card.component';
+import { ClientMapComponent } from './client/client.map/client.map.component';
+import { DriverMapComponent } from './driver/driver.map/driver.map.component';
 
 
 @NgModule({
@@ -50,7 +52,9 @@ import { ReportCardComponent } from 'src/app/reports/report.card/report.card.com
     RegisterComponent,
     AccountActivationComponent,
     ReportsComponent,
-    ReportCardComponent
+    ReportCardComponent,
+    ClientMapComponent,
+    DriverMapComponent,
   ],
   imports: [
     BrowserModule,

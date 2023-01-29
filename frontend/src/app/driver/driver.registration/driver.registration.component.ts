@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {City} from "../model/city.class";
-import {ProfileService} from "../profile/profile.service";
-import {CarService} from "../car.service";
-import {CarMaker, CarType, Color} from "../model/car.class";
-import {RegistrationService} from "../registration.service";
+import {City} from "../../model/city.class";
+import {ProfileService} from "../../profile/profile.service";
+import {CarService} from "../../car.service";
+import {CarMaker, CarType, Color} from "../../model/car.class";
+import {RegistrationService} from "../../registration.service";
 
 @Component({
   selector: 'app-driver.registration',

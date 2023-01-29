@@ -35,10 +35,14 @@
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/leaflet/dist/leaflet.css",
               "src/app/map/leaflet-routing-machine.css",
-              "node_modules/leaflet-geosearch/dist/geosearch.css"
+              "node_modules/leaflet-geosearch/dist/geosearch.css",
+              "src/app/client/client.map/leaflet-routing-machine.css",
+              "src/app/driver/driver.map/leaflet-routing-machine.css"
             ],
             "scripts": [
-              "src/app/map/leaflet-routing-machine.min.js"
+              "src/app/map/leaflet-routing-machine.min.js",
+              "src/app/client/client.map/leaflet-routing-machine.min.js",
+              "src/app/driver/driver.map/leaflet-routing-machine.min.js"
             ]
           },
           "configurations": {

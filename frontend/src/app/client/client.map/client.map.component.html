@@ -1,0 +1,98 @@
+<!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />-->
+<!--<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>-->
+<link rel="stylesheet" href="leaflet-routing-machine.css" />
+<!-- Load geocoding plugin after Leaflet -->
+
+
+<div>
+  <div class="input-container">
+    <table [style]="{'width': '20%', 'min-width': '10%'}">
+      <tr>
+        <td>
+          <p-dropdown (onChange)="applyFilter($event)" [style]="{'width':'100%'}" [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name"></p-dropdown>
+        </td>
+        <td>
+          <p-dropdown (onChange)="applyFilter($event)" [style]="{'width':'100%'}" [options]="carTypes" [(ngModel)]="selectedCarType" placeholder="Select car" [showClear]="true" optionLabel="name"></p-dropdown>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button pButton pRipple label="Add destination" icon="pi pi-plus" class="p-button-success" (click)="addDest()"></button>
+        </td>
+        <td>
+          <button pButton pRipple label="Remove destination" icon="pi pi-minus" class="p-button-danger" (click)="removeDest()"></button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input id="start" [(ngModel)]="start" pInputText type="text" placeholder="Starting address" [style]="{'width': '100%'}"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input pInputText [(ngModel)]="dest1" *ngIf="inputCounter >= 1" type="text" placeholder="Destination 1" [style]="{'width': '100%'}"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input pInputText [(ngModel)]="dest2" *ngIf="inputCounter >= 2" type="text" placeholder="Destination 2" [style]="{'width': '100%'}"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input pInputText [(ngModel)]="dest3" *ngIf="inputCounter >= 3" type="text" placeholder="Destination 3" [style]="{'width': '100%'}"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input pInputText [(ngModel)]="dest4" *ngIf="inputCounter >= 4" type="text" placeholder="Destination 4" [style]="{'width': '100%'}"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input pInputText [(ngModel)]="final" type="text" placeholder="Final destination" [style]="{'width': '100%'}"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="1">
+          <p-toggleButton (onChange)="applyFilter($event)" [style]="{'width': '100%'}" [(ngModel)]="babyFriendly" onLabel="Child friendly" offLabel="Not child friendly" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+        </td>
+        <td colspan="1">
+          <p-toggleButton (onChange)="applyFilter($event)" [style]="{'width': '100%'}" [(ngModel)]="petFriendly" onLabel="Pet friendly" offLabel="Not pet friendly" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <p-inputNumber [style]="{'width':'100%'}" [(ngModel)]="minSeats" [showButtons]="true" buttonLayout="horizontal"
+                         inputId="horizontal" spinnerMode="horizontal" [step]="1"
+                         (onInput)="applyFilter($event)"
+                         decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+                         incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" suffix=" min seats"></p-inputNumber>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button pButton pRipple label="Search" [style]="{'width': '100%'}" (click)="search()"></button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding-top:15px;font-weight:bold; font-size:large; font-family: 'Lucida Sans';">
+          <label>Distance: {{distance}}km</label>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="padding-top:5px;font-weight:bold; font-size:large; font-family: 'Lucida Sans';">
+          <label>Price: {{price}}din</label>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="map-container">
+    <div class="map-frame">
+      <div id="map-client"></div>
+    </div>
+  </div>
+  <script src="leaflet-routing-machine.min.js"></script>
+</div>
+
+
