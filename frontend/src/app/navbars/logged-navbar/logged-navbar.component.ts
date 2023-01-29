@@ -105,10 +105,8 @@ export class LoggedNavbarComponent implements OnInit {
   }
 
   updateDriverStatus(status: String) {
-    this.pollingInterval = setInterval(() => {
-      this.http.get('/api/driver/set-status/' + this.user.id + '/' + status).subscribe(data => {
-        console.log(status);
-      });
+    this.http.get('/api/driver/set-status/' + this.user.id + '/' + status).subscribe(data => {
+      console.log(status);
     });
   }
 

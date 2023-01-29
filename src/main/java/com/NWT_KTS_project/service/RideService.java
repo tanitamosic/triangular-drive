@@ -81,4 +81,8 @@ public class RideService{
         rideRepository.save(ride);
         return ride;
     }
+
+    public List<Ride> getAssignedRide(Integer id) {
+        return rideRepository.getPendingRide(id);
+    }
 }

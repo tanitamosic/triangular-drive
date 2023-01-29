@@ -8,6 +8,9 @@ import {SearchResult} from "leaflet-geosearch/lib/providers/provider";
 import { MapService } from '../../map/map.service';
 import { ProfileService } from '../../profile/profile.service';
 import {City} from "../../model/city.class";
+import {HttpClient} from "@angular/common/http";
+import {UserService} from "../../user.service";
+import {User} from "../../model/user.class";
 
 declare var L: any;
 @Component({
@@ -19,6 +22,7 @@ export class DriverMapComponent implements AfterViewInit {
 
   private map: any;
   inputCounter: number = 0;
+  pollingInterval: NodeJS.Timer | undefined;
 
   price: String = '0';
   distance: string = "0";
@@ -28,17 +32,22 @@ export class DriverMapComponent implements AfterViewInit {
   mapService:MapService;
 
   mapRoute: MapRoute;
+  user: User;
+  rides: any;
 
-  constructor(mapService:MapService, private profileService: ProfileService) {
+  constructor(mapService:MapService, private profileService: ProfileService,
+              private httpClient: HttpClient,
+              private userService: UserService) {
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
     this.mapService = mapService;
+
+    this.user = this.userService.getUser();
 
   }
 
   ngAfterViewInit(): void {
     this.initMap();
-
   }
 
   private initMap(): void {
@@ -56,6 +65,19 @@ export class DriverMapComponent implements AfterViewInit {
     tiles.addTo(this.map);
   }
 
+
+  pendingRidesPolling() {
+    this.pollingInterval = setInterval(() =>{
+      const request = this.httpClient.get('/api/ride/' + this.user.id + '/assigned-ride');
+      request.subscribe((response) => {
+        this.rides = response;
+      })
+    }, 5000) // 5s
+  };
+
+  stopPolling() {
+    clearInterval(this.pollingInterval);
+  }
 
   getDistance() {
     let dist = 0;
@@ -133,4 +155,14 @@ export class DriverMapComponent implements AfterViewInit {
     const marker = L.marker([ lat,long],{icon:carIcon}).addTo(this.map);
   }
 
+
+  // TODO: IMPLEMENT THESE BUTTONS
+  acceptRide($event: MouseEvent, id: Number) {
+    alert('TODO: ACCEPT RIDE')
+  }
+
+  rejectRide($event: MouseEvent, id: Number) {
+    let reason = prompt("Thou must state thy reasoning for rejection (uwu): ")
+    alert(reason)
+  }
 }
