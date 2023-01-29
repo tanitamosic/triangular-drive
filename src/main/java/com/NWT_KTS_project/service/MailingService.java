@@ -1,5 +1,7 @@
 package com.NWT_KTS_project.service;
 
+import com.NWT_KTS_project.model.DriverUpdateRequest;
+import com.NWT_KTS_project.model.users.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -79,4 +81,15 @@ public class MailingService {
     }
 
 
+    public void sendDriverUpdateRequest(Driver d, DriverUpdateRequest dur) {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo("bole.prole26@gmail.com"); // NEED REAL EMAIL FOR THIS TO WORK
+        mail.setSubject("A driver wants to update their profile");
+        String activationUrl = "http://localhost:8080/api/profile/accept-pending-profile-update/" + dur.getRequestId();
+        String rejectionUrl = "http://localhost:8080/api/profile/reject-pending-profile-update/" + dur.getRequestId();
+        mail.setText("Old driver info is: " + d.toString() + "\r\nNew driver info is: " + dur.toString()+"\r\nTo accept this request, click: " + activationUrl + "\r\nTo reject this request click: " + rejectionUrl);
+
+        mailSender.send(mail);
+
+    }
 }

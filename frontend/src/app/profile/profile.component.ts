@@ -51,12 +51,12 @@ export class ProfileComponent implements OnInit {
       if (this.profileId !== this.user.id) {
         const request = this.profileService.getProfileRequest(this.profileId);
         request.subscribe((response) => {
-          this.profile = JSON.parse(response);
-          this.setImg()
-        },
+            this.profile = JSON.parse(response);
+            this.setImg();
+          },
           (error) => {
             alert("Something went kaboom, teehee. Non existent user id.")
-          })
+          });
       }
     });
   }
@@ -86,20 +86,20 @@ export class ProfileComponent implements OnInit {
         this.img = response.path;
         // @ts-ignore
         this.profile.photo = response;
-        this.metadataUpdate();
       }, (error) => {
         alert(error.message);
       });
 
-    } else {
-      this.metadataUpdate();
     }
+    this.metadataUpdate();
+
   }
   metadataUpdate() {
     // UPDATE PROFILE INFO
     const update = this.profileService.postProfileUpdateRequest(this.profile);
     update.subscribe((res) => {
-      console.log(res)
+      console.log(res);
+      alert(res + "\r\nRelog for changes to take effect");
     }, (err) => {
       alert(err.message)
     });

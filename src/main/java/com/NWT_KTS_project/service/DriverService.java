@@ -1,8 +1,11 @@
 package com.NWT_KTS_project.service;
 
+import com.NWT_KTS_project.DTO.LoggedUserDTO;
+import com.NWT_KTS_project.model.DriverUpdateRequest;
 import com.NWT_KTS_project.model.Position;
 import com.NWT_KTS_project.model.enums.DriverStatus;
 import com.NWT_KTS_project.model.users.Driver;
+import com.NWT_KTS_project.repository.DriverUpdateRepository;
 import com.NWT_KTS_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ public class DriverService {
 
     @Autowired
     private PositionService positionService;
+
+    @Autowired
+    private DriverUpdateRepository driverUpdateRepository;
 
 
     public void setDriverStatus(int driverId, DriverStatus status) {
@@ -61,5 +67,50 @@ public class DriverService {
     public DriverStatus getDriverStatus(Integer id) {
         Driver driver = (Driver) userRepository.findById(id).get();
         return driver.getStatus();
+    }
+
+    public DriverUpdateRequest createDriverUpdateRequest(LoggedUserDTO newProfileInfo) {
+        DriverUpdateRequest dur = new DriverUpdateRequest();
+        dur.setDriverId(newProfileInfo.getId());
+        dur.setEmail(newProfileInfo.getEmail());
+        dur.setCity(newProfileInfo.getCity());
+        dur.setName(newProfileInfo.getName());
+        dur.setLastName(newProfileInfo.getLastName());
+        dur.setPhone(newProfileInfo.getPhone());
+        dur.setPhoto(newProfileInfo.getPhoto());
+        dur.setApproved(false);
+        dur.setPending(true);
+        driverUpdateRepository.saveAndFlush(dur);
+        return dur;
+    }
+
+    public DriverUpdateRequest getDriverUpdateRequest(Integer id) {
+        DriverUpdateRequest dur = driverUpdateRepository.findById(id).get();
+        if (!dur.isPending()) {
+            return null;
+        } else {
+            return dur;
+        }
+    }
+
+    public void acceptDriverUpdate(DriverUpdateRequest dur) {
+        Driver driver = (Driver) userRepository.findById(dur.getDriverId()).get();
+        driver.setCity(dur.getCity());
+        driver.setPhone(dur.getPhone());
+        driver.setName(dur.getName());
+        driver.setLastName(dur.getLastName());
+        driver.setEmail(dur.getEmail());
+        driver.setPhoto(dur.getPhoto());
+        userRepository.saveAndFlush(driver);
+
+        dur.setPending(false);
+        dur.setApproved(true);
+        driverUpdateRepository.saveAndFlush(dur);
+    }
+
+    public void rejectDriverUpdate(DriverUpdateRequest dur) {
+        dur.setPending(false);
+        dur.setApproved(false);
+        driverUpdateRepository.saveAndFlush(dur);
     }
 }

@@ -115,4 +115,9 @@ public class Driver extends User{
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return this.getName() + " " + this.getLastName() + ", " + this.getEmail() + ", " + this.getPhone() + ", " + this.getCity();
+    }
 }
