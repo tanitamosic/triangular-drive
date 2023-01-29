@@ -61,7 +61,8 @@ export class LoggedNavbarComponent implements OnInit {
         busy.icon = circle;
         offline.icon = circle;
         this.stopPolling();
-        this.driverStatusPolling('AVAILABLE')
+        this.updateDriverStatus('AVAILABLE');
+        this.getDriverStatusPolling();
       }
     }
     let busy = {
@@ -72,7 +73,8 @@ export class LoggedNavbarComponent implements OnInit {
         available.icon = circle;
         offline.icon = circle;
         this.stopPolling();
-        this.driverStatusPolling('BUSY');
+        this.updateDriverStatus('BUSY');
+        this.getDriverStatusPolling();
       }
     }
     let offline = {
@@ -83,7 +85,8 @@ export class LoggedNavbarComponent implements OnInit {
         available.icon = circle;
         busy.icon = circle;
         this.stopPolling();
-        this.driverStatusPolling('OFFLINE');
+        this.updateDriverStatus('OFFLINE');
+        this.getDriverStatusPolling();
       }
     }
 
@@ -101,10 +104,18 @@ export class LoggedNavbarComponent implements OnInit {
     }
   }
 
-  driverStatusPolling(status: String) {
+  updateDriverStatus(status: String) {
     this.pollingInterval = setInterval(() => {
       this.http.get('/api/driver/set-status/' + this.user.id + '/' + status).subscribe(data => {
         console.log(status);
+      });
+    });
+  }
+
+  getDriverStatusPolling() {
+    this.pollingInterval = setInterval(() => {
+      this.http.get('/api/driver/get-status' + this.user.id).subscribe(data => {
+        console.log(data);
       });
     }, 5000);  // 5000ms = 5s
   }

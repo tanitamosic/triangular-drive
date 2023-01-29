@@ -8,6 +8,7 @@ import com.NWT_KTS_project.service.DriverService;
 import com.NWT_KTS_project.service.PositionService;
 import com.NWT_KTS_project.service.RideService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,5 +56,12 @@ public class DriverController {
         this.driverService.setDriverStatus(id, status);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("get-status/{id}")
+    public ResponseEntity<DriverStatus> getStatus(@PathVariable("id") Integer id) {
+        DriverStatus ds = this.driverService.getDriverStatus(id);
+        return new ResponseEntity<>(ds, HttpStatus.OK);
+    }
+
 
 }

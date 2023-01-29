@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 public class DriverService {
@@ -55,5 +56,10 @@ public class DriverService {
         }
 
         return closestDriver;
+    }
+
+    public DriverStatus getDriverStatus(Integer id) {
+        Driver driver = (Driver) userRepository.findById(id).get();
+        return driver.getStatus();
     }
 }
