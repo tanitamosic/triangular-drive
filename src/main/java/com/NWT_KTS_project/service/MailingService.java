@@ -92,4 +92,12 @@ public class MailingService {
         mailSender.send(mail);
 
     }
+
+    public void sendPasswordResetMail(String email, String newPassword) {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(email);
+        mail.setSubject("Password reset");
+        mail.setText("Your new Angular Drive account password is: " + newPassword);
+        mailSender.send(mail);
+    }
 }

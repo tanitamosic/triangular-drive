@@ -25,7 +25,7 @@
     </span>
   </div>
 
-  <p><p-dropdown [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name" [showClear]="true"
+  <p><p-dropdown [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name"
                  [disabled]="profile.id!==user.id"></p-dropdown></p>
   <p *ngIf="profile.id===user.id">
     <label class="file-upload">

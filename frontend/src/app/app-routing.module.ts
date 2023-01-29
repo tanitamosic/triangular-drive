@@ -9,9 +9,11 @@ import {RegisterComponent} from "./register/register.component";
 import {AccountActivationComponent} from "./register/account.activation/account.activation.component";
 import {ReportsComponent} from "./reports/reports.component";
 import {MapComponent} from "./map/map.component";
+import {PasswordResetComponent} from "./login/password-reset/password-reset.component";
 
 const routes: Routes = [
   { path: '', component: MapComponent },
+  { path: 'forgot-password', component: PasswordResetComponent },
   { path: 'client/home', component: ClientComponent },
   { path: 'driver/home', component: DriverComponent },
   { path: 'admin/home', component: AdminComponent },

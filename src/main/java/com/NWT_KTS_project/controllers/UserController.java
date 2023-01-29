@@ -5,10 +5,7 @@ import com.NWT_KTS_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -24,5 +21,11 @@ public class UserController {
         } else {
             return new ResponseEntity<>("Passwords aren't matching.", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping(value="/reset-password/{email}")
+    public ResponseEntity<String> resetPassword(@PathVariable String email) {
+        userService.resetPassword(email);
+        return ResponseEntity.ok().build();
     }
 }

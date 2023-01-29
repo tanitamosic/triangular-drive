@@ -35,6 +35,7 @@ import { ReportsComponent } from 'src/app/reports/reports.component';
 import { ReportCardComponent } from 'src/app/reports/report.card/report.card.component';
 import { ClientMapComponent } from './client/client.map/client.map.component';
 import { DriverMapComponent } from './driver/driver.map/driver.map.component';
+import { PasswordResetComponent } from './login/password-reset/password-reset.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { DriverMapComponent } from './driver/driver.map/driver.map.component';
     ReportCardComponent,
     ClientMapComponent,
     DriverMapComponent,
+    PasswordResetComponent,
   ],
   imports: [
     BrowserModule,
