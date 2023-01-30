@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 
 
 @RestController
@@ -30,6 +32,9 @@ public class DriverController {
 
     @Autowired
     private DriverService driverService;
+
+
+    DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     @PostMapping("updatePosition/{id}/{latitude}/{longitude}")
     public void updatePosition(@PathVariable int id, @PathVariable double latitude, @PathVariable double longitude){
@@ -66,42 +71,15 @@ public class DriverController {
     }
 
 
-    @GetMapping("/get-total-income/{driverId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getTotalDriverIncome(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
+    @GetMapping("/get-driver-rides/{driverId}/{date1}/{date2}")
+    public ResponseEntity<List<Ride>> getTotalDriverIncome(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
         // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
+        LocalDate d1 = LocalDate.parse(date1, FORMATTER);
+        LocalDateTime dateTime1 = d1.atStartOfDay();
+        LocalDate d2 = LocalDate.parse(date2, FORMATTER);
+        LocalDateTime dateTime2 = d2.atStartOfDay();
+        List<Ride> retval = rideService.getDriverRides(driverId, dateTime1, dateTime2);
+        return new ResponseEntity<>(retval, HttpStatus.OK);
     }
-
-    @GetMapping("/get-avg-income/{driverId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getAvgDriverIncome(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/get-total-distance/{driverId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getTotalDriverDistance(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/get-avg-distance/{driverId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getAvgDriverDistance(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/get-total-ridecount/{driverId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getTotalDriverRidecount(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/get-avg-ridecount/{driverId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getAvgDriverRidecount(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
-    }
-
-
 
 }

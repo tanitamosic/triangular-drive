@@ -48,7 +48,7 @@ export class IncomeReportComponent implements OnInit {
         label: 'Dataset 1',
         borderColor: '#42A5F5',
         borderWidth: 2,
-        fill: true,
+        fill: false,
         data: [
           50,
           25,
@@ -125,37 +125,16 @@ export class IncomeReportComponent implements OnInit {
     console.log(this.rangeDates[1].toISOString().substring(0,10))
   }
 
-  getAvgUserRideCount() {
+  getAllRides() {
 
   }
 
-  getAvgUserDistance() {
+  getDriverRides() {
 
   }
 
-  getAvgDriverIncome() {
-    // DRIVER
-  }
-
-  getAvgClientExpense() {
-    // CLIENT
-  }
-
-  getTotalUserRideCount() {
+  getClientRides() {
 
   }
-
-  getTotalUserDistance() {
-
-  }
-
-  getTotalDriverIncome() {
-    // DRIVER
-  }
-
-  getTotalClientExpense() {
-    // CLIENT
-  }
-
 
 }

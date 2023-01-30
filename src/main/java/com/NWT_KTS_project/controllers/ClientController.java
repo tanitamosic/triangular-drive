@@ -3,14 +3,20 @@ package com.NWT_KTS_project.controllers;
 
 
 import com.NWT_KTS_project.model.Address;
+import com.NWT_KTS_project.model.Ride;
 import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.Driver;
 import com.NWT_KTS_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -35,6 +41,8 @@ public class ClientController {
 
     @Autowired
     private UserService userService;
+
+    DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
 
     @PostMapping("reviewRide/{rideId}/{userId}")
@@ -61,41 +69,14 @@ public class ClientController {
     }
 
 
-    @GetMapping("/get-total-expense/{clientId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getTotalClientExpense(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
+    @GetMapping("/get-client-rides/{clientId}/{date1}/{date2}")
+    public ResponseEntity<List<Ride>> getTotalClientExpense(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
         // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
+        LocalDate d1 = LocalDate.parse(date1, FORMATTER);
+        LocalDateTime dateTime1 = d1.atStartOfDay();
+        LocalDate d2 = LocalDate.parse(date2, FORMATTER);
+        LocalDateTime dateTime2 = d2.atStartOfDay();
+        List<Ride> retval = rideService.getClientRides(clientId, dateTime1, dateTime2);
+        return new ResponseEntity<>(retval, HttpStatus.OK);
     }
-
-    @GetMapping("/get-avg-expense/{clientId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getAvgClientExpense(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/get-total-distance/{clientId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getTotalClientDistance(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/get-avg-distance/{clientId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getAvgClientDistance(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/get-total-ridecount/{clientId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getTotalDClientRidecount(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/get-avg-ridecount/{clientId}/{date1}/{date2}")
-    public ResponseEntity<Integer> getAvgClientRidecount(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
-        return ResponseEntity.ok().build();
-    }
-
-
 }

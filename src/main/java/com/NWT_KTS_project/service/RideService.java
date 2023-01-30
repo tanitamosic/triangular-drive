@@ -13,6 +13,7 @@ import com.NWT_KTS_project.util.comparators.ride.RideDateComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,5 +85,17 @@ public class RideService{
 
     public List<Ride> getAssignedRide(Integer id) {
         return rideRepository.getPendingRide(id);
+    }
+
+    public List<Ride> getRides(LocalDateTime dateTime1, LocalDateTime dateTime2) {
+        // ADMIN
+        return rideRepository.getRides(dateTime1, dateTime2);
+    }
+    public List<Ride> getDriverRides(Integer driverId, LocalDateTime dateTime1, LocalDateTime dateTime2) {
+        // DRIVER
+        return rideRepository.getDriverRides(driverId, dateTime1, dateTime2);
+    }
+    public List<Ride> getClientRides(Integer clientId, LocalDateTime dateTime1, LocalDateTime dateTime2) {
+        return rideRepository.getClientRides(clientId, dateTime1, dateTime2);
     }
 }
