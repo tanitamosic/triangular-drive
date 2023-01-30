@@ -40,6 +40,7 @@ import { RideRequestComponent } from './client/ride.request/ride.request.compone
 import { IncomeReportComponent } from './income-report/income-report.component';
 import {CalendarModule} from "primeng/calendar";
 import {ChartModule} from "primeng/chart";
+import { ReviewComponent } from './review/review.component';
 
 
 
@@ -64,6 +65,7 @@ import {ChartModule} from "primeng/chart";
     PasswordResetComponent,
     RideRequestComponent,
     IncomeReportComponent,
+    ReviewComponent,
 
   ],
   imports: [

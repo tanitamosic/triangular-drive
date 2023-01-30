@@ -11,6 +11,7 @@ import {ReportsComponent} from "./reports/reports.component";
 import {MapComponent} from "./map/map.component";
 import {PasswordResetComponent} from "./login/password-reset/password-reset.component";
 import {IncomeReportComponent} from "./income-report/income-report.component";
+import {ReviewComponent} from "./review/review.component";
 
 const routes: Routes = [
   { path: '', component: MapComponent },
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'registration', component: RegisterComponent },
   { path: 'activate/:email', component: AccountActivationComponent },
   { path: 'admin/reports', component: ReportsComponent},
-  { path: 'user/charts', component: IncomeReportComponent}
+  { path: 'user/charts', component: IncomeReportComponent},
+  { path: 'user/review', component: ReviewComponent}
 ]
 
 @NgModule({
