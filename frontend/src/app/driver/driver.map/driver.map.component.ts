@@ -8,6 +8,8 @@ import {SearchResult} from "leaflet-geosearch/lib/providers/provider";
 import { MapService } from '../../map/map.service';
 import { ProfileService } from '../../profile/profile.service';
 import {City} from "../../model/city.class";
+import { HttpClient } from '@angular/common/http';
+import { UserService } from 'src/app/user.service';
 
 declare var L: any;
 @Component({
@@ -29,7 +31,7 @@ export class DriverMapComponent implements AfterViewInit {
 
   mapRoute: MapRoute;
 
-  constructor(mapService:MapService, private profileService: ProfileService) {
+  constructor(mapService:MapService, private profileService: ProfileService,private http: HttpClient,private userService: UserService) {
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
     this.mapService = mapService;
@@ -38,8 +40,24 @@ export class DriverMapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initMap();
+    this.sendPosition();
 
   }
+
+  async  sendPosition() {
+    //get coordinates using navigator.geolocation
+    let latitude: number = 0;
+    let longitude: number = 0;
+    navigator.geolocation.getCurrentPosition((position) => {latitude=position.coords.latitude;longitude=position.coords.longitude;});
+
+    await new Promise(r => setTimeout(r, 1000));
+      
+    
+
+    const request = this.http.post('api/driver/updatePosition/'+this.userService.getUser().id+'/'+latitude+'/'+longitude, null);
+    request.subscribe();
+  }
+
 
   private initMap(): void {
     // console.log(L.map())
