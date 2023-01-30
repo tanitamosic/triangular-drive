@@ -10,6 +10,7 @@ import {AccountActivationComponent} from "./register/account.activation/account.
 import {ReportsComponent} from "./reports/reports.component";
 import {MapComponent} from "./map/map.component";
 import {PasswordResetComponent} from "./login/password-reset/password-reset.component";
+import {IncomeReportComponent} from "./income-report/income-report.component";
 
 const routes: Routes = [
   { path: '', component: MapComponent },
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path: 'admin/register-driver', component: DriverRegistrationComponent },
   { path: 'registration', component: RegisterComponent },
   { path: 'activate/:email', component: AccountActivationComponent },
-  { path: 'admin/reports', component: ReportsComponent}
+  { path: 'admin/reports', component: ReportsComponent},
+  { path: 'user/charts', component: IncomeReportComponent}
 ]
 
 @NgModule({

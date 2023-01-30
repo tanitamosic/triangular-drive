@@ -13,7 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 
 
 @RestController
@@ -28,6 +32,9 @@ public class DriverController {
 
     @Autowired
     private DriverService driverService;
+
+
+    DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @PostMapping("updatePosition/{id}/{latitude}/{longitude}")
     public void updatePosition(@PathVariable int id, @PathVariable double latitude, @PathVariable double longitude){
@@ -63,5 +70,16 @@ public class DriverController {
         return new ResponseEntity<>(ds, HttpStatus.OK);
     }
 
+
+    @GetMapping("/get-driver-rides/{driverId}/{date1}/{date2}")
+    public ResponseEntity<List<Ride>> getTotalDriverIncome(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        LocalDate d1 = LocalDate.parse(date1, FORMATTER);
+        LocalDateTime dateTime1 = d1.atStartOfDay();
+        LocalDate d2 = LocalDate.parse(date2, FORMATTER);
+        LocalDateTime dateTime2 = d2.atStartOfDay();
+        List<Ride> retval = rideService.getDriverRides(driverId, dateTime1, dateTime2);
+        return new ResponseEntity<>(retval, HttpStatus.OK);
+    }
 
 }

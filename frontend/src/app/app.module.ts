@@ -37,6 +37,10 @@ import { ClientMapComponent } from './client/client.map/client.map.component';
 import { DriverMapComponent } from './driver/driver.map/driver.map.component';
 import { PasswordResetComponent } from './login/password-reset/password-reset.component';
 import { RideRequestComponent } from './client/ride.request/ride.request.component';
+import { IncomeReportComponent } from './income-report/income-report.component';
+import {CalendarModule} from "primeng/calendar";
+import {ChartModule} from "primeng/chart";
+
 
 
 @NgModule({
@@ -59,6 +63,8 @@ import { RideRequestComponent } from './client/ride.request/ride.request.compone
     DriverMapComponent,
     PasswordResetComponent,
     RideRequestComponent,
+    IncomeReportComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -79,6 +85,8 @@ import { RideRequestComponent } from './client/ride.request/ride.request.compone
     CardModule,
     InputNumberModule,
     InputMaskModule,
+    CalendarModule,
+    ChartModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

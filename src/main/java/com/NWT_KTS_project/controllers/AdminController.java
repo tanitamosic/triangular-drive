@@ -1,11 +1,16 @@
 package com.NWT_KTS_project.controllers;
 
 import com.NWT_KTS_project.model.Issue;
+import com.NWT_KTS_project.model.Ride;
+import com.NWT_KTS_project.model.enums.DriverStatus;
 import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import com.NWT_KTS_project.DTO.NewDriverDTO;
 import com.NWT_KTS_project.model.Report;
@@ -43,6 +48,11 @@ public class AdminController {
 
     @Autowired
     private MailingService mailingService;
+
+    @Autowired
+    private RideService rideService;
+
+    DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @GetMapping("/getIssues/{adminId}")
     public List<Issue> getActiveIssues(@PathVariable int adminId){
@@ -115,5 +125,16 @@ public class AdminController {
 
         reportService.solveReport(repid);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-rides/{date1}/{date2}")
+    public ResponseEntity<List<Ride>> getTotalDriverIncome(@PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        LocalDate d1 = LocalDate.parse(date1, FORMATTER);
+        LocalDateTime dateTime1 = d1.atStartOfDay();
+        LocalDate d2 = LocalDate.parse(date2, FORMATTER);
+        LocalDateTime dateTime2 = d2.atStartOfDay();
+        List<Ride> retval = rideService.getRides(dateTime1, dateTime2);
+        return new ResponseEntity<>(retval, HttpStatus.OK);
     }
 }

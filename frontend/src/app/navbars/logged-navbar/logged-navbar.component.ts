@@ -39,6 +39,11 @@ export class LoggedNavbarComponent implements OnInit {
         label: 'My profile',
         icon: 'pi pi-fw pi-user',
         command: () => this.myProfile()
+      },
+      {
+        label: 'Statistics',
+        icon: 'pi pi-fw pi-chart-bar',
+        command: () => {this.router.navigateByUrl('user/charts').then(r=>{});}
       }
     ];
 
@@ -105,10 +110,8 @@ export class LoggedNavbarComponent implements OnInit {
   }
 
   updateDriverStatus(status: String) {
-    this.pollingInterval = setInterval(() => {
-      this.http.get('/api/driver/set-status/' + this.user.id + '/' + status).subscribe(data => {
-        console.log(status);
-      });
+    this.http.get('/api/driver/set-status/' + this.user.id + '/' + status).subscribe(data => {
+      console.log(status);
     });
   }
 
