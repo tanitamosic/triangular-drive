@@ -3,6 +3,7 @@ package com.NWT_KTS_project.service;
 import com.NWT_KTS_project.DTO.LoggedUserDTO;
 import com.NWT_KTS_project.model.DriverUpdateRequest;
 import com.NWT_KTS_project.model.Position;
+import com.NWT_KTS_project.model.enums.CarType;
 import com.NWT_KTS_project.model.enums.DriverStatus;
 import com.NWT_KTS_project.model.users.Driver;
 import com.NWT_KTS_project.repository.DriverUpdateRepository;
@@ -34,7 +35,7 @@ public class DriverService {
     }
 
 
-    public Driver getAvailableDriver(double latitude, double longitude, boolean petFriendly, boolean babyFriendly, int numberOfPassengers) {
+    public Driver getAvailableDriver(double latitude, double longitude, boolean petFriendly, boolean babyFriendly, int numberOfPassengers, CarType carType) {
         HashMap<Integer, Position> drivers = (HashMap<Integer, Position>) positionService.getPositions();
         Position clientPosition = new Position(latitude, longitude);
         ArrayList<Driver> availableDrivers = new ArrayList<Driver>();
@@ -42,7 +43,7 @@ public class DriverService {
             Position driverPos = drivers.get(driverId);
             if(positionService.getDistance(clientPosition,driverPos)< PositionService.MAX_DISTANCE){
                 Driver driver = (Driver) userRepository.findById(driverId).get();
-                if(driver.getStatus() == DriverStatus.AVAILABLE && driver.getCar().getSeats() >= numberOfPassengers){
+                if(driver.getStatus() == DriverStatus.AVAILABLE && driver.getCar().getSeats() >= numberOfPassengers && driver.getCar().getType()== carType){
                     if (petFriendly && !driver.getCar().getPetFriendly()) continue;
                     if (babyFriendly && !driver.getCar().getBabyFriendly()) continue;
                     availableDrivers.add(driver);

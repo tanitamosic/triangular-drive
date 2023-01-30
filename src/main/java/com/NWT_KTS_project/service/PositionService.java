@@ -50,7 +50,7 @@ public class PositionService {
         return R * c;//meters
     }
 
-    public static final double MAX_DISTANCE = 2000;
+    public static final double MAX_DISTANCE = 5000;
 
 
     public double getDistanceForAddresses(ArrayList<Address> stops){

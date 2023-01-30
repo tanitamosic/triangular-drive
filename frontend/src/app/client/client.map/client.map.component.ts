@@ -12,6 +12,7 @@ import {CarType} from "../../model/car.class";
 import {CarService} from "../../car.service";
 import {UserService} from "../../user.service";
 import {Constants} from "../../constants";
+import { HttpClient } from '@angular/common/http';
 
 declare var L: any;
 
@@ -24,6 +25,7 @@ export class ClientMapComponent implements AfterViewInit {
 
   private map: any;
   inputCounter: number = 0;
+  passengerInputCounter: number = 0;
 
   start: String = '';
   dest1: String = '';
@@ -31,6 +33,19 @@ export class ClientMapComponent implements AfterViewInit {
   dest3: String = '';
   dest4: String = '';
   final: String = '';
+  start_number: String = '';
+  dest1_number: String = '';
+  dest2_number: String = '';
+  dest3_number: String = '';
+  dest4_number: String = '';
+  final_number: String = '';
+  passenger1: String = '';
+  passenger2: String = '';
+  passenger3: String = '';
+  passenger4: String = '';
+  passenger5: String = '';
+  passenger6: String = '';
+  passenger7: String = '';
   price: String = '0';
   distance: string = "0";
   selectedCity: any;
@@ -49,7 +64,8 @@ export class ClientMapComponent implements AfterViewInit {
   constructor(private mapService: MapService,
               private profileService: ProfileService,
               private carService: CarService,
-              private userService: UserService) {
+              private userService: UserService,
+              private http: HttpClient) {
 
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
@@ -129,13 +145,96 @@ export class ClientMapComponent implements AfterViewInit {
     return res;
   }
 
-  search() {
+  async search() {
+    this.drawToMap();
+    let start_longitude = 0;
+    let start_latitude = 0;
+    let dest1_longitude = 0;
+    let dest1_latitude = 0;
+    let dest2_longitude = 0;
+    let dest2_latitude = 0;
+    let dest3_longitude = 0;
+    let dest3_latitude = 0;
+    let dest4_longitude = 0;
+    let dest4_latitude = 0;
+    let final_longitude = 0;
+    let final_latitude = 0;
+    this.getQueryResult(this.start+' '+this.start_number+', '+this.selectedCity.name).then((results) => {
+      start_longitude = results[0].x;
+      start_latitude = results[0].y;
+    });
+    await new Promise(r => setTimeout(r, 500));
+    let stops: string = this.selectedCity.code+','+this.start+','+this.start_number+','+start_latitude+','+start_longitude;
+    let passengers: string = '';
+
+    if (this.passenger1!=='') passengers+=this.passenger1+';';
+    if (this.passenger2!=='') passengers+=this.passenger2+';';
+    if (this.passenger3!=='') passengers+=this.passenger3+';';
+    if (this.passenger4!=='') passengers+=this.passenger4+';';
+    if (this.passenger5!=='') passengers+=this.passenger5+';';
+    if (this.passenger6!=='') passengers+=this.passenger6+';';
+    if (this.passenger7!=='') passengers+=this.passenger7+';';
+
+    if (this.dest1!=='') {
+      this.getQueryResult(this.dest1+' '+this.dest1_number+', '+this.selectedCity.name).then((results)=>{
+        dest1_longitude = results[0].x;dest1_latitude= results[0].y}); 
+        await new Promise(r => setTimeout(r, 500));
+        stops+=';'+this.selectedCity.code+','+this.dest1+','+this.dest1_number+','+dest1_latitude+','+dest1_longitude;
+      }
+    if (this.dest2!=='') {
+      this.getQueryResult(this.dest2+' '+this.dest2_number+', '+this.selectedCity.name).then((results)=>{
+        dest2_longitude = results[0].x;dest2_latitude= results[0].y});
+      await new Promise(r => setTimeout(r, 500));
+      stops+=';'+this.selectedCity.code+','+this.dest2+','+this.dest2_number+','+dest2_latitude+','+dest2_longitude;
+    }
+    if (this.dest3!=='') {
+      this.getQueryResult(this.dest3+' '+this.dest3_number+', '+this.selectedCity.name).then((results)=>{
+        dest3_longitude = results[0].x;dest3_latitude= results[0].y});
+        await new Promise(r => setTimeout(r, 500));
+      stops+=';'+this.selectedCity.code+','+this.dest3+','+this.dest3_number+','+dest3_latitude+','+dest3_longitude;
+    }
+    if (this.dest4!=='') {
+      this.getQueryResult(this.dest4+' '+this.dest4_number+', '+this.selectedCity.name).then((results)=>{
+        dest4_longitude = results[0].x;dest4_latitude= results[0].y});
+        await new Promise(r => setTimeout(r, 500));
+      stops+=';'+this.selectedCity.code+','+this.dest4+','+this.dest4_number+','+dest4_latitude+','+dest4_longitude;
+    }
+
+    this.getQueryResult(this.start+' '+this.start_number+', '+this.selectedCity.name).then((results) => {
+      final_longitude = results[0].x;
+      final_latitude = results[0].y;
+    });
+    await new Promise(r => setTimeout(r, 500));
+    stops+=';'+this.selectedCity.code+','+this.final+','+this.final_number+','+final_latitude+','+final_longitude;
+    
+
+
+    const request = this.http.get('api/client/requestRide/'+this.userService.getUser().id,{headers:{'stops':stops,'passengers':passengers,'petFriendly':String(this.petFriendly),'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code}});
+    let rideId: number = 0;
+    request.subscribe(data => {
+      rideId = Number(data);
+    });
+    if(rideId===-1){
+      alert("Driver Could Not Be Found")
+    }
+    else if(rideId===-2){
+      alert("Payment Failed")
+    }
+    else{
+      let request_ride_input:any = document.getElementById('request_ride_input');
+      request_ride_input.style.display = 'none';
+      let map_div = document.getElementById('map');
+    }
+    
+  }
+
+  drawToMap() {
     if ((this.start === '' || this.final === '') || this.start.length < 10 || this.final.length < 10) {
       alert('Your route needs beginning and the end, dummy.')
       return;
     }
     let previousStop = {x: 0, y: 0};
-    this.getQueryResult(this.start).then(r => {
+    this.getQueryResult(this.start+" "+this.start_number).then(r => {
       let rf:any = this.filterByCity(r);
       previousStop.x = r[0].x;
       previousStop.y = r[0].y;
@@ -145,7 +244,7 @@ export class ClientMapComponent implements AfterViewInit {
     });
 
     if (this.dest1 !== '' && this.dest1.length > 10) {
-      this.getQueryResult(this.dest1).then(r => {
+      this.getQueryResult(this.dest1+' '+this.dest1_number).then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -155,7 +254,7 @@ export class ClientMapComponent implements AfterViewInit {
     }
 
     if (this.dest2 !== '' && this.dest2.length > 10) {
-      this.getQueryResult(this.dest2).then(r => {
+      this.getQueryResult(this.dest2 +' '+this.dest2_number).then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -165,7 +264,7 @@ export class ClientMapComponent implements AfterViewInit {
     }
 
     if (this.dest3 !== '' && this.dest3.length > 10) {
-      this.getQueryResult(this.dest3).then(r => {
+      this.getQueryResult(this.dest3+' '+this.dest3_number).then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -175,7 +274,7 @@ export class ClientMapComponent implements AfterViewInit {
     }
 
     if (this.dest4 !== '' && this.dest4.length > 10) {
-      this.getQueryResult(this.dest4).then(r => {
+      this.getQueryResult(this.dest4+' '+this.dest4_number).then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -183,7 +282,7 @@ export class ClientMapComponent implements AfterViewInit {
         this.addStopToRoute(r);
       });
     }
-    this.getQueryResult(this.final).then(r => {
+    this.getQueryResult(this.final+' '+this.final_number).then(r => {
       this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
       previousStop.x = r[0].x;
       previousStop.y = r[0].y;
@@ -264,4 +363,37 @@ export class ClientMapComponent implements AfterViewInit {
     console.log(this.petFriendly);
     // TODO: FILTER AVAILABLE DRIVERS BY PARAMETERS (CHILD/PET FRIENDLY, CAR TYPE, CITY)
   }
+
+  addPassenger() {
+    if (this.passengerInputCounter === 7) { return; }
+    this.passengerInputCounter += 1;
+
+  }
+
+  removePassenger() {
+
+    if (this.passengerInputCounter === 7) {
+      this.passenger7 = '';
+      this.passengerInputCounter -= 1;
+    } else if (this.passengerInputCounter === 6) {
+      this.passenger6 = '';
+      this.passengerInputCounter -= 1;
+    } else if (this.passengerInputCounter === 5) {
+      this.passenger5 = '';
+      this.passengerInputCounter -= 1;
+    } else if (this.passengerInputCounter === 4) {
+      this.passenger4 = '';
+      this.passengerInputCounter -= 1;
+    } else if (this.passengerInputCounter === 3) {
+      this.passenger3 = '';
+      this.passengerInputCounter -= 1;
+    } else if (this.passengerInputCounter === 2) {
+      this.passenger2 = '';
+      this.passengerInputCounter -= 1;
+    } else if (this.passengerInputCounter === 1) {
+      this.passenger1 = '';
+      this.passengerInputCounter -= 1;
+    }
+  }
+
 }

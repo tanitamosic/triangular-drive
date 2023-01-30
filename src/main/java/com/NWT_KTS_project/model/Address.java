@@ -25,10 +25,10 @@ public class Address {
     private String number;
 
     @Column(name = "latitude", nullable = true)
-    private double latitude;
+    private Double latitude;
 
     @Column(name = "longitude", nullable = true)
-    private double longitude;
+    private Double longitude;
 
     public String toString(){
         return street + " " + number + ", " + city.name;

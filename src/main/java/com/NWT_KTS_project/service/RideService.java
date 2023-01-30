@@ -7,7 +7,9 @@ import com.NWT_KTS_project.model.enums.DriverStatus;
 import com.NWT_KTS_project.model.enums.RideStatus;
 import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.Driver;
+import com.NWT_KTS_project.repository.AddressRepository;
 import com.NWT_KTS_project.repository.RideRepository;
+import com.NWT_KTS_project.repository.RouteRepository;
 import com.NWT_KTS_project.util.comparators.ride.RideComparator;
 import com.NWT_KTS_project.util.comparators.ride.RideDateComparator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,12 @@ public class RideService{
 
     @Autowired
     private RideRepository rideRepository;
+
+    @Autowired
+    RouteRepository routeRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Autowired
     private DriverService driverService;
@@ -65,6 +73,9 @@ public class RideService{
 
 
     public Ride createRide(Driver driver, List<Address> addresses, List<Client> clients){
+        for (Address address : addresses) {
+            addressRepository.save(address);
+        }
         Ride ride = new Ride();
         ride.setDriver(driver);
         ride.setPassengers(clients);
@@ -78,6 +89,7 @@ public class RideService{
         route.setStops(stops);
         ride.setRoute(route);
         ride.setStatus(RideStatus.PENDING);
+        routeRepository.save(route);
         rideRepository.save(ride);
         return ride;
     }
