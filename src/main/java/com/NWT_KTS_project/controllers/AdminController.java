@@ -1,6 +1,7 @@
 package com.NWT_KTS_project.controllers;
 
 import com.NWT_KTS_project.model.Issue;
+import com.NWT_KTS_project.model.enums.DriverStatus;
 import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,4 +117,41 @@ public class AdminController {
         reportService.solveReport(repid);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/get-total-income/{date1}/{date2}")
+    public ResponseEntity<Integer> getTotalDriverIncome(@PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-avg-income/{date1}/{date2}")
+    public ResponseEntity<Integer> getAvgDriverIncome(@PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-total-distance/{date1}/{date2}")
+    public ResponseEntity<Integer> getTotalDriverDistance(@PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-avg-distance/{date1}/{date2}")
+    public ResponseEntity<Integer> getAvgDriverDistance(@PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-total-ridecount/{date1}/{date2}")
+    public ResponseEntity<Integer> getTotalDriverRidecount(@PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-avg-ridecount/{date1}/{date2}")
+    public ResponseEntity<Integer> getAvgDriverRidecount(@PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
 }

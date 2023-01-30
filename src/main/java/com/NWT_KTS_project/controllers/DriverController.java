@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 
@@ -62,6 +64,44 @@ public class DriverController {
         DriverStatus ds = this.driverService.getDriverStatus(id);
         return new ResponseEntity<>(ds, HttpStatus.OK);
     }
+
+
+    @GetMapping("/get-total-income/{driverId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getTotalDriverIncome(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-avg-income/{driverId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getAvgDriverIncome(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-total-distance/{driverId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getTotalDriverDistance(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-avg-distance/{driverId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getAvgDriverDistance(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-total-ridecount/{driverId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getTotalDriverRidecount(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-avg-ridecount/{driverId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getAvgDriverRidecount(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
 
 
 }

@@ -1,0 +1,18 @@
+<div [style]="{'width': '80%', 'margin-left': 'auto', 'margin-right': 'auto'}">
+  <div>
+    <table [style]="{'margin-left': 'auto', 'margin-right': 'auto'}">
+      <tr>
+        <td>
+          <label for="range">Select date range: </label>
+          <p-calendar [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" id="range" inputId="range"></p-calendar>
+        </td>
+        <td>
+          <button pButton pRipple label="Generate income report" (click)="drawChart($event)"></button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div [style]="{'margin-left': 'auto', 'margin-right': 'auto'}">
+    <p-chart type="bar" [data]="data" [options]="chartOptions"></p-chart>
+  </div>
+</div>

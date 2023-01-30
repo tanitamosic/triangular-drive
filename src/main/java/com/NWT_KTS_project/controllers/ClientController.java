@@ -7,6 +7,7 @@ import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.Driver;
 import com.NWT_KTS_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -59,6 +60,42 @@ public class ClientController {
         return rideService.createRide(driver, addresses, clients).getId();
     }
 
+
+    @GetMapping("/get-total-expense/{clientId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getTotalClientExpense(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-avg-expense/{clientId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getAvgClientExpense(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-total-distance/{clientId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getTotalClientDistance(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-avg-distance/{clientId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getAvgClientDistance(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-total-ridecount/{clientId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getTotalDClientRidecount(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/get-avg-ridecount/{clientId}/{date1}/{date2}")
+    public ResponseEntity<Integer> getAvgClientRidecount(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
+        // TODO: IMPLEMENT
+        return ResponseEntity.ok().build();
+    }
 
 
 }

@@ -36,6 +36,9 @@ import { ReportCardComponent } from 'src/app/reports/report.card/report.card.com
 import { ClientMapComponent } from './client/client.map/client.map.component';
 import { DriverMapComponent } from './driver/driver.map/driver.map.component';
 import { PasswordResetComponent } from './login/password-reset/password-reset.component';
+import { IncomeReportComponent } from './income-report/income-report.component';
+import {CalendarModule} from "primeng/calendar";
+import {ChartModule} from "primeng/chart";
 
 
 @NgModule({
@@ -57,6 +60,7 @@ import { PasswordResetComponent } from './login/password-reset/password-reset.co
     ClientMapComponent,
     DriverMapComponent,
     PasswordResetComponent,
+    IncomeReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +81,8 @@ import { PasswordResetComponent } from './login/password-reset/password-reset.co
     CardModule,
     InputNumberModule,
     InputMaskModule,
+    CalendarModule,
+    ChartModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
