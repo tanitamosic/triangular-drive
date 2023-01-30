@@ -13,6 +13,12 @@
     </table>
   </div>
   <div [style]="{'margin-left': 'auto', 'margin-right': 'auto'}">
-    <p-chart type="bar" [data]="data" [options]="chartOptions"></p-chart>
+    <p-chart type="bar" [data]="price" [options]="chartOptions"></p-chart>
+  </div>
+  <div [style]="{'margin-left': 'auto', 'margin-right': 'auto'}">
+    <p-chart type="bar" [data]="distance" [options]="chartOptions"></p-chart>
+  </div>
+  <div [style]="{'margin-left': 'auto', 'margin-right': 'auto'}">
+    <p-chart type="bar" [data]="count" [options]="chartOptions"></p-chart>
   </div>
 </div>

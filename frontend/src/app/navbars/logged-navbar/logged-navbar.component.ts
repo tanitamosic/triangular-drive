@@ -39,6 +39,11 @@ export class LoggedNavbarComponent implements OnInit {
         label: 'My profile',
         icon: 'pi pi-fw pi-user',
         command: () => this.myProfile()
+      },
+      {
+        label: 'Statistics',
+        icon: 'pi pi-fw pi-chart-bar',
+        command: () => {this.router.navigateByUrl('user/charts').then(r=>{});}
       }
     ];
 

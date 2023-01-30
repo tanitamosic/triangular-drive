@@ -42,7 +42,7 @@ public class ClientController {
     @Autowired
     private UserService userService;
 
-    DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
     @PostMapping("reviewRide/{rideId}/{userId}")

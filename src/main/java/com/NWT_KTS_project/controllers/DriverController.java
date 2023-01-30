@@ -34,7 +34,7 @@ public class DriverController {
     private DriverService driverService;
 
 
-    DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @PostMapping("updatePosition/{id}/{latitude}/{longitude}")
     public void updatePosition(@PathVariable int id, @PathVariable double latitude, @PathVariable double longitude){

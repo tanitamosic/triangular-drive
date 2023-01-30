@@ -25,10 +25,7 @@ public interface RideRepository extends JpaRepository<Ride, Integer> {
     @Query(nativeQuery = true, value="SELECT * FROM rides WHERE rides.driver_id=?1 AND rides.departure_time>=?2 AND rides.arrival_time<=?3 AND rides.status='FINISHED'")
     List<Ride> getDriverRides(Integer driverId, LocalDateTime dateTime1, LocalDateTime dateTime2);
 
-    @Query(nativeQuery = true, value="SELECT r.* " +
-            "FROM rides r " +
-            "JOIN ride_passengers rp ON r.id = rp.ride_id " +
-            "WHERE rp.passenger_id = ?1 AND r.departure_time>=?2 AND r.departure_time<=?3;")
+    @Query(nativeQuery = true, value="SELECT r.* FROM rides r JOIN ride_passengers rp ON r.id=rp.ride_id WHERE rp.passenger_id=?1 AND r.departure_time>=?2 AND r.departure_time<=?3")
     List<Ride> getClientRides(Integer clientId, LocalDateTime dateTime1, LocalDateTime dateTime2);
 
 }

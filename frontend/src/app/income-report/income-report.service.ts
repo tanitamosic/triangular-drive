@@ -8,36 +8,19 @@ export class IncomeReportService {
 
   constructor(private http: HttpClient) { }
 
-  getAvgUserRideCountRequest(date1: Date, date2: Date) {
-
+  getAllRidesRequest(date1: String, date2: String) {
+    const request = this.http.get('/api/admin/get-rides/' + date1 + '/' + date2);
+    return request
   }
 
-  getAvgUserDistanceRequest(date1: Date, date2: Date) {
-
+  getDriverRidesRequest(driverId: Number, date1: String, date2: String) {
+    const request = this.http.get('/api/driver/get-driver-rides/'+ driverId + '/' + date1 + '/' + date2);
+    return request
   }
 
-  getAvgDriverIncomeRequest(date1: Date, date2: Date) {
-    // DRIVER
-  }
-
-  getAvgClientExpenseRequest(date1: Date, date2: Date) {
-    // CLIENT
-  }
-
-  getTotalUserRideCountRequest(date1: Date, date2: Date) {
-
-  }
-
-  getTotalUserDistanceRequest(date1: Date, date2: Date) {
-
-  }
-
-  getTotalDriverIncomeRequest(date1: Date, date2: Date) {
-    // DRIVER
-  }
-
-  getTotalClientExpenseRequest(date1: Date, date2: Date) {
-    // CLIENT
+  getClientRidesRequest(clientId: Number, date1: String, date2: String) {
+    const request = this.http.get('/api/client/get-client-rides/' + clientId + '/' + date1 + '/' + date2);
+    return request
   }
 
 }
