@@ -43,7 +43,9 @@ import {ChartModule} from "primeng/chart";
 import { ReviewComponent } from './review/review.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FundsComponent } from './funds/funds.component';
-
+import { ChatComponent } from './chat/chat.component';
+import { UserCardComponent } from './user-list-display/user-card/user-card.component';
+import { UserListDisplayComponent } from './user-list-display/user-list-display.component';
 
 
 @NgModule({
@@ -69,7 +71,9 @@ import { FundsComponent } from './funds/funds.component';
     IncomeReportComponent,
     ReviewComponent,
     FundsComponent,
-
+    ChatComponent,
+    UserCardComponent,
+    UserListDisplayComponent,
   ],
   imports: [
     BrowserModule,

@@ -58,5 +58,12 @@ public class IssueService {
         return issueRepository.findByAdmin_Id(adminId);
     }
 
+    public User getReceiver(Integer id) {
+        return userService.loadUserById(id);
+    }
+
+    public User getSender(Integer id) {
+        return userService.loadUserById(id);
+    }
 
 }

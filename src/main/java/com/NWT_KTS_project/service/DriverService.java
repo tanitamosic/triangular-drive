@@ -1,6 +1,6 @@
 package com.NWT_KTS_project.service;
 
-import com.NWT_KTS_project.DTO.LoggedUserDTO;
+import com.NWT_KTS_project.DTO.UserDTO;
 import com.NWT_KTS_project.model.DriverUpdateRequest;
 import com.NWT_KTS_project.model.Position;
 import com.NWT_KTS_project.model.enums.CarType;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Optional;
 
 @Service
 public class DriverService {
@@ -70,7 +69,7 @@ public class DriverService {
         return driver.getStatus();
     }
 
-    public DriverUpdateRequest createDriverUpdateRequest(LoggedUserDTO newProfileInfo) {
+    public DriverUpdateRequest createDriverUpdateRequest(UserDTO newProfileInfo) {
         DriverUpdateRequest dur = new DriverUpdateRequest();
         dur.setDriverId(newProfileInfo.getId());
         dur.setEmail(newProfileInfo.getEmail());

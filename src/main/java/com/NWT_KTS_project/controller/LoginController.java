@@ -1,7 +1,7 @@
 package com.NWT_KTS_project.controller;
 
 import com.NWT_KTS_project.DTO.CredentialsDTO;
-import com.NWT_KTS_project.DTO.LoggedUserDTO;
+import com.NWT_KTS_project.DTO.UserDTO;
 import com.NWT_KTS_project.DTO.TokenState;
 import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.service.LoginService;
@@ -26,7 +26,7 @@ public class LoginController {
 
 
     @PostMapping(value="/login")
-    public ResponseEntity<LoggedUserDTO> attemptLogin(@RequestBody CredentialsDTO dto) {
+    public ResponseEntity<UserDTO> attemptLogin(@RequestBody CredentialsDTO dto) {
         String email = dto.email;
         String password = dto.password;
         User u = loginService.attemptLogin(email, password);
@@ -35,7 +35,7 @@ public class LoginController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         TokenState token = tokenService.createToken(u);
-        LoggedUserDTO ludto = new LoggedUserDTO(u, token);
+        UserDTO ludto = new UserDTO(u, token);
         return ResponseEntity.ok(ludto);
     }
 }

@@ -1,0 +1,13 @@
+<p-card *ngIf="listedUser !== undefined" header="{{listedUser.name}} {{listedUser.lastName}}" [style]="{width: '250px', height: '200px;', margin: '20px'}" styleClass="p-card-shadow">
+  <ng-template pTemplate="header">
+    <img alt="Card" *ngIf="null !== listedUser.photo && undefined !== listedUser.photo" [src]="listedUser.photo.path">
+    <img alt="Card" *ngIf="null === listedUser.photo" src="../../../assets/profile-images/default_profile_image.jpg">
+  </ng-template>
+  <p>Phone: {{listedUser.phone}}</p>
+  <p>Email: {{listedUser.email}}</p>
+  <p>City: {{listedUser.city}}</p>
+  <ng-template pTemplate="footer">
+    <p-button label="Block" *ngIf="user.role==='ROLE_ADMIN'" (onClick)="block()" styleClass="p-button-sm p-button-danger" [style]="{'margin-left': '.5em'}"></p-button>
+    <p-button label="Chat" *ngIf="user.role==='ROLE_ADMIN'" (onClick)="chat()" styleClass="p-button-sm p-button-secondary" [style]="{'margin-left': '2em', 'margin-right': '0'}"></p-button>
+  </ng-template>
+</p-card>

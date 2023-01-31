@@ -1,0 +1,5 @@
+<div class="container">
+  <div *ngFor="let u of userList">
+    <app-user-card *ngIf="u.role !== 'ROLE_ADMIN'" [listedUser]="u"></app-user-card>
+  </div>
+</div>

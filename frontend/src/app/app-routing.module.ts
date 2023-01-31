@@ -13,6 +13,8 @@ import {PasswordResetComponent} from "./login/password-reset/password-reset.comp
 import {IncomeReportComponent} from "./income-report/income-report.component";
 import {ReviewComponent} from "./review/review.component";
 import { FundsComponent } from './funds/funds.component';
+import {ChatComponent} from "./chat/chat.component";
+import {UserListDisplayComponent} from "./user-list-display/user-list-display.component";
 
 const routes: Routes = [
   { path: '', component: MapComponent },
@@ -27,7 +29,9 @@ const routes: Routes = [
   { path: 'admin/reports', component: ReportsComponent},
   { path: 'user/charts', component: IncomeReportComponent},
   { path: 'user/review', component: ReviewComponent},
-  { path: 'user/funds', component: FundsComponent}
+  { path: 'user/funds', component: FundsComponent},
+  { path: 'support/chat/:userid', component: ChatComponent},
+  { path: 'admin/see-users', component: UserListDisplayComponent}
 ]
 
 @NgModule({

@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LoggedUserDTO {
+public class UserDTO {
 
     /**
      * ACCESS ROLE SPECIFIC FIELDS WITH HTTP REQUESTS
@@ -30,7 +30,7 @@ public class LoggedUserDTO {
     public String accessToken;
     public String role;
 
-    public LoggedUserDTO(User u, TokenState t) {
+    public UserDTO(User u, TokenState t) {
         id = u.getId();
         name = u.getName();
         lastName = u.getLastName();
@@ -42,5 +42,19 @@ public class LoggedUserDTO {
         photo = u.getPhoto();
         accessToken = t.getAccessToken();
         role = t.getRole();
+    }
+
+    public UserDTO(User u, String r) {
+        id = u.getId();
+        name = u.getName();
+        lastName = u.getLastName();
+        email = u.getEmail();
+        phone = u.getPhone();
+        city = u.getCity();
+        blocked = u.getBlocked();
+        activated = u.getActivated();
+        photo = u.getPhoto();
+        accessToken = null;
+        role = r;
     }
 }
