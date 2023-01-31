@@ -80,4 +80,14 @@ public class ClientController {
         List<Ride> retval = rideService.getClientRides(clientId, dateTime1, dateTime2);
         return new ResponseEntity<>(retval, HttpStatus.OK);
     }
+
+    @PostMapping("add-funds/{clientId}/{amount}")
+    public float addFunds(@PathVariable Integer clientId,@PathVariable Double amount) {
+        return paymentService.addFunds(clientId, Float.parseFloat(amount.toString()));
+    }
+
+    @GetMapping("get-funds/{clientId}")
+    public float getFunds(@PathVariable Integer clientId) {
+        return paymentService.getFunds(clientId);
+    }
 }

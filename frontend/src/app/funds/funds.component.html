@@ -1,0 +1,13 @@
+<div style="text-align: center;">
+    <h1>Funds</h1>
+    <h2 style="margin-top: 75px;">Current Funds:</h2>
+    <h3 style="margin-top: 25px;">{{funds}}</h3>
+
+    <h2 style="margin-top: 35px;">Enter Amount to Add:</h2>
+
+    <input type="number" [(ngModel)]="amount" name="amount" min="0" height="30px" style="margin-top: 20px;font-size: 30px;color: deepskyblue;"/>
+    <div>
+        <button style="margin-top: 15px;" pButton pRipple (click)="addFunds()">Add Funds</button>
+    </div>
+
+</div>

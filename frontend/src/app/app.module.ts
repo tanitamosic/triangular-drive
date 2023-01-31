@@ -42,6 +42,7 @@ import {CalendarModule} from "primeng/calendar";
 import {ChartModule} from "primeng/chart";
 import { ReviewComponent } from './review/review.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FundsComponent } from './funds/funds.component';
 
 
 
@@ -67,6 +68,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     RideRequestComponent,
     IncomeReportComponent,
     ReviewComponent,
+    FundsComponent,
 
   ],
   imports: [
