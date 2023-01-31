@@ -1,6 +1,7 @@
 package com.NWT_KTS_project.controllers;
 
 
+import com.NWT_KTS_project.model.Car;
 import com.NWT_KTS_project.model.enums.CarMake;
 import com.NWT_KTS_project.model.enums.CarType;
 import com.NWT_KTS_project.model.enums.Color;
@@ -37,6 +38,12 @@ public class CarController {
     public ResponseEntity<List<Color>> getAllCarColors() {
         List<Color> carColors = carService.getAllCarColors();
         return new ResponseEntity<>(carColors, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<List<Car>> getAllCars() {
+        List<Car> cars = carService.getAllCars();
+        return new ResponseEntity<>(cars, HttpStatus.OK);
     }
 
 }

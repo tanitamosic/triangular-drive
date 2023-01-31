@@ -8,11 +8,12 @@ import {SearchResult} from "leaflet-geosearch/lib/providers/provider";
 import { MapService } from '../../map/map.service';
 import { City } from '../../model/city.class';
 import { ProfileService } from '../../profile/profile.service';
-import {CarType} from "../../model/car.class";
+import {Car, CarType} from "../../model/car.class";
 import {CarService} from "../../car.service";
 import {UserService} from "../../user.service";
 import {Constants} from "../../constants";
 import { HttpClient } from '@angular/common/http';
+import { AllCarsSimulation } from 'src/app/model/simulation';
 
 declare var L: any;
 
@@ -50,6 +51,7 @@ export class ClientMapComponent implements AfterViewInit {
   distance: string = "0";
   selectedCity: any;
   cities: City[] = [];
+  simulation:AllCarsSimulation;
 
   provider: OpenStreetMapProvider;
   searchControl: any;
@@ -70,6 +72,19 @@ export class ClientMapComponent implements AfterViewInit {
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
     this.mapService = mapService;
+
+    this.simulation = new AllCarsSimulation();
+    const carsRequest = this.carService.getAllCarsRequest();
+    carsRequest.subscribe((response)=>{
+      let array:Array<Object> = response as Object[];
+      array.forEach(e=>{
+        let c = new Car(e);
+        this.simulation.allCars.push(c);
+      });
+      this.simulation.updatePositions();
+      this.drawCarMarkers();
+    });
+    
     const citiesRequest = this.profileService.getCitiesRequest();
     citiesRequest.subscribe((response) => {
       this.cities = response as City[];
@@ -86,12 +101,13 @@ export class ClientMapComponent implements AfterViewInit {
         this.carTypes.push(new CarType(c));
       });
     });
+    
+
 
   }
 
   ngAfterViewInit(): void {
     this.initMap();
-
   }
 
   private initMap(): void {
@@ -332,6 +348,20 @@ export class ClientMapComponent implements AfterViewInit {
     navigator.geolocation.getCurrentPosition((position) => {lat=position.coords.latitude;long=position.coords.longitude;});
     await new Promise(r => setTimeout(r, 1));
     const marker = L.marker([ lat,long],{icon:carIcon}).addTo(this.map);
+  }
+
+  drawCarMarkers() {
+    var carIcon = L.icon({
+      iconUrl: 'assets/map_rescources/car.png',
+
+      iconSize:     [40, 90], // size of the icon
+      iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+      popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+    this.simulation.allCars.forEach(c=>{
+      console.log("drawcars");
+        const marker = L.marker([ c.position[0],c.position[1]],{icon:carIcon}).addTo(this.map);
+    })
   }
 
 

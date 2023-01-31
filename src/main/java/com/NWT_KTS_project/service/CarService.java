@@ -1,5 +1,6 @@
 package com.NWT_KTS_project.service;
 
+import com.NWT_KTS_project.model.Car;
 import com.NWT_KTS_project.model.enums.CarMake;
 import com.NWT_KTS_project.model.enums.CarType;
 import com.NWT_KTS_project.model.enums.Color;
@@ -26,4 +27,6 @@ public class CarService {
     public List<Color> getAllCarColors() {
         return List.of(Color.values());
     }
+
+    public List<Car> getAllCars() { return carRepository.findAll(); }
 }

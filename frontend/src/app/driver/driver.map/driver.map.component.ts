@@ -11,6 +11,7 @@ import {City} from "../../model/city.class";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../../user.service";
 import {User} from "../../model/user.class";
+import { DriverRideSimulation } from 'src/app/model/simulation';
 
 
 declare var L: any;
@@ -36,6 +37,7 @@ export class DriverMapComponent implements AfterViewInit {
   user: User;
   rides: any;
 
+  simulation:DriverRideSimulation;
 
   constructor(mapService:MapService, private profileService: ProfileService,
               private httpClient: HttpClient,
@@ -43,6 +45,7 @@ export class DriverMapComponent implements AfterViewInit {
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
     this.mapService = mapService;
+    this.simulation = new DriverRideSimulation();
 
     this.user = this.userService.getUser();
 

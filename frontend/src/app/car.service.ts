@@ -22,4 +22,8 @@ export class CarService {
     const request = this.httpClient.get('/api/cars/get-all-car-colors');
     return request;
   }
+  getAllCarsRequest(){
+    const request = this.httpClient.get('/api/cars/get-all');
+    return request;
+  }
 }

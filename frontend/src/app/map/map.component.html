@@ -8,8 +8,16 @@
   <div class="input-container">
     <table [style]="{'width': '20%', 'min-width': '10%'}">
       <tr>
-        <td>
+        <td colspan="2">
           <p-dropdown [style]="{'width':'100%'}" [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name" [showClear]="true"></p-dropdown>
+        </td>
+        <td rowspan="9">
+          <div class="map-container">
+            <div class="map-frame">
+              <div id="map-client"></div>
+            </div>
+          </div>
+          <script src="leaflet-routing-machine.min.js"></script>
         </td>
       </tr>
       <tr>
