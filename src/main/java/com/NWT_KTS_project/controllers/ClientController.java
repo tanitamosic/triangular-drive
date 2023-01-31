@@ -57,7 +57,6 @@ public class ClientController {
         ArrayList<Address> addresses = addressService.getAddressesFromString(stops);
         ArrayList<Client> clients = userService.getClientsFromPassangersString(passengers);
         clients.add(0, (Client) userService.getUserById(userId));
-        //CarType type = CarType.valueOf(carType);
 
         int numPassengers = passengers.split(";").length;
         Driver driver = driverService.getAvailableDriver(addresses.get(0).getLatitude(), addresses.get(0).getLongitude(), petFriendly, babyFriendly, numPassengers, carType);
