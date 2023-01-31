@@ -14,14 +14,6 @@
         <td>
           <p-dropdown (onChange)="applyFilter($event)" [style]="{'width':'100%'}" [options]="carTypes" [(ngModel)]="selectedCarType" placeholder="Select car" [showClear]="true" optionLabel="name"></p-dropdown>
         </td>
-        <td rowspan="9">
-          <div class="map-container">
-            <div class="map-frame">
-              <div id="map-client"></div>
-            </div>
-          </div>
-          <script src="leaflet-routing-machine.min.js"></script>
-        </td>
       </tr>
       <tr>
         <td>
@@ -146,6 +138,12 @@
         </td>
       </tr>
     </table>
+      <div class="map-container">
+        <div class="map-frame">
+          <div id="map-client"></div>
+        </div>
+      </div>
+      <script src="leaflet-routing-machine.min.js"></script>
   </div>
   
 </div>

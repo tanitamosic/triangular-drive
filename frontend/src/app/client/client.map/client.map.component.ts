@@ -59,8 +59,8 @@ export class ClientMapComponent implements AfterViewInit {
   mapRoute: MapRoute;
   carTypes: CarType[] = [];
   selectedCarType: any;
-  babyFriendly: boolean = true;
-  petFriendly: boolean = true;
+  babyFriendly: boolean = false;
+  petFriendly: boolean = false;
   minSeats: Number = 1;
 
   constructor(private mapService: MapService,
@@ -82,7 +82,7 @@ export class ClientMapComponent implements AfterViewInit {
         this.simulation.allCars.push(c);
       });
       this.simulation.updatePositions();
-      this.drawCarMarkers();
+      //this.drawCarMarkers();
     });
     
     const citiesRequest = this.profileService.getCitiesRequest();
@@ -99,11 +99,14 @@ export class ClientMapComponent implements AfterViewInit {
       //@ts-ignore
       response.forEach(c => {
         this.carTypes.push(new CarType(c));
+        this.carTypes.forEach(c=>{
+          if (c.code==="STANDARD"){
+            this.selectedCarType = c;
+          }
+        });
       });
     });
     
-
-
   }
 
   ngAfterViewInit(): void {
@@ -240,11 +243,13 @@ export class ClientMapComponent implements AfterViewInit {
       let request_ride_input:any = document.getElementById('request_ride_input');
       request_ride_input.style.display = 'none';
       let map_div = document.getElementById('map');
+
     }
     
   }
 
   drawToMap() {
+    console.log("hi");
     if ((this.start === '' || this.final === '') || this.start.length < 10 || this.final.length < 10) {
       alert('Your route needs beginning and the end, dummy.')
       return;

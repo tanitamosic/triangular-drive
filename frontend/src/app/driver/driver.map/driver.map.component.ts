@@ -63,8 +63,6 @@ export class DriverMapComponent implements AfterViewInit {
     navigator.geolocation.getCurrentPosition((position) => {latitude=position.coords.latitude;longitude=position.coords.longitude;});
 
     await new Promise(r => setTimeout(r, 1000));
-      
-    
 
     const request = this.httpClient.post('api/driver/updatePosition/'+this.userService.getUser().id+'/'+latitude+'/'+longitude, null);
     request.subscribe();
