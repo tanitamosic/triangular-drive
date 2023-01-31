@@ -41,6 +41,7 @@ import { IncomeReportComponent } from './income-report/income-report.component';
 import {CalendarModule} from "primeng/calendar";
 import {ChartModule} from "primeng/chart";
 import { ReviewComponent } from './review/review.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -89,6 +90,7 @@ import { ReviewComponent } from './review/review.component';
     InputMaskModule,
     CalendarModule,
     ChartModule,
+    NgbModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
