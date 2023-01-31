@@ -22,16 +22,7 @@ export class LoggedNavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let driver_reg_item = {
-      label: 'Register new driver',
-      icon: 'pi pi-fw pi-user-plus',
-      command: () => this.registerDriver()
-    }
-    let reports = {
-      label: 'Reports',
-      icon: 'pi pi-fw pi-exclamation-triangle',
-      command: () => this.seeReports()
-    }
+
 
 
     this.items = [
@@ -46,13 +37,43 @@ export class LoggedNavbarComponent implements OnInit {
         command: () => {this.router.navigateByUrl('user/charts').then(r=>{});}
       }
     ];
+    this.addClientDriverItems();
+    this.addAdminItems();
+    this.addDriverItems();
+  }
 
-    if (this.user.role === 'ROLE_ADMIN'){
+  private addAdminItems() {
+    let driver_reg_item = {
+      label: 'Register new driver',
+      icon: 'pi pi-fw pi-user-plus',
+      command: () => this.registerDriver()
+    }
+    let reports = {
+      label: 'Reports',
+      icon: 'pi pi-fw pi-exclamation-triangle',
+      command: () => this.seeReports()
+    }
+    let users = {
+      label: 'List users',
+      icon: 'pi pi-fw pi-database',
+      command: () => this.listUsers()
+    }
+    if (this.user.role === 'ROLE_ADMIN') {
       this.items.push(driver_reg_item);
       this.items.push(reports);
+      this.items.push(users);
     }
+  }
 
-    this.addDriverItems();
+  addClientDriverItems() {
+    let support = {
+      label: 'Support',
+      icon: 'pi pi-fw pi-prime',
+      command: () => { this.router.navigateByUrl('support/chat/' + this.user.id ).then(r=>{}); }
+    }
+    if (this.user.role === 'ROLE_CLIENT' || this.user.role === 'ROLE_DRIVER') {
+      this.items.push(support);
+    }
   }
 
   addDriverItems() {
@@ -150,5 +171,9 @@ export class LoggedNavbarComponent implements OnInit {
       request.subscribe();
     }
 
+  }
+
+  private listUsers() {
+    this.router.navigateByUrl('admin/see-users').then(r => {})
   }
 }

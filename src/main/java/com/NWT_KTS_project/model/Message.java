@@ -1,7 +1,10 @@
 package com.NWT_KTS_project.model;
 
+import com.NWT_KTS_project.DTO.MessageDTO;
 import com.NWT_KTS_project.model.users.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +13,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "messages")
 public class Message {
 
@@ -34,5 +39,13 @@ public class Message {
 
     @Column(name = "time")
     private LocalDateTime time;
+
+    public Message(MessageDTO dto, User s, User r, LocalDateTime dateTime) {
+        this.sender = s;
+        this.receiver = r;
+        this.message = dto.getMessage();
+        this.isRead = dto.getIsRead();
+        this.time = dateTime;
+    }
 
 }

@@ -39,6 +39,9 @@ import { PasswordResetComponent } from './login/password-reset/password-reset.co
 import { IncomeReportComponent } from './income-report/income-report.component';
 import {CalendarModule} from "primeng/calendar";
 import {ChartModule} from "primeng/chart";
+import { ChatComponent } from './chat/chat.component';
+import { UserCardComponent } from './user-list-display/user-card/user-card.component';
+import { UserListDisplayComponent } from './user-list-display/user-list-display.component';
 
 
 @NgModule({
@@ -61,6 +64,9 @@ import {ChartModule} from "primeng/chart";
     DriverMapComponent,
     PasswordResetComponent,
     IncomeReportComponent,
+    ChatComponent,
+    UserCardComponent,
+    UserListDisplayComponent,
   ],
   imports: [
     BrowserModule,

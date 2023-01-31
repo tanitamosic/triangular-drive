@@ -1,20 +1,19 @@
 package com.NWT_KTS_project.controllers;
 
+import com.NWT_KTS_project.DTO.UserDTO;
 import com.NWT_KTS_project.model.Issue;
 import com.NWT_KTS_project.model.Ride;
-import com.NWT_KTS_project.model.enums.DriverStatus;
 import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import com.NWT_KTS_project.DTO.NewDriverDTO;
 import com.NWT_KTS_project.model.Report;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,11 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.websocket.server.PathParam;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -81,6 +75,19 @@ public class AdminController {
             e.printStackTrace();
             return new ResponseEntity<String>("Something went wromg, sowwy uwu", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/get-users")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<UserDTO>> getNonAdminUsers() {
+        List<User> users = userService.getUsers();
+        List<UserDTO> retval = new ArrayList<>(users.size());
+        for (User u: users) {
+            if (!u.getRole().equals("ROLE_ADMIN")) {
+                retval.add(new UserDTO(u, u.getRole()));
+            }
+        }
+        return new ResponseEntity<>(retval, HttpStatus.OK);
     }
 
     

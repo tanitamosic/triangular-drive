@@ -1,0 +1,65 @@
+.container {
+  border-radius: 20px;
+  padding: 5px;
+  width: 800px;
+  height: 800px;
+  overflow-y: auto;
+  background-color: white;
+  box-shadow: 0 4px 20px 0 rgba(46, 199, 46, 0.8);
+  text-align: justify;
+  margin: 60px auto 10px;
+}
+
+#chatTable {
+  height: 700px;
+  width: auto;
+  overflow-y: auto;
+}
+
+.wrapper-right {
+  display: flex;
+  justify-content: right;
+}
+
+.wrapper-left {
+  display: flex;
+  justify-content: left;
+}
+
+.admintext {
+  color: red;
+}
+
+.guesttext {
+  color: white;
+}
+
+.myBubble {
+  position: relative;
+  background: linear-gradient(0deg, #1079ce 5%, #a3e3f0 100%);
+  color: #FFFFFF;
+  font-size: 20px;
+  box-shadow: 5px 5px 2px 0px #A3A3A3;
+  text-align: right;
+  max-width: 500px;
+  width: fit-content;
+  height: auto;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.yourBubble {
+  position: relative;
+  background: linear-gradient(0deg, #23ba26 5%, #4df0a4 100%);
+  color: #FFFFFF;
+  font-size: 20px;
+  box-shadow: 5px 5px 2px 0px #A3A3A3;
+  text-align: left;
+  max-width: 500px;
+  width: fit-content;
+  height: auto;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}

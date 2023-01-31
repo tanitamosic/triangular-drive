@@ -2,7 +2,7 @@ package com.NWT_KTS_project.service;
 
 
 import com.NWT_KTS_project.model.users.Client;
-import com.NWT_KTS_project.DTO.LoggedUserDTO;
+import com.NWT_KTS_project.DTO.UserDTO;
 import com.NWT_KTS_project.DTO.PasswordChangeDTO;
 import com.NWT_KTS_project.model.Photo;
 import com.NWT_KTS_project.model.users.User;
@@ -11,7 +11,6 @@ import com.NWT_KTS_project.DTO.NewDriverDTO;
 import com.NWT_KTS_project.model.Car;
 import com.NWT_KTS_project.model.enums.DriverStatus;
 import com.NWT_KTS_project.model.users.Driver;
-import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.repository.CarRepository;
 import com.NWT_KTS_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +26,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-
-import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -168,7 +165,7 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public boolean updateUserMetadata(LoggedUserDTO ludto) {
+    public boolean updateUserMetadata(UserDTO ludto) {
         Optional<User> user = userRepository.findById(ludto.id);
         if (user.isPresent()) {
             User u = user.get();
@@ -238,6 +235,10 @@ public class UserService implements UserDetailsService {
         userRepository.saveAndFlush(u);
 
         mailingService.sendPasswordResetMail(email, newPassword);
+    }
+
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 }
 

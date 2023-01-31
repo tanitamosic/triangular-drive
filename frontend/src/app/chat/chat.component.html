@@ -1,0 +1,16 @@
+<div class="container">
+  <div id="chatTable"  *ngIf="issue !== undefined" >
+    <div [ngClass]="{'wrapper-right': msg.sender===me.id, 'wrapper-left': msg.sender===them.id}" *ngFor="let msg of issue.messages">
+      <div [ngClass]="{'myBubble': msg.sender===me.id, 'yourBubble': msg.sender===them.id}">
+        <span>{{ msg.message }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="position:fixed; vertical-align: bottom; width: 800px;">
+    <p-divider></p-divider>
+    <input pInputText (keyup.enter)="sendMessage()" style="width:790px;" [(ngModel)]="inputText" placeholder="Type message; press 'Enter' to send"/>
+  </div>
+</div>
+

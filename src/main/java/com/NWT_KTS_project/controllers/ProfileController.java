@@ -1,10 +1,9 @@
 package com.NWT_KTS_project.controllers;
 
-import com.NWT_KTS_project.DTO.LoggedUserDTO;
+import com.NWT_KTS_project.DTO.UserDTO;
 import com.NWT_KTS_project.model.DriverUpdateRequest;
 import com.NWT_KTS_project.model.Photo;
 import com.NWT_KTS_project.model.users.Driver;
-import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.service.AddressService;
 import com.NWT_KTS_project.service.DriverService;
 import com.NWT_KTS_project.service.MailingService;
@@ -46,7 +45,7 @@ public class ProfileController {
     }
 
     @PostMapping(value="/update")
-    public ResponseEntity<String> updateProfile(@RequestBody LoggedUserDTO ludto) {
+    public ResponseEntity<String> updateProfile(@RequestBody UserDTO ludto) {
         try {
             if (ludto.role.equals("ROLE_DRIVER")) {
                 Driver d = (Driver) userService.getUserById(ludto.getId());
