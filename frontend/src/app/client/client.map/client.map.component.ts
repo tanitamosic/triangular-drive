@@ -72,8 +72,9 @@ export class ClientMapComponent implements AfterViewInit {
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
     this.mapService = mapService;
-
+    
     this.simulation = new AllCarsSimulation();
+    
     const carsRequest = this.carService.getAllCarsRequest();
     carsRequest.subscribe((response)=>{
       let array:Array<Object> = response as Object[];
@@ -82,7 +83,7 @@ export class ClientMapComponent implements AfterViewInit {
         this.simulation.allCars.push(c);
       });
       this.simulation.updatePositions();
-      //this.drawCarMarkers();
+      this.drawCarMarkers();
     });
     
     const citiesRequest = this.profileService.getCitiesRequest();
@@ -226,6 +227,8 @@ export class ClientMapComponent implements AfterViewInit {
     await new Promise(r => setTimeout(r, 500));
     stops+=';'+this.selectedCity.code+','+this.final+','+this.final_number+','+final_latitude+','+final_longitude;
     
+    alert('stops: '+stops);
+
 
 
     const request = this.http.get('api/client/requestRide/'+this.userService.getUser().id,{headers:{'stops':stops,'passengers':passengers,'petFriendly':String(this.petFriendly),'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code}});
