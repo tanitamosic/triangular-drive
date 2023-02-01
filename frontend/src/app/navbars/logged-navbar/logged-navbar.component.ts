@@ -22,7 +22,7 @@ export class LoggedNavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let funds = {label:"Funds", icon:"pi pi-fw pi-money-bill", command: () => this.router.navigateByUrl('user/funds').then(r=>{})};
+    let funds = {label:"Funds", icon:"pi pi-fw pi-money-bill", command: () => this.router.navigateByUrl('client/funds').then(r=>{})};
 
     this.items=[];
 

@@ -46,6 +46,7 @@ import { FundsComponent } from './funds/funds.component';
 import { ChatComponent } from './chat/chat.component';
 import { UserCardComponent } from './user-list-display/user-card/user-card.component';
 import { UserListDisplayComponent } from './user-list-display/user-list-display.component';
+import { RatingModule } from 'primeng/rating';
 
 
 @NgModule({
@@ -97,6 +98,7 @@ import { UserListDisplayComponent } from './user-list-display/user-list-display.
     CalendarModule,
     ChartModule,
     NgbModule,
+    RatingModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

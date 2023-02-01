@@ -28,8 +28,8 @@ const routes: Routes = [
   { path: 'activate/:email', component: AccountActivationComponent },
   { path: 'admin/reports', component: ReportsComponent},
   { path: 'user/charts', component: IncomeReportComponent},
-  { path: 'user/review', component: ReviewComponent},
-  { path: 'user/funds', component: FundsComponent},
+  { path: 'client/review', component: ReviewComponent},
+  { path: 'client/funds', component: FundsComponent},
   { path: 'support/chat/:userid', component: ChatComponent},
   { path: 'admin/see-users', component: UserListDisplayComponent}
 ]

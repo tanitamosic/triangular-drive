@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {RatingModule} from 'primeng/rating';
+import {Route, Router} from "@angular/router";
+import {DialogModule} from 'primeng/dialog';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-review',
@@ -8,11 +12,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ReviewComponent implements OnInit {
 
-  driverRating: number = 0;
-  carRating: number = 0;
+  @Input() rideId: number=1;
+  displayReviewModal: boolean = false;
+  driverRating: number = 3;
+  carRating: number = 3;
   comment: string = '';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private router:Router,private userService:UserService) { }
 
   ngOnInit(): void {
   }
@@ -22,8 +28,8 @@ export class ReviewComponent implements OnInit {
     const alert_string = "Driver Rating: " + this.driverRating + "\nCar Rating: " + this.carRating + "\nComment: " + this.comment;
     alert(alert_string);
     let userId = 1;
-    let rideId = 1;
-    const request = this.http.post('api/client/reviewRide/'+rideId+'/'+userId+'{userId}',{headers:{comment:this.comment,driverRating:this.driverRating,carRating:this.carRating}})
+    //let userId = userService.user.id;
+    const request = this.http.post('api/client/reviewRide/'+this.rideId+'/'+userId+'{userId}',{headers:{comment:this.comment,driverRating:this.driverRating,carRating:this.carRating}})
     //request.subscribe((response) => {
     //  console.log(response);
     //});
