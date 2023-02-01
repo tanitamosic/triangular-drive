@@ -1,4 +1,4 @@
-<p-card *ngIf="listedUser !== undefined" header="{{listedUser.name}} {{listedUser.lastName}}" [style]="{width: '250px', height: '200px;', margin: '20px'}" styleClass="p-card-shadow">
+<p-card *ngIf="listedUser !== undefined" header="{{listedUser.name}} {{listedUser.lastName}}" subheader="{{listedUser.role.substring(5)}}" [style]="{width: '250px', height: '200px;', margin: '20px'}" styleClass="p-card-shadow">
   <ng-template pTemplate="header">
     <img alt="Card" *ngIf="null !== listedUser.photo && undefined !== listedUser.photo" [src]="listedUser.photo.path">
     <img alt="Card" *ngIf="null === listedUser.photo" src="../../../assets/profile-images/default_profile_image.jpg">
