@@ -13,7 +13,7 @@ import { UserService } from '../user.service';
 export class ReviewComponent implements OnInit {
 
   @Input() rideId: number=1;
-  displayReviewModal: boolean = false;
+  @Input() displayReviewModal: boolean = false;
   driverRating: number = 3;
   carRating: number = 3;
   comment: string = '';
@@ -27,12 +27,12 @@ export class ReviewComponent implements OnInit {
   submitReview(){
     const alert_string = "Driver Rating: " + this.driverRating + "\nCar Rating: " + this.carRating + "\nComment: " + this.comment;
     alert(alert_string);
-    let userId = 1;
-    //let userId = userService.user.id;
+    let userId = this.userService.getUser().id;
     const request = this.http.post('api/client/reviewRide/'+this.rideId+'/'+userId+'{userId}',{headers:{comment:this.comment,driverRating:this.driverRating,carRating:this.carRating}})
-    //request.subscribe((response) => {
-    //  console.log(response);
-    //});
+    request.subscribe((response) => {
+     alert('Rating posted UWU');
+     this.displayReviewModal = false;
+    });
 
   }
 

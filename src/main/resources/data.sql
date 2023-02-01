@@ -159,7 +159,7 @@ VALUES (18, 10, '2023-01-18T00:00:00', '2023-01-18T01:15:00', 'FINISHED', 672.22
 INSERT INTO rides (route_id, driver_id, departure_time, arrival_time, status, price)
 VALUES (19, 8, '2023-01-19T00:00:00', '2023-01-19T01:15:00', 'FINISHED', 898.8126261709955);
 INSERT INTO rides (route_id, driver_id, departure_time, arrival_time, status, price)
-VALUES (20, 9, '2023-01-20T00:00:00', '2023-01-20T01:15:00', 'FINISHED', 806.3822624073704);
+VALUES (20, 9, '2023-02-02T00:00:00', '2023-02-02T01:15:00', 'FINISHED', 806.3822624073704);
 INSERT INTO ride_passengers (ride_id, passenger_id) VALUES (1, 4);
 INSERT INTO ride_passengers (ride_id, passenger_id) VALUES (2, 4);
 INSERT INTO ride_passengers (ride_id, passenger_id) VALUES (3, 4);

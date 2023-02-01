@@ -1,4 +1,4 @@
-<p-dialog style="text-align: center;" header="Review" [(visible)]="displayReviewModal" >
+<p-dialog style="text-align:  center;" header="Review" [modal]="true" [draggable]="false" [resizable]="false" [(visible)]="displayReviewModal" >
     <h1  style="margin-top: 10px;width: 400px;" >Driver Rating</h1>
     <p-rating [(ngModel)]="driverRating" name="driverRating" class="custom-rate" [cancel]="false" [iconOnStyle]="{'color':'#e6ed1c'}"></p-rating>
     <h1  style="margin-top: 10px;">Car Rating</h1>
@@ -9,5 +9,3 @@
         <button pButton pRipple label="Submit" (click)="submitReview()" style="margin-top: 10px;height: 50px;width: 100px;"></button>
     </div>
 </p-dialog>
-
-<button pButton pRipple label="Rate" (click)="displayReviewModal=true" style="margin-top: 10px;height: 50px;width: 100px;"></button>
