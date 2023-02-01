@@ -47,7 +47,12 @@ import { ChatComponent } from './chat/chat.component';
 import { UserCardComponent } from './user-list-display/user-card/user-card.component';
 import { UserListDisplayComponent } from './user-list-display/user-list-display.component';
 import { RatingModule } from 'primeng/rating';
+import { ClientRideHistoryComponent } from './ride-history/client-ride-history/client-ride-history.component';
+import {TableModule} from "primeng/table";
+import { DriverRideHistoryComponent } from './ride-history/driver-ride-history/driver-ride-history.component';
+import { AdminRideHistoryComponent } from './ride-history/admin-ride-history/admin-ride-history.component';
 
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -75,6 +80,9 @@ import { RatingModule } from 'primeng/rating';
     ChatComponent,
     UserCardComponent,
     UserListDisplayComponent,
+    ClientRideHistoryComponent,
+    DriverRideHistoryComponent,
+    AdminRideHistoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,6 +107,8 @@ import { RatingModule } from 'primeng/rating';
     ChartModule,
     NgbModule,
     RatingModule,
+    TableModule,
+    TooltipModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

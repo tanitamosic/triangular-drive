@@ -43,6 +43,10 @@ public class RideService{
         return rides;
     }
 
+    public List<Ride> getAllFinishedRides() {
+        return rideRepository.getAllByStatusOrderByDepartureTimeDesc(RideStatus.FINISHED);
+    }
+
 
     public void markRideAsFinished(int id){
         Ride ride = rideRepository.findById(id).get();

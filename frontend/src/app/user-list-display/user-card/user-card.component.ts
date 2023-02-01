@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {User} from "../../model/user.class";
 import {UserService} from "../../user.service";
 import {Router} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-user-card',
@@ -12,7 +13,7 @@ export class UserCardComponent implements OnInit {
 
   @Input('listedUser') listedUser: User | undefined;
   user: User;
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router, private http: HttpClient) {
     this.user = this.userService.getUser();
   }
 
@@ -20,7 +21,11 @@ export class UserCardComponent implements OnInit {
   }
 
   block() {
-    alert('not implemented UWU')
+    if (this.user.role !== 'ROLE_ADMIN') {
+      return;
+    }
+    // @ts-ignore
+    this.http.get('/api/admin/block/' + this.listedUser.id);
   }
 
   chat() {

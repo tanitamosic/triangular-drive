@@ -14,6 +14,7 @@ import {UserService} from "../../user.service";
 import {Constants} from "../../constants";
 import { HttpClient } from '@angular/common/http';
 import { AllCarsSimulation } from 'src/app/model/simulation';
+import {ActivatedRoute} from "@angular/router";
 
 declare var L: any;
 
@@ -69,14 +70,15 @@ export class ClientMapComponent implements AfterViewInit {
               private profileService: ProfileService,
               private carService: CarService,
               private userService: UserService,
-              private http: HttpClient) {
+              private http: HttpClient,
+              private route: ActivatedRoute) {
 
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
     this.mapService = mapService;
-    
+
     this.simulation = new AllCarsSimulation();
-    
+
     const carsRequest = this.carService.getAllCarsRequest();
     carsRequest.subscribe((response)=>{
       let array:Array<Object> = response as Object[];
@@ -87,7 +89,7 @@ export class ClientMapComponent implements AfterViewInit {
       this.simulation.updatePositions();
       this.drawCarMarkers();
     });
-    
+
     const citiesRequest = this.profileService.getCitiesRequest();
     citiesRequest.subscribe((response) => {
       this.cities = response as City[];
@@ -109,11 +111,21 @@ export class ClientMapComponent implements AfterViewInit {
         });
       });
     });
-    
+
   }
 
   ngAfterViewInit(): void {
     this.initMap();
+
+    console.log(this.route.snapshot.params);
+    let params = this.route.snapshot.params;
+    if (params.hasOwnProperty('sstreet')) {
+      this.start = params['sstreet'];
+      this.start_number = params['snumber'];
+      this.final = params['dstreet'];
+      this.final_number = params['dnumber'];
+    }
+
   }
 
   private initMap(): void {
