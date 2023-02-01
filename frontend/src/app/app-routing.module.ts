@@ -37,7 +37,8 @@ const routes: Routes = [
   { path: 'admin/see-users', component: UserListDisplayComponent},
   { path: 'client/ride-history', component: ClientRideHistoryComponent},
   { path: 'driver/ride-history', component: DriverRideHistoryComponent},
-  { path: 'admin/ride-history', component: AdminRideHistoryComponent}
+  { path: 'admin/ride-history', component: AdminRideHistoryComponent},
+  { path: 'client/home/query/:selectedCity/:sstreet/:snumber/:dstreet/:dnumber', component: ClientComponent}
 ]
 
 @NgModule({

@@ -51,6 +51,7 @@ import {TableModule} from "primeng/table";
 import { DriverRideHistoryComponent } from './ride-history/driver-ride-history/driver-ride-history.component';
 import { AdminRideHistoryComponent } from './ride-history/admin-ride-history/admin-ride-history.component';
 
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import { AdminRideHistoryComponent } from './ride-history/admin-ride-history/adm
     ChartModule,
     NgbModule,
     TableModule,
+    TooltipModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

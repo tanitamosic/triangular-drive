@@ -14,6 +14,7 @@ import {UserService} from "../../user.service";
 import {Constants} from "../../constants";
 import { HttpClient } from '@angular/common/http';
 import { AllCarsSimulation } from 'src/app/model/simulation';
+import {ActivatedRoute} from "@angular/router";
 
 declare var L: any;
 
@@ -67,14 +68,15 @@ export class ClientMapComponent implements AfterViewInit {
               private profileService: ProfileService,
               private carService: CarService,
               private userService: UserService,
-              private http: HttpClient) {
+              private http: HttpClient,
+              private route: ActivatedRoute) {
 
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
     this.mapService = mapService;
-    
+
     this.simulation = new AllCarsSimulation();
-    
+
     const carsRequest = this.carService.getAllCarsRequest();
     carsRequest.subscribe((response)=>{
       let array:Array<Object> = response as Object[];
@@ -85,7 +87,7 @@ export class ClientMapComponent implements AfterViewInit {
       this.simulation.updatePositions();
       this.drawCarMarkers();
     });
-    
+
     const citiesRequest = this.profileService.getCitiesRequest();
     citiesRequest.subscribe((response) => {
       this.cities = response as City[];
@@ -107,11 +109,21 @@ export class ClientMapComponent implements AfterViewInit {
         });
       });
     });
-    
+
   }
 
   ngAfterViewInit(): void {
     this.initMap();
+
+    console.log(this.route.snapshot.params);
+    let params = this.route.snapshot.params;
+    if (params.hasOwnProperty('sstreet')) {
+      this.start = params['sstreet'];
+      this.start_number = params['snumber'];
+      this.final = params['dstreet'];
+      this.final_number = params['dnumber'];
+    }
+
   }
 
   private initMap(): void {
@@ -197,7 +209,7 @@ export class ClientMapComponent implements AfterViewInit {
 
     if (this.dest1!=='') {
       this.getQueryResult(this.dest1+' '+this.dest1_number+', '+this.selectedCity.name).then((results)=>{
-        dest1_longitude = results[0].x;dest1_latitude= results[0].y}); 
+        dest1_longitude = results[0].x;dest1_latitude= results[0].y});
         await new Promise(r => setTimeout(r, 500));
         stops+=';'+this.selectedCity.code+','+this.dest1+','+this.dest1_number+','+dest1_latitude+','+dest1_longitude;
       }
@@ -226,7 +238,7 @@ export class ClientMapComponent implements AfterViewInit {
     });
     await new Promise(r => setTimeout(r, 500));
     stops+=';'+this.selectedCity.code+','+this.final+','+this.final_number+','+final_latitude+','+final_longitude;
-    
+
     alert('stops: '+stops);
 
 
@@ -248,7 +260,7 @@ export class ClientMapComponent implements AfterViewInit {
       let map_div = document.getElementById('map');
 
     }
-    
+
   }
 
   drawToMap() {
@@ -258,7 +270,7 @@ export class ClientMapComponent implements AfterViewInit {
       return;
     }
     let previousStop = {x: 0, y: 0};
-    this.getQueryResult(this.start+" "+this.start_number).then(r => {
+    this.getQueryResult(this.start+" "+this.start_number + ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
       let rf:any = this.filterByCity(r);
       previousStop.x = r[0].x;
       previousStop.y = r[0].y;
@@ -268,7 +280,7 @@ export class ClientMapComponent implements AfterViewInit {
     });
 
     if (this.dest1 !== '' && this.dest1.length > 10) {
-      this.getQueryResult(this.dest1+' '+this.dest1_number).then(r => {
+      this.getQueryResult(this.dest1+' '+this.dest1_number + ', ' + this.selectedCity.name+ ', Republika Srbija').then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -278,7 +290,7 @@ export class ClientMapComponent implements AfterViewInit {
     }
 
     if (this.dest2 !== '' && this.dest2.length > 10) {
-      this.getQueryResult(this.dest2 +' '+this.dest2_number).then(r => {
+      this.getQueryResult(this.dest2 +' '+this.dest2_number + ', ' + this.selectedCity.name+ ', Republika Srbija').then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -288,7 +300,7 @@ export class ClientMapComponent implements AfterViewInit {
     }
 
     if (this.dest3 !== '' && this.dest3.length > 10) {
-      this.getQueryResult(this.dest3+' '+this.dest3_number).then(r => {
+      this.getQueryResult(this.dest3+' '+this.dest3_number + ', ' + this.selectedCity.name+ ', Republika Srbija').then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -298,7 +310,7 @@ export class ClientMapComponent implements AfterViewInit {
     }
 
     if (this.dest4 !== '' && this.dest4.length > 10) {
-      this.getQueryResult(this.dest4+' '+this.dest4_number).then(r => {
+      this.getQueryResult(this.dest4+' '+this.dest4_number + ', ' + this.selectedCity.name+ ', Republika Srbija').then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -306,7 +318,7 @@ export class ClientMapComponent implements AfterViewInit {
         this.addStopToRoute(r);
       });
     }
-    this.getQueryResult(this.final+' '+this.final_number).then(r => {
+    this.getQueryResult(this.final+' '+this.final_number + ', ' + this.selectedCity.name+ ', Republika Srbija').then(r => {
       this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
       previousStop.x = r[0].x;
       previousStop.y = r[0].y;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../user.service";
 import {RideHistoryService} from "../ride-history.service";
 import {User} from "../../model/user.class";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-ride-history',
@@ -11,7 +12,9 @@ import {User} from "../../model/user.class";
 export class ClientRideHistoryComponent implements OnInit {
   rides: any;
   user: User;
-  constructor(private userService: UserService, private rideHistoryService: RideHistoryService) {
+  constructor(private userService: UserService,
+              private rideHistoryService: RideHistoryService,
+              private router: Router) {
     this.user = this.userService.getUser();
     const request = this.rideHistoryService.getClientRideHistory(this.user.id);
     request.subscribe((response) => {
@@ -26,4 +29,10 @@ export class ClientRideHistoryComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  orderRide(route: any) {
+    let url = 'client/home/query/' + route.start.city + '/' + route.start.street
+        + '/' + route.start.number + '/'+route.destination.street+'/'+route.destination.number;
+    url = url.replace(/ /g, '%20');
+    this.router.navigateByUrl(url);
+  }
 }
