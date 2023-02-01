@@ -216,6 +216,8 @@ export class ClientMapComponent implements AfterViewInit {
       let request_ride_input:any = document.getElementById('request_ride_input');
       //request_ride_input.style.display = 'none';
       request_ride_input.remove();
+
+
     }
 
   
