@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-funds',
@@ -13,15 +14,14 @@ export class FundsComponent implements OnInit {
   amount:number = 0;
 
 
-  constructor(private userService:UserService,private http:HttpClient) { }
+  constructor(private userService:UserService,private http:HttpClient,private router:Router) { }
 
   ngOnInit(): void {
     this.getFunds();
   }
 
   async getFunds(){
-    let userId = 5;
-    //let userId = this.userService.getUser().id;
+    let userId = this.userService.getUser().id;
     const request = this.http.get("/api/client/get-funds/"+userId);
     request.subscribe((response:any)=>{
       this.funds = response;
@@ -33,12 +33,17 @@ export class FundsComponent implements OnInit {
       alert("Please enter a valid amount (>0)");
       return;
     }
-    let userId = 5;
-    //let userId = this.userService.getUser().id;
+    let userId = this.userService.getUser().id;
     const request = this.http.post("/api/client/add-funds/"+userId+"/"+this.amount,{});
     request.subscribe((response:any)=>{
       this.funds = response;
     });
+    this.amount = 0;
+  }
+
+  homepage(){
+    this.router.navigate(["/client/home"]);
+
   }
 
 }
