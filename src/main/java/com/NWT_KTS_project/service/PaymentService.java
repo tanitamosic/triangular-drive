@@ -47,6 +47,7 @@ public class PaymentService {
                 return false;
             }
             client.setCreditAvailable((float) (client.getCreditAvailable() - pricePerClient));
+            userRepository.save(client);
         }
         return true;
     }

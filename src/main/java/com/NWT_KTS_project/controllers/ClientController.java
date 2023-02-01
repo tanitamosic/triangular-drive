@@ -55,7 +55,12 @@ public class ClientController {
     @GetMapping("requestRide/{userId}")
     public int requestRide(@PathVariable Integer userId,@RequestHeader String stops,@RequestHeader String passengers,@RequestHeader boolean petFriendly, @RequestHeader boolean babyFriendly,@RequestHeader CarType carType){
         ArrayList<Address> addresses = addressService.getAddressesFromString(stops);
-        ArrayList<Client> clients = userService.getClientsFromPassangersString(passengers);
+        ArrayList<Client> clients;
+        try {
+             clients = userService.getClientsFromPassangersString(passengers);
+        }catch (Exception e){
+            return -3;
+        }
         clients.add(0, (Client) userService.getUserById(userId));
 
         int numPassengers = passengers.split(";").length;

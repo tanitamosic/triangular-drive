@@ -40,7 +40,8 @@ public class DriverService {
         ArrayList<Driver> availableDrivers = new ArrayList<Driver>();
         for(Integer driverId : drivers.keySet()){
             Position driverPos = drivers.get(driverId);
-            if(positionService.getDistance(clientPosition,driverPos)< PositionService.MAX_DISTANCE){
+            double distance = positionService.getDistance(clientPosition, driverPos);
+            if(distance< PositionService.MAX_DISTANCE || true){
                 Driver driver = (Driver) userRepository.findById(driverId).get();
                 if(driver.getStatus() == DriverStatus.AVAILABLE && driver.getCar().getSeats() >= numberOfPassengers && driver.getCar().getType()== carType){
                     if (petFriendly && !driver.getCar().getPetFriendly()) continue;

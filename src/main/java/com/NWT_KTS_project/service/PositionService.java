@@ -11,6 +11,8 @@ import java.util.Map;
 @Service
 public class PositionService {
 
+    public static final double MAX_DISTANCE = 5000;//meters
+
     private Map<Integer, Position> positions;
 
     public PositionService() {
@@ -50,7 +52,7 @@ public class PositionService {
         return R * c;//meters
     }
 
-    public static final double MAX_DISTANCE = 5000;
+
 
 
     public double getDistanceForAddresses(ArrayList<Address> stops){

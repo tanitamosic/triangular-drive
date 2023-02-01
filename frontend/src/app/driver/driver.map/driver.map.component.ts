@@ -38,6 +38,8 @@ export class DriverMapComponent implements AfterViewInit {
   rides: any;
 
   simulation:DriverRideSimulation;
+  latitude: number = 0;
+  longitude: number = 0;
 
   constructor(mapService:MapService, private profileService: ProfileService,
               private httpClient: HttpClient,
@@ -60,7 +62,7 @@ export class DriverMapComponent implements AfterViewInit {
     //get coordinates using navigator.geolocation
     let latitude: number = 0;
     let longitude: number = 0;
-    navigator.geolocation.getCurrentPosition((position) => {latitude=position.coords.latitude;longitude=position.coords.longitude;});
+    navigator.geolocation.getCurrentPosition((position) => {latitude=position.coords.latitude;longitude=position.coords.longitude;this.latitude=latitude;this.longitude=longitude;});
 
     await new Promise(r => setTimeout(r, 1000));
 

@@ -2,7 +2,7 @@ import {Component, AfterViewInit} from '@angular/core';
 import 'leaflet';
 import 'leaflet-routing-machine';
 import {GeoSearchControl, OpenStreetMapProvider} from 'leaflet-geosearch';
-import "node_modules/leaflet-geosearch/dist/geosearch.css"
+import "node_modules/leaflet-geosearch/dist/geosearch.css";
 import {MapRoute, Stop} from "../../map/MapRoute";
 import {SearchResult} from "leaflet-geosearch/lib/providers/provider";
 import { MapService } from '../../map/map.service';
@@ -52,6 +52,8 @@ export class ClientMapComponent implements AfterViewInit {
   selectedCity: any;
   cities: City[] = [];
   simulation:AllCarsSimulation;
+  stops_string: string = '';
+  passengers_string: string= '';
 
   provider: OpenStreetMapProvider;
   searchControl: any;
@@ -166,99 +168,104 @@ export class ClientMapComponent implements AfterViewInit {
   }
 
   async search() {
+    this.getStops();
+    this.getPassengers();
     this.drawToMap();
-    let start_longitude = 0;
-    let start_latitude = 0;
-    let dest1_longitude = 0;
-    let dest1_latitude = 0;
-    let dest2_longitude = 0;
-    let dest2_latitude = 0;
-    let dest3_longitude = 0;
-    let dest3_latitude = 0;
-    let dest4_longitude = 0;
-    let dest4_latitude = 0;
-    let final_longitude = 0;
-    let final_latitude = 0;
-    this.getQueryResult(this.start+' '+this.start_number+', '+this.selectedCity.name).then((results) => {
-      start_longitude = results[0].x;
-      start_latitude = results[0].y;
-    });
-    await new Promise(r => setTimeout(r, 500));
-    let stops: string = this.selectedCity.code+','+this.start+','+this.start_number+','+start_latitude+','+start_longitude;
-    let passengers: string = '';
-
-    if (this.passenger1!=='') passengers+=this.passenger1+';';
-    if (this.passenger2!=='') passengers+=this.passenger2+';';
-    if (this.passenger3!=='') passengers+=this.passenger3+';';
-    if (this.passenger4!=='') passengers+=this.passenger4+';';
-    if (this.passenger5!=='') passengers+=this.passenger5+';';
-    if (this.passenger6!=='') passengers+=this.passenger6+';';
-    if (this.passenger7!=='') passengers+=this.passenger7+';';
-
-    if (this.dest1!=='') {
-      this.getQueryResult(this.dest1+' '+this.dest1_number+', '+this.selectedCity.name).then((results)=>{
-        dest1_longitude = results[0].x;dest1_latitude= results[0].y}); 
-        await new Promise(r => setTimeout(r, 500));
-        stops+=';'+this.selectedCity.code+','+this.dest1+','+this.dest1_number+','+dest1_latitude+','+dest1_longitude;
-      }
-    if (this.dest2!=='') {
-      this.getQueryResult(this.dest2+' '+this.dest2_number+', '+this.selectedCity.name).then((results)=>{
-        dest2_longitude = results[0].x;dest2_latitude= results[0].y});
-      await new Promise(r => setTimeout(r, 500));
-      stops+=';'+this.selectedCity.code+','+this.dest2+','+this.dest2_number+','+dest2_latitude+','+dest2_longitude;
-    }
-    if (this.dest3!=='') {
-      this.getQueryResult(this.dest3+' '+this.dest3_number+', '+this.selectedCity.name).then((results)=>{
-        dest3_longitude = results[0].x;dest3_latitude= results[0].y});
-        await new Promise(r => setTimeout(r, 500));
-      stops+=';'+this.selectedCity.code+','+this.dest3+','+this.dest3_number+','+dest3_latitude+','+dest3_longitude;
-    }
-    if (this.dest4!=='') {
-      this.getQueryResult(this.dest4+' '+this.dest4_number+', '+this.selectedCity.name).then((results)=>{
-        dest4_longitude = results[0].x;dest4_latitude= results[0].y});
-        await new Promise(r => setTimeout(r, 500));
-      stops+=';'+this.selectedCity.code+','+this.dest4+','+this.dest4_number+','+dest4_latitude+','+dest4_longitude;
-    }
-
-    this.getQueryResult(this.start+' '+this.start_number+', '+this.selectedCity.name).then((results) => {
-      final_longitude = results[0].x;
-      final_latitude = results[0].y;
-    });
-    await new Promise(r => setTimeout(r, 500));
-    stops+=';'+this.selectedCity.code+','+this.final+','+this.final_number+','+final_latitude+','+final_longitude;
     
-    alert('stops: '+stops);
+    //stops = this.selectedCity.code+','+this.start+','+this.start_number+','+start_latitude+','+start_longitude;
+   
+    
+    this.requestRide();
+    
+  }
 
-
-
-    const request = this.http.get('api/client/requestRide/'+this.userService.getUser().id,{headers:{'stops':stops,'passengers':passengers,'petFriendly':String(this.petFriendly),'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code}});
+  async requestRide() {
+    
+    await this.delay(2000);
+    const request = this.http.get('api/client/requestRide/'+this.userService.getUser().id,{headers:{stops:this.stops_string, passengers:this.passengers_string,'petFriendly':String(this.petFriendly),'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code}});
     let rideId: number = 0;
     request.subscribe(data => {
       rideId = Number(data);
     });
+
+    await this.delay(2000);
+
     if(rideId===-1){
       alert("Driver Could Not Be Found")
     }
     else if(rideId===-2){
       alert("Payment Failed")
     }
-    else{
-      let request_ride_input:any = document.getElementById('request_ride_input');
-      request_ride_input.style.display = 'none';
-      let map_div = document.getElementById('map');
-
+    else if (rideId===-3){
+      alert("One Or More Passengers Dont Exist")
     }
-    
+    else{
+      alert("Ride Requested Successfully With Id: "+rideId+', stops: '+this.stops_string);
+      let request_ride_input:any = document.getElementById('request_ride_input');
+      //request_ride_input.style.display = 'none';
+      request_ride_input.remove();
+    }
+
+  
+  }
+
+  async getStops() {
+    this.stops_string='';
+
+    this.getQueryResult(this.start+" "+this.start_number + ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
+      this.stops_string += this.selectedCity.code+','+this.start+','+this.start_number+','+r[0].y+','+r[0].x;
+    });
+
+    if (this.dest1!=='') {
+      this.getQueryResult(this.dest1 +' '+this.dest1_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
+        this.stops_string +=";"+ this.selectedCity.code+','+this.dest1+','+this.dest1_number+','+r[0].y+','+r[0].x;
+      });
+    }
+    if (this.dest2!=='') {
+      this.getQueryResult(this.dest2 +' '+this.dest2_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
+        this.stops_string +=";"+  this.selectedCity.code+','+this.dest2+','+this.dest2_number+','+r[0].y+','+r[0].x;
+      });
+        setTimeout(()=>{},1000);
+    }
+    if (this.dest3!=='') {
+      this.getQueryResult(this.dest3 +' '+this.dest3_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
+        this.stops_string +=";"+  this.selectedCity.code+','+this.dest3+','+this.dest3_number+','+r[0].y+','+r[0].x;
+      });
+    }
+    if (this.dest4!=='') {
+      this.getQueryResult(this.dest4 +' '+this.dest4_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
+        this.stops_string += ";"+ this.selectedCity.code+','+this.dest4+','+this.dest4_number+','+r[0].y+','+r[0].x;
+      });
+    }
+
+    this.getQueryResult(this.final +' '+this.final_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
+      this.stops_string +=";"+  this.selectedCity.code+','+this.final+','+this.final_number+','+r[0].y+','+r[0].x;
+    });
+
+  }
+
+  getPassengers() {
+    this.passengers_string='';
+    if (this.passenger1!=='') this.passengers_string+=this.passenger1+';';
+    if (this.passenger2!=='') this.passengers_string+=this.passenger2+';';
+    if (this.passenger3!=='') this.passengers_string+=this.passenger3+';';
+    if (this.passenger4!=='') this.passengers_string+=this.passenger4+';';
+    if (this.passenger5!=='') this.passengers_string+=this.passenger5+';';
+    if (this.passenger6!=='') this.passengers_string+=this.passenger6+';';
+    if (this.passenger7!=='') this.passengers_string+=this.passenger7+';';
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
   drawToMap() {
-    console.log("hi");
     if ((this.start === '' || this.final === '') || this.start.length < 10 || this.final.length < 10) {
       alert('Your route needs beginning and the end, dummy.')
       return;
     }
     let previousStop = {x: 0, y: 0};
-    this.getQueryResult(this.start+" "+this.start_number).then(r => {
+    this.getQueryResult(this.start+" "+this.start_number + ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
       let rf:any = this.filterByCity(r);
       previousStop.x = r[0].x;
       previousStop.y = r[0].y;
@@ -268,7 +275,7 @@ export class ClientMapComponent implements AfterViewInit {
     });
 
     if (this.dest1 !== '' && this.dest1.length > 10) {
-      this.getQueryResult(this.dest1+' '+this.dest1_number).then(r => {
+      this.getQueryResult(this.dest1+' '+this.dest1_number + ', ' + this.selectedCity.name+ ', Republika Srbija').then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -278,7 +285,7 @@ export class ClientMapComponent implements AfterViewInit {
     }
 
     if (this.dest2 !== '' && this.dest2.length > 10) {
-      this.getQueryResult(this.dest2 +' '+this.dest2_number).then(r => {
+      this.getQueryResult(this.dest2 +' '+this.dest2_number + ', ' + this.selectedCity.name+ ', Republika Srbija').then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -288,7 +295,7 @@ export class ClientMapComponent implements AfterViewInit {
     }
 
     if (this.dest3 !== '' && this.dest3.length > 10) {
-      this.getQueryResult(this.dest3+' '+this.dest3_number).then(r => {
+      this.getQueryResult(this.dest3+' '+this.dest3_number + ', ' + this.selectedCity.name+ ', Republika Srbija').then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -298,7 +305,7 @@ export class ClientMapComponent implements AfterViewInit {
     }
 
     if (this.dest4 !== '' && this.dest4.length > 10) {
-      this.getQueryResult(this.dest4+' '+this.dest4_number).then(r => {
+      this.getQueryResult(this.dest4+' '+this.dest4_number + ', ' + this.selectedCity.name+ ', Republika Srbija').then(r => {
         this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
         previousStop.x = r[0].x;
         previousStop.y = r[0].y;
@@ -306,7 +313,7 @@ export class ClientMapComponent implements AfterViewInit {
         this.addStopToRoute(r);
       });
     }
-    this.getQueryResult(this.final+' '+this.final_number).then(r => {
+    this.getQueryResult(this.final+' '+this.final_number + ', ' + this.selectedCity.name+ ', Republika Srbija').then(r => {
       this.drawRoute(previousStop.x, previousStop.y, r[0].x, r[0].y);
       previousStop.x = r[0].x;
       previousStop.y = r[0].y;
