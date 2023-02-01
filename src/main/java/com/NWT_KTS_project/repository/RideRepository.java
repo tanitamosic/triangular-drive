@@ -1,6 +1,7 @@
 package com.NWT_KTS_project.repository;
 
 import com.NWT_KTS_project.model.Ride;
+import com.NWT_KTS_project.model.enums.RideStatus;
 import com.NWT_KTS_project.model.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,5 +28,7 @@ public interface RideRepository extends JpaRepository<Ride, Integer> {
 
     @Query(nativeQuery = true, value="SELECT r.* FROM rides r JOIN ride_passengers rp ON r.id=rp.ride_id WHERE rp.passenger_id=?1 AND r.departure_time>=?2 AND r.departure_time<=?3")
     List<Ride> getClientRides(Integer clientId, LocalDateTime dateTime1, LocalDateTime dateTime2);
+
+    List<Ride> getAllByStatusOrderByDepartureTimeDesc(RideStatus rs);
 
 }

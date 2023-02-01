@@ -37,12 +37,24 @@ export class LoggedNavbarComponent implements OnInit {
         command: () => {this.router.navigateByUrl('user/charts').then(r=>{});}
       }
     ];
+    this.addClientItems();
     this.addClientDriverItems();
     this.addAdminItems();
     this.addDriverItems();
   }
 
-  private addAdminItems() {
+  addClientItems() {
+    let history = {
+      label: 'Ride history',
+      icon: 'pi pi-fw pi-calendar-times',
+      command: () => this.clientHistory()
+    }
+    if (this.user.role === 'ROLE_CLIENT') {
+      this.items.push(history);
+    }
+  }
+
+  addAdminItems() {
     let driver_reg_item = {
       label: 'Register new driver',
       icon: 'pi pi-fw pi-user-plus',
@@ -58,10 +70,16 @@ export class LoggedNavbarComponent implements OnInit {
       icon: 'pi pi-fw pi-database',
       command: () => this.listUsers()
     }
+    let history = {
+      label: 'Ride history',
+      icon: 'pi pi-fw pi-calendar-times',
+      command: () => this.adminHistory()
+    }
     if (this.user.role === 'ROLE_ADMIN') {
       this.items.push(driver_reg_item);
       this.items.push(reports);
       this.items.push(users);
+      this.items.push(history);
     }
   }
 
@@ -77,6 +95,13 @@ export class LoggedNavbarComponent implements OnInit {
   }
 
   addDriverItems() {
+    let history = {
+      label: 'Ride history',
+      icon: 'pi pi-fw pi-calendar-times',
+      command: () => this.driverHistory()
+    }
+
+
     let check = 'pi pi-fw pi-check-circle';
     let circle = 'pi pi-fw pi-circle';
     let available = {
@@ -127,6 +152,7 @@ export class LoggedNavbarComponent implements OnInit {
     }
     if (this.user.role === 'ROLE_DRIVER') {
       this.items.push(status);
+      this.items.push(history);
     }
   }
 
@@ -160,6 +186,17 @@ export class LoggedNavbarComponent implements OnInit {
     this.router.navigateByUrl('admin/reports').then(r => {})
   }
 
+  clientHistory() {
+    this.router.navigateByUrl('client/ride-history').then(r => {});
+  }
+
+  driverHistory() {
+    this.router.navigateByUrl('driver/ride-history').then(r => {});
+  }
+
+  adminHistory() {
+    this.router.navigateByUrl('admin/ride-history').then(r => {});
+  }
 
   logout() {
     this.userService.removeUserFromStorage();

@@ -15,6 +15,9 @@ import {ReviewComponent} from "./review/review.component";
 import { FundsComponent } from './funds/funds.component';
 import {ChatComponent} from "./chat/chat.component";
 import {UserListDisplayComponent} from "./user-list-display/user-list-display.component";
+import {ClientRideHistoryComponent} from "./ride-history/client-ride-history/client-ride-history.component";
+import {AdminRideHistoryComponent} from "./ride-history/admin-ride-history/admin-ride-history.component";
+import {DriverRideHistoryComponent} from "./ride-history/driver-ride-history/driver-ride-history.component";
 
 const routes: Routes = [
   { path: '', component: MapComponent },
@@ -31,7 +34,10 @@ const routes: Routes = [
   { path: 'user/review', component: ReviewComponent},
   { path: 'user/funds', component: FundsComponent},
   { path: 'support/chat/:userid', component: ChatComponent},
-  { path: 'admin/see-users', component: UserListDisplayComponent}
+  { path: 'admin/see-users', component: UserListDisplayComponent},
+  { path: 'client/ride-history', component: ClientRideHistoryComponent},
+  { path: 'driver/ride-history', component: DriverRideHistoryComponent},
+  { path: 'admin/ride-history', component: AdminRideHistoryComponent}
 ]
 
 @NgModule({

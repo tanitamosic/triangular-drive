@@ -1,0 +1,31 @@
+<div class="card">
+  <p-table [value]="rides" [tableStyle]="{'max-width': '100%'}"
+           #dt1
+           [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="price" style="width:auto">Price <p-sortIcon field="price"></p-sortIcon></th>
+        <th pSortableColumn="route.distance" style="width:auto">Distance(km) <p-sortIcon field="route.distance"></p-sortIcon></th>
+        <th pSortableColumn="departureTime" style="width:auto">Departure time <p-sortIcon field="departureTime"></p-sortIcon></th>
+        <th pSortableColumn="arrivalTime" style="width:auto">Arrival time <p-sortIcon field="arrivalTime"></p-sortIcon></th>
+        <th pSortableColumn="driver.name" style="width:auto">Driver <p-sortIcon field="driver.name"></p-sortIcon></th>
+        <th pSortableColumn="passengers.length" style="width:auto">Passengers <p-sortIcon field="passengers.length"></p-sortIcon></th>
+        <th pSortableColumn="route.start.street" style="width:auto">Start <p-sortIcon field="route.start.street"></p-sortIcon></th>
+        <th pSortableColumn="route.destination.street" style="width:auto">Destination <p-sortIcon field="route.destination.street"></p-sortIcon></th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-ride>
+      <tr>
+        <td>{{ride.price}}</td>
+        <td>{{ride.route.distance}}</td>
+        <td>{{ride.departureTime}}</td>
+        <td>{{ride.arrivalTime}}</td>
+        <td>{{ride.driver.name}} {{ride.driver.lastName}}</td>
+        <td>{{ride.passengers.length}}</td>
+        <td>{{ride.route.start.street}} {{ride.route.start.number}} {{ride.route.start.city}}</td>
+        <td>{{ride.route.destination.street}} {{ride.route.destination.number}} {{ride.route.destination.city}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
