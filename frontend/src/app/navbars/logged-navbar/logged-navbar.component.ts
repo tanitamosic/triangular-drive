@@ -22,26 +22,46 @@ export class LoggedNavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let funds = {label:"Funds", icon:"pi pi-fw pi-money-bill", command: () => this.router.navigateByUrl('user/funds').then(r=>{})};
+
+    this.items=[];
+
+    this.addHomeItem();
+
+    this.items.push({
+      label: 'My profile',
+      icon: 'pi pi-fw pi-user',
+      command: () => this.myProfile()
+    });
+    this.items.push({
+      label: 'Statistics',
+      icon: 'pi pi-fw pi-chart-bar',
+      command: () => {this.router.navigateByUrl('user/charts').then(r=>{});}
+    });
 
 
-
-    this.items = [
-      {
-        label: 'My profile',
-        icon: 'pi pi-fw pi-user',
-        command: () => this.myProfile()
-      },
-      {
-        label: 'Statistics',
-        icon: 'pi pi-fw pi-chart-bar',
-        command: () => {this.router.navigateByUrl('user/charts').then(r=>{});}
-      }
-    ];
+    
+    if(this.user.role==="ROLE_CLIENT"){
+      this.items.push(funds);
+      
+    }
     this.addClientDriverItems();
     this.addAdminItems();
     this.addDriverItems();
   }
 
+  addHomeItem() {
+    let homenav = "";
+    if (this.user.role === 'ROLE_CLIENT') {
+      homenav = "client/home";
+    } else if (this.user.role === 'ROLE_DRIVER') {
+      homenav = "driver/home";
+    } else if (this.user.role === 'ROLE_ADMIN') {
+      homenav = "admin/home";
+    }
+    let map_obj = {label:"Home", icon:"pi pi-fw pi-map", command: () => this.router.navigateByUrl(homenav).then(r=>{})};
+    this.items.push(map_obj);
+  }
   private addAdminItems() {
     let driver_reg_item = {
       label: 'Register new driver',
@@ -68,7 +88,7 @@ export class LoggedNavbarComponent implements OnInit {
   addClientDriverItems() {
     let support = {
       label: 'Support',
-      icon: 'pi pi-fw pi-prime',
+      icon: 'pi pi-fw pi-info-circle',
       command: () => { this.router.navigateByUrl('support/chat/' + this.user.id ).then(r=>{}); }
     }
     if (this.user.role === 'ROLE_CLIENT' || this.user.role === 'ROLE_DRIVER') {
@@ -118,7 +138,7 @@ export class LoggedNavbarComponent implements OnInit {
 
     let status = {
       label: 'Status',
-      icon: 'pi pi-fw pi-prime',
+      icon: 'pi pi-fw pi-power-off',
       items: [
         available,
         busy,
