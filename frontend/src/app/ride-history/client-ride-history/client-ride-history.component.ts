@@ -12,16 +12,32 @@ import {Router} from "@angular/router";
 export class ClientRideHistoryComponent implements OnInit {
   rides: any;
   user: User;
+  showReviewModal: boolean = false;
+  rideIdForReview: any;
+  deadlineDate: any = new Date();
   constructor(private userService: UserService,
               private rideHistoryService: RideHistoryService,
               private router: Router) {
     this.user = this.userService.getUser();
     const request = this.rideHistoryService.getClientRideHistory(this.user.id);
+    this.deadlineDate.setDate(this.deadlineDate.getDate() - 3);
     request.subscribe((response) => {
       this.rides = response;
       this.rides.forEach((r: any) => {
         r.price = r.price / r.passengers.length;
-        r.price = Math.round((r.price + Number.EPSILON) * 100) / 100
+        r.price = Math.round((r.price + Number.EPSILON) * 100) / 100;
+
+        r.isReviewable = true;
+        let departTime = new Date(r.departureTime);
+        if (this.deadlineDate > departTime) {
+          r.isReviewable = false;
+        }
+        r.reviews.forEach((v: any) => {
+          if (v.passenger.id === this.user.id) {
+            r.isReviewable = false;
+          }
+        })
+
       });
     });
   }
@@ -34,5 +50,15 @@ export class ClientRideHistoryComponent implements OnInit {
         + '/' + route.start.number + '/'+route.destination.street+'/'+route.destination.number;
     url = url.replace(/ /g, '%20');
     this.router.navigateByUrl(url);
+  }
+
+  displayReviewModal(ride: any) {
+    if (ride.isReviewable) {
+      alert(' NO NO NO UWU')
+      return;
+    }
+
+    this.rideIdForReview = ride.id;
+    this.showReviewModal = true;
   }
 }
