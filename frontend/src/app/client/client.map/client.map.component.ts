@@ -230,30 +230,26 @@ export class ClientMapComponent implements AfterViewInit {
     const request = this.http.get('api/client/requestRide/'+this.userService.getUser().id,
     {headers:{stops:this.stops_string, passengers:this.passengers_string,'petFriendly':String(this.petFriendly),
     'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code,'price':this.price}});
-    let rideId: number = 0;
     request.subscribe(data => {
-      rideId = Number(data);
+      this.rideId = Number(data);
+      if(this.rideId>0)
+        this.pendingRidesPolling();
     });
 
     await this.delay(4000);
 
-    if(rideId===-1){
+    if(this.rideId===-1){
       alert("Driver Could Not Be Found")
     }
-    else if(rideId===-2){
+    else if(this.rideId===-2){
       alert("Payment Failed")
     }
-    else if (rideId===-3){
+    else if (this.rideId===-3){
       alert("One Or More Passengers Dont Exist")
     }
     else{
       //alert("Ride Requested Successfully With Id: "+rideId+', stops: '+this.stops_string);
-      this.pendingRidesPolling();
       alert("Ride Requested Successfully");
-      let request_ride_input:any = document.getElementById('request_ride_input');
-      request_ride_input.style.display = 'none';
-
-      //request_ride_input.remove();
       }
   }
 
@@ -480,10 +476,12 @@ export class ClientMapComponent implements AfterViewInit {
       const request = this.http.get('/api/ride/get/'+this.rideId);
       request.subscribe((response) => {
         let ride:any = response;
+        console.log(response);
         if(ride.status==="ONGOING"){
           if(!this.rideStarted) this.rideStarted=true;
         } else if(ride.status==="FINISHED"){
           this.stopPolling();
+          window.location.reload();
         }
       })
     }, 5000) // 5s
