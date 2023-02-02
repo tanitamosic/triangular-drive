@@ -16,7 +16,7 @@ public class RouteController {
 
     @GetMapping("/price")
     public ResponseEntity<String> getPrice(@RequestParam String distance){
-        int dist = (int)Double.parseDouble(distance);
+        double dist = Double.parseDouble(distance);
         String res = String.valueOf(service.getPrice(dist));
         return new ResponseEntity<String>(res,HttpStatus.OK);
     }

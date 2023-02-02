@@ -3,8 +3,10 @@ package com.NWT_KTS_project.controllers;
 
 
 import com.NWT_KTS_project.model.Address;
+import com.NWT_KTS_project.model.Reservation;
 import com.NWT_KTS_project.model.enums.CarType;
 import com.NWT_KTS_project.model.Ride;
+import com.NWT_KTS_project.model.enums.RideStatus;
 import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.Driver;
 import com.NWT_KTS_project.service.*;
@@ -53,7 +55,10 @@ public class ClientController {
 
 
     @GetMapping("requestRide/{userId}")
-    public int requestRide(@PathVariable Integer userId,@RequestHeader String stops,@RequestHeader String passengers,@RequestHeader boolean petFriendly, @RequestHeader boolean babyFriendly,@RequestHeader CarType carType){
+    public int requestRide(@PathVariable Integer userId,@RequestHeader String stops,
+                           @RequestHeader String passengers,@RequestHeader boolean petFriendly,
+                           @RequestHeader boolean babyFriendly,@RequestHeader CarType carType,
+                           @RequestHeader String price){
         ArrayList<Address> addresses = addressService.getAddressesFromString(stops);
         ArrayList<Client> clients;
         try {
@@ -67,11 +72,29 @@ public class ClientController {
         Driver driver = driverService.getAvailableDriver(addresses.get(0).getLatitude(), addresses.get(0).getLongitude(), petFriendly, babyFriendly, numPassengers, carType);
         if(driver == null) return -1;
 
+        if (!paymentService.processPaymentForRide(clients,addresses,driver.getCar())) return -2;
 
+        Ride ride= rideService.createRide(driver, addresses, clients, RideStatus.PENDING,price);
+        return ride.getId();
+    }
+
+    @GetMapping("make-reservation/{userId}")
+    public int makeReservation(@PathVariable Integer userId,@RequestHeader String stops,
+                               @RequestHeader String passengers,@RequestHeader boolean petFriendly,
+                               @RequestHeader boolean babyFriendly,@RequestHeader CarType carType,
+                               @RequestHeader LocalDateTime time, @RequestHeader String price){
+        ArrayList<Address> addresses = addressService.getAddressesFromString(stops);
+        ArrayList<Client> clients = userService.getClientsFromPassangersString(passengers);
+        clients.add(0, (Client) userService.getUserById(userId));
+
+        int numPassengers = passengers.split(";").length;
+        Driver driver = driverService.getAvailableDriver(addresses.get(0).getLatitude(), addresses.get(0).getLongitude(), petFriendly, babyFriendly, numPassengers, carType);
+        if(driver == null) return -1;
 
         if (!paymentService.processPaymentForRide(clients,addresses,driver.getCar())) return -2;
 
-        return rideService.createRide(driver, addresses, clients).getId();
+        Reservation res = rideService.makeReservation(driver, addresses, clients, RideStatus.RESERVED,time,price);
+        return res.getRide().getId();
     }
 
 
