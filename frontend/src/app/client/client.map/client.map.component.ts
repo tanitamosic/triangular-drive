@@ -54,6 +54,7 @@ export class ClientMapComponent implements AfterViewInit {
   cities: City[] = [];
   simulation:AllCarsSimulation;
   stops_string: string = '';
+  stop_strings_array: object|any= {};
   passengers_string: string= '';
 
   provider: OpenStreetMapProvider;
@@ -183,8 +184,6 @@ export class ClientMapComponent implements AfterViewInit {
     this.getStops();
     this.getPassengers();
     this.drawToMap();
-    
-    //stops = this.selectedCity.code+','+this.start+','+this.start_number+','+start_latitude+','+start_longitude;
    
     
     this.requestRide();
@@ -193,14 +192,19 @@ export class ClientMapComponent implements AfterViewInit {
 
   async requestRide() {
     
-    await this.delay(2000);
+    await this.delay(5000);
+    
+    //alert(this.stops_string);
     const request = this.http.get('api/client/requestRide/'+this.userService.getUser().id,{headers:{stops:this.stops_string, passengers:this.passengers_string,'petFriendly':String(this.petFriendly),'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code}});
     let rideId: number = 0;
     request.subscribe(data => {
       rideId = Number(data);
     });
 
-    await this.delay(2000);
+    await this.delay(4000);
+
+    
+    
 
     if(rideId===-1){
       alert("Driver Could Not Be Found")
@@ -218,43 +222,65 @@ export class ClientMapComponent implements AfterViewInit {
       request_ride_input.remove();
 
 
-    }
+      }
+  }
+
+
 
   
-  }
+  
 
   async getStops() {
     this.stops_string='';
+    this.stop_strings_array = {0:'',1:'',2:'',3:'',4:'',5:''}
 
     this.getQueryResult(this.start+" "+this.start_number + ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-      this.stops_string += this.selectedCity.code+','+this.start+','+this.start_number+','+r[0].y+','+r[0].x;
+      //this.stops_string += this.selectedCity.code+','+this.start+','+this.start_number+','+r[0].y+','+r[0].x;
+      this.stop_strings_array[0] = this.selectedCity.code+','+this.start+','+this.start_number+','+r[0].y+','+r[0].x;
     });
 
     if (this.dest1!=='') {
       this.getQueryResult(this.dest1 +' '+this.dest1_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-        this.stops_string +=";"+ this.selectedCity.code+','+this.dest1+','+this.dest1_number+','+r[0].y+','+r[0].x;
+        //this.stops_string +=";"+ this.selectedCity.code+','+this.dest1+','+this.dest1_number+','+r[0].y+','+r[0].x;
+        this.stop_strings_array[1] =";"+ this.selectedCity.code+','+this.dest1+','+this.dest1_number+','+r[0].y+','+r[0].x;
       });
     }
     if (this.dest2!=='') {
       this.getQueryResult(this.dest2 +' '+this.dest2_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-        this.stops_string +=";"+  this.selectedCity.code+','+this.dest2+','+this.dest2_number+','+r[0].y+','+r[0].x;
+        //this.stops_string +=";"+  this.selectedCity.code+','+this.dest2+','+this.dest2_number+','+r[0].y+','+r[0].x;
+        this.stop_strings_array[2] =";"+ this.selectedCity.code+','+this.dest2+','+this.dest2_number+','+r[0].y+','+r[0].x;
       });
         setTimeout(()=>{},1000);
     }
     if (this.dest3!=='') {
       this.getQueryResult(this.dest3 +' '+this.dest3_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-        this.stops_string +=";"+  this.selectedCity.code+','+this.dest3+','+this.dest3_number+','+r[0].y+','+r[0].x;
+        //this.stops_string +=";"+  this.selectedCity.code+','+this.dest3+','+this.dest3_number+','+r[0].y+','+r[0].x;
+        this.stop_strings_array[3] = ";"+this.selectedCity.code+','+this.dest3+','+this.dest3_number+','+r[0].y+','+r[0].x;
       });
     }
     if (this.dest4!=='') {
       this.getQueryResult(this.dest4 +' '+this.dest4_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-        this.stops_string += ";"+ this.selectedCity.code+','+this.dest4+','+this.dest4_number+','+r[0].y+','+r[0].x;
+        //this.stops_string += ";"+ this.selectedCity.code+','+this.dest4+','+this.dest4_number+','+r[0].y+','+r[0].x;
+        this.stop_strings_array[4] = ";"+this.selectedCity.code+','+this.dest4+','+this.dest4_number+','+r[0].y+','+r[0].x;
       });
     }
 
     this.getQueryResult(this.final +' '+this.final_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-      this.stops_string +=";"+  this.selectedCity.code+','+this.final+','+this.final_number+','+r[0].y+','+r[0].x;
+      //this.stops_string +=";"+  this.selectedCity.code+','+this.final+','+this.final_number+','+r[0].y+','+r[0].x;
+      this.stop_strings_array[5] =";"+ this.selectedCity.code+','+this.final+','+this.final_number+','+r[0].y+','+r[0].x;
     });
+
+    await this.delay(4000);
+
+    
+
+    this.stops_string='';
+    for (let i = 0; i < 6; i++) {
+
+      if(this.stop_strings_array[i]!==''){
+        this.stops_string+=this.stop_strings_array[i];
+      }
+    }
 
   }
 
