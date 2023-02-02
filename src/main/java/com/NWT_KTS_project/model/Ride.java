@@ -41,7 +41,7 @@ public class Ride {
     @Column(name = "status")
     private RideStatus status;
     @Column(name = "price")
-    private Float price;
+    private Double price;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ride_id")
     private List<Review> reviews;
