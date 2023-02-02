@@ -15,7 +15,6 @@ public class RouteService {
     @Autowired
     private PriceByCarTypeRepository priceRepository;
 
-    //TODO: add pricing by car type
     public double getPrice(double distance) {
         return distance*120;
     }

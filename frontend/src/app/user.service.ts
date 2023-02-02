@@ -50,4 +50,9 @@ export class UserService {
     const request = this.httpClient.get("/api/driver/set-status/" + id + "/" + status);
     return request;
   }
+
+  reportDriver(rideId:Number,reason:String|null){
+    const request = this.httpClient.post("/api/client/report", {"rideId":rideId,"reason":reason});
+    return request;
+  }
 }

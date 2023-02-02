@@ -1,6 +1,7 @@
 package com.NWT_KTS_project.service;
 
 import com.NWT_KTS_project.model.Report;
+import com.NWT_KTS_project.model.Ride;
 import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.repository.ReportRepository;
 import com.NWT_KTS_project.repository.UserRepository;
@@ -30,6 +31,18 @@ public class ReportService {
             report.setSolved(true);
             reportRepository.saveAndFlush(report);
         }
+    }
+
+    public void makeReport(Ride ride, String reason) {
+        User reporter = ride.getPassengers().get(0);
+        User reportee = ride.getDriver();
+        Report report = new Report();
+        report.setReporter(reporter);
+        report.setReportee(reportee);
+        report.setSolved(false);
+        report.setText(reason);
+        reportRepository.saveAndFlush(report);
+
     }
 
 }

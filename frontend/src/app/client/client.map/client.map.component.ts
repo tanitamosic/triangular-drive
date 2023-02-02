@@ -42,6 +42,10 @@ export class ClientMapComponent implements AfterViewInit {
   dest3_number: String = '';
   dest4_number: String = '';
   final_number: String = '';
+
+  stops_string: string = '';
+  stop_strings_array: object|any= {};
+
   passenger1: String = '';
   passenger2: String = '';
   passenger3: String = '';
@@ -49,24 +53,30 @@ export class ClientMapComponent implements AfterViewInit {
   passenger5: String = '';
   passenger6: String = '';
   passenger7: String = '';
+  passengers_string: string= '';
+
   price: string = '0';
   distance: string = "0";
+
   selectedCity: any;
   cities: City[] = [];
-  simulation:AllCarsSimulation;
-  stops_string: string = '';
-  stop_strings_array: object|any= {};
-  passengers_string: string= '';
+
   hours_string="";
   minutes_string="";
   hours:number=0;
   minutes:number=0;
+
   reservationVisible:boolean = false;
+
+  rideStarted:boolean=false;
+  rideId:number = 0;
+  pollingInterval: NodeJS.Timer | undefined;
 
   provider: OpenStreetMapProvider;
   searchControl: any;
 
   mapRoute: MapRoute;
+
   carTypes: CarType[] = [];
   selectedCarType: any;
   babyFriendly: boolean = false;
@@ -84,16 +94,12 @@ export class ClientMapComponent implements AfterViewInit {
     this.mapRoute = new MapRoute();
     this.mapService = mapService;
 
-    this.simulation = new AllCarsSimulation();
-
     const carsRequest = this.carService.getAllCarsRequest();
     carsRequest.subscribe((response)=>{
       let array:Array<Object> = response as Object[];
       array.forEach(e=>{
         let c = new Car(e);
-        this.simulation.allCars.push(c);
       });
-      this.simulation.updatePositions();
     });
 
     const citiesRequest = this.profileService.getCitiesRequest();
@@ -161,8 +167,6 @@ export class ClientMapComponent implements AfterViewInit {
     }
     dist = dist/1000;
     this.distance = dist.toPrecision(2);
-    // console.log("Distance: "+this.distance);
-    // console.log(this.mapRoute);
   }
 
   getPrice() {
@@ -171,9 +175,6 @@ export class ClientMapComponent implements AfterViewInit {
       this.price = data;
       console.log(this.price);
     });
-
-    //this.price = result;
-
   }
 
   filterByCity(r:any): any{
@@ -188,8 +189,7 @@ export class ClientMapComponent implements AfterViewInit {
   async search() {
     this.getStops();
     this.getPassengers();
-    this.drawToMap();
-    
+    this.drawToMap(); 
   }
 
   showReservation(){
@@ -207,12 +207,14 @@ export class ClientMapComponent implements AfterViewInit {
       let time = new Date();
       time.setHours(time.getHours()+this.hours);
       time.setMinutes(time.getMinutes()+this.minutes);
+      let timeString = time.toISOString();
+      console.log(timeString);
       const request = this.http.get('api/client/make-reservation/'+this.userService.getUser().id,
       {headers:{'stops':this.stops_string,'passengers':this.passengers_string,'petFriendly':String(this.petFriendly),
-      'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code,}});
-      let rideId: number = 0;
+      'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code,'timeString':timeString,'price':this.price}});
+      this.rideId = 0;
       request.subscribe(data => {
-        rideId = Number(data);
+        this.rideId = Number(data);
       });
     } else{
       alert("Your reservation can be a maximum of 5 hours in advance.")
@@ -245,11 +247,8 @@ export class ClientMapComponent implements AfterViewInit {
       alert("One Or More Passengers Dont Exist")
     }
     else{
-      alert("Ride Requested Successfully With Id: "+rideId+', stops: '+this.stops_string);
-      let request_ride_input:any = document.getElementById('request_ride_input');
-      request_ride_input.style.display = 'none';
-
-      //request_ride_input.remove();
+      //alert("Ride Requested Successfully With Id: "+rideId+', stops: '+this.stops_string);
+      this.pendingRidesPolling();
       }
   }
 
@@ -464,5 +463,29 @@ export class ClientMapComponent implements AfterViewInit {
     }
   }
 
+  reportDriver(){
+    let reason = prompt("Why are you reporting the driver?");
+    const request = this.userService.reportDriver(this.rideId, reason);
+    request.subscribe();
+  }
+
+  
+  pendingRidesPolling() {
+    this.pollingInterval = setInterval(() =>{
+      const request = this.http.get('/api/ride/get/'+this.rideId);
+      request.subscribe((response) => {
+        let ride:any = response;
+        if(ride.status==="ONGOING"){
+          if(!this.rideStarted) this.rideStarted=true;
+        } else if(ride.status==="FINISHED"){
+          this.stopPolling();
+        }
+      })
+    }, 5000) // 5s
+  };
+
+  stopPolling() {
+    clearInterval(this.pollingInterval);
+  }
 
 }
