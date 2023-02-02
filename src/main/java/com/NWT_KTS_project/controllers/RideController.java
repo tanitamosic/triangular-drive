@@ -29,6 +29,7 @@ public class RideController {
         return getRidesByUserIdSort(id, "date","desc");
     }
 
+
     @GetMapping("getRidesByUserId/{id}/{sort}/{order}")
     List<Ride> getRidesByUserIdSort(@PathVariable int id,@PathVariable String sort,@PathVariable String order)
     {
@@ -65,6 +66,12 @@ public class RideController {
     public ResponseEntity<List<Ride>> getAssignedRide(@PathVariable("driverId") Integer id) {
         List<Ride> r = rideService.getAssignedRide(id);
         return new ResponseEntity<>(r, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/get/{rideId}")
+    public ResponseEntity<Ride> getRide(@PathVariable("rideId") Integer id){
+        Ride r = rideService.getRideById(id);
+        return new ResponseEntity<>(r,HttpStatus.OK);
     }
 
 

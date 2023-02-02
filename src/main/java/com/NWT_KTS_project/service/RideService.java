@@ -39,6 +39,10 @@ public class RideService{
     @Autowired
     private ReservationRepository reservationRepository;
 
+    public Ride getRideById(int id){
+        return rideRepository.findByRideId(id);
+    }
+
     public List<Ride> getRidesByUserId(int id, RideComparator comparator) {
         List<Ride> rides = rideRepository.findByPassengersId(id);
         rides.addAll(rideRepository.findByDriverId(id));

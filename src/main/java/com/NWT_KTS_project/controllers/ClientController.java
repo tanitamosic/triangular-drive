@@ -2,7 +2,9 @@ package com.NWT_KTS_project.controllers;
 
 
 
+import com.NWT_KTS_project.DTO.ReportDTO;
 import com.NWT_KTS_project.model.Address;
+import com.NWT_KTS_project.model.Report;
 import com.NWT_KTS_project.model.Reservation;
 import com.NWT_KTS_project.model.enums.CarType;
 import com.NWT_KTS_project.model.Ride;
@@ -45,6 +47,11 @@ public class ClientController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ReportService reportService;
+
+
+    DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
@@ -82,17 +89,17 @@ public class ClientController {
     public int makeReservation(@PathVariable Integer userId,@RequestHeader String stops,
                                @RequestHeader String passengers,@RequestHeader boolean petFriendly,
                                @RequestHeader boolean babyFriendly,@RequestHeader CarType carType,
-                               @RequestHeader LocalDateTime time, @RequestHeader String price){
+                               @RequestHeader String timeString, @RequestHeader String price){
         ArrayList<Address> addresses = addressService.getAddressesFromString(stops);
         ArrayList<Client> clients = userService.getClientsFromPassangersString(passengers);
         clients.add(0, (Client) userService.getUserById(userId));
 
         int numPassengers = passengers.split(";").length;
-        Driver driver = driverService.getAvailableDriver(addresses.get(0).getLatitude(), addresses.get(0).getLongitude(), petFriendly, babyFriendly, numPassengers, carType);
+        Driver driver = driverService.reserveDriver(petFriendly, babyFriendly, numPassengers, carType);
         if(driver == null) return -1;
 
         if (!paymentService.processPaymentForRide(clients,addresses,driver.getCar())) return -2;
-
+        LocalDateTime time = LocalDateTime.parse(timeString.substring(0,timeString.length()-5),TIME_FORMATTER);
         Reservation res = rideService.makeReservation(driver, addresses, clients, RideStatus.RESERVED,time,price);
         return res.getRide().getId();
     }
@@ -117,5 +124,11 @@ public class ClientController {
     @GetMapping("get-funds/{clientId}")
     public float getFunds(@PathVariable Integer clientId) {
         return paymentService.getFunds(clientId);
+    }
+
+    @PostMapping("/report")
+    public void reportDriver(@RequestBody ReportDTO dto){
+        Ride ride = rideService.getRideById(dto.rideId);
+        reportService.makeReport(ride,dto.reason);
     }
 }

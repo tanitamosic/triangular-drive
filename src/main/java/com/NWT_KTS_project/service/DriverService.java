@@ -6,13 +6,16 @@ import com.NWT_KTS_project.model.Position;
 import com.NWT_KTS_project.model.enums.CarType;
 import com.NWT_KTS_project.model.enums.DriverStatus;
 import com.NWT_KTS_project.model.users.Driver;
+import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.repository.DriverUpdateRepository;
 import com.NWT_KTS_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.NWT_KTS_project.model.users.Role;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class DriverService {
@@ -63,6 +66,22 @@ public class DriverService {
         }
 
         return closestDriver;
+    }
+
+    public Driver reserveDriver(boolean petFriendly, boolean babyFriendly, int numberOfPassengers, CarType carType) {
+        ArrayList<Driver> availableDrivers = new ArrayList<Driver>();
+        List<User> drivers = userRepository.findUsersByRole("DR");
+        for (User u: drivers) {
+            Driver driver = (Driver) u;
+            if (driver.getCar().getSeats() >= numberOfPassengers && driver.getCar().getType() == carType) {
+                if (petFriendly && !driver.getCar().getPetFriendly()) continue;
+                if (babyFriendly && !driver.getCar().getBabyFriendly()) continue;
+                availableDrivers.add(driver);
+            }
+        }
+        if(availableDrivers.size() == 0) return null;
+
+        return availableDrivers.get(0);
     }
 
     public DriverStatus getDriverStatus(Integer id) {
