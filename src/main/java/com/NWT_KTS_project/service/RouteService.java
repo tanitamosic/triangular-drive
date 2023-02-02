@@ -16,10 +16,10 @@ public class RouteService {
     private PriceByCarTypeRepository priceRepository;
 
     //TODO: add pricing by car type
-    public double getPrice(int distance) {
+    public double getPrice(double distance) {
         return distance*120;
     }
-    public double getPriceByType(int distance, CarType type){
+    public double getPriceByType(double distance, CarType type){
         return distance * 120 + priceRepository.getPriceByType(type);
     }
 }
