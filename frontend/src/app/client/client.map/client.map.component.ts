@@ -249,6 +249,11 @@ export class ClientMapComponent implements AfterViewInit {
     else{
       //alert("Ride Requested Successfully With Id: "+rideId+', stops: '+this.stops_string);
       this.pendingRidesPolling();
+      alert("Ride Requested Successfully");
+      let request_ride_input:any = document.getElementById('request_ride_input');
+      request_ride_input.style.display = 'none';
+
+      //request_ride_input.remove();
       }
   }
 

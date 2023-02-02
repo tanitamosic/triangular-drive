@@ -4,6 +4,7 @@ import com.NWT_KTS_project.model.Position;
 
 import com.NWT_KTS_project.model.Ride;
 import com.NWT_KTS_project.model.enums.DriverStatus;
+import com.NWT_KTS_project.model.enums.RideStatus;
 import com.NWT_KTS_project.service.DriverService;
 import com.NWT_KTS_project.service.PositionService;
 import com.NWT_KTS_project.service.RideService;
@@ -56,6 +57,11 @@ public class DriverController {
     public Ride markRideAsFinished(@PathVariable int driverId, @PathVariable int rideId){
         rideService.markRideAsFinished(rideId);
         return rideService.getNextRideForDriver(driverId);
+    }
+
+    @PostMapping("setRideStatus/{rideId}/{status}")
+    public void setRideStatus(@PathVariable int rideId, @PathVariable RideStatus status){
+        rideService.setRideStatus(rideId, status);
     }
 
     @GetMapping("/set-status/{id}/{status}")
