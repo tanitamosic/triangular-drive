@@ -4,24 +4,28 @@
 <!-- Load geocoding plugin after Leaflet -->
 
 <div>
-  <h1>Latitude: {{latitude}}</h1>
-  <h1>Longitude: {{longitude}}</h1>
-</div>
-<div>
   <div class="input-container">
     <table [style]="{'width': '20%', 'min-width': '10%'}">
-      <tr *ngFor="let ride of rides">
+      <tr *ngFor="let ride of rides" rowspan="2">
         <td>
-          <img height="60px" width="60px" src="ride.passengers[0].photo.path" alt="No pfp from this goober">
-        </td>
-        <td>
-          Price: {{ride.price}}; Passengers: {{ride.passengers.length}}
-        </td>
-        <td>
-          <button pButton pRipple class="p-button-success" label="Accept" (click)="acceptRide($event, ride.id)"></button>
-        </td>
-        <td>
-          <button pButton pRipple class="p-button-danger" label="Reject" (click)="rejectRide($event, ride.id)"></button>
+          <table>
+            <tr>
+              <td class="ride-label" id="pass-pfp">
+                <img height="60px" width="60px" src="ride.passengers[0].photo.path" alt="No pfp from this goober">
+              </td>
+              <td class="ride-label" id="price-pass">
+                Price: {{ride.price}} Passengers: {{ride.passengers.length}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button pButton pRipple class="p-button-success" label="Accept" (click)="acceptRide($event, ride.id)"></button>
+              </td>
+              <td>
+                <button pButton pRipple class="p-button-danger" label="Reject" (click)="rejectRide($event, ride.id)"></button>
+              </td>
+            </tr>
+          </table>
         </td>
       </tr>
     </table>

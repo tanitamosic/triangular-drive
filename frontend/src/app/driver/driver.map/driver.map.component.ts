@@ -38,8 +38,6 @@ export class DriverMapComponent implements AfterViewInit {
   rides: any;
 
   simulation:DriverRideSimulation;
-  latitude: number = 0;
-  longitude: number = 0;
 
   constructor(mapService:MapService, private profileService: ProfileService,
               private httpClient: HttpClient,
@@ -56,17 +54,19 @@ export class DriverMapComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.initMap();
     this.sendPosition();
+    this.pendingRidesPolling();
   }
 
   async  sendPosition() {
     //get coordinates using navigator.geolocation
     let latitude: number = 0;
     let longitude: number = 0;
-    navigator.geolocation.getCurrentPosition((position) => {latitude=position.coords.latitude;longitude=position.coords.longitude;this.latitude=latitude;this.longitude=longitude;});
+    navigator.geolocation.getCurrentPosition((position) => {latitude=position.coords.latitude;longitude=position.coords.longitude;});
 
     await new Promise(r => setTimeout(r, 1000));
+    let pos = [45.235866, 19.807387];
 
-    const request = this.httpClient.post('api/driver/updatePosition/'+this.userService.getUser().id+'/'+latitude+'/'+longitude, null);
+    const request = this.httpClient.post('api/driver/updatePosition/'+this.userService.getUser().id+'/'+pos[0]+'/'+pos[1], null);
     request.subscribe();
   }
 
@@ -183,7 +183,7 @@ export class DriverMapComponent implements AfterViewInit {
   }
 
   rejectRide($event: MouseEvent, id: Number) {
-    let reason = prompt("Thou must state thy reasoning for rejection (uwu): ")
+    let reason = prompt("Why are you rejecting the ride? ")
     alert(reason)
   }
 }
