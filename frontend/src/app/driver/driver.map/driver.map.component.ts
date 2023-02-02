@@ -53,9 +53,9 @@ export class DriverMapComponent implements AfterViewInit {
   simulation:DriverRideSimulation;
 
   carIcon = L.icon({
-    iconUrl: 'assets/map_rescources/wheel.png',
+    iconUrl: 'assets/map_rescources/car.png',
 
-    iconSize:     [40, 90], // size of the icon
+    iconSize:     [25, 30], // size of the icon
     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
   });
@@ -315,7 +315,6 @@ export class DriverMapComponent implements AfterViewInit {
     let reason = prompt("Why are you rejecting the ride? ")
     alert(reason)
   }
-
 
 
   endRide(){
