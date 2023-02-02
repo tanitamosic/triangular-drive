@@ -4,17 +4,19 @@
 <!-- Load geocoding plugin after Leaflet -->
 
 <div>
-  <div class="input-container">
+  <div class="input-container" *ngIf="!ongoingRide">
     <table [style]="{'width': '20%', 'min-width': '10%'}">
       <tr *ngFor="let ride of rides" rowspan="2">
-        <td>
+        <td style="border: 1px solid black;">
           <table>
             <tr>
               <td class="ride-label" id="pass-pfp">
-                <img height="60px" width="60px" src="ride.passengers[0].photo.path" alt="No pfp from this goober">
+                <p height="60px" width="60px"  >{{ride.route.start.street}}</p>
               </td>
+            </tr>
+            <tr>
               <td class="ride-label" id="price-pass">
-                Price: {{ride.price}} Passengers: {{ride.passengers.length}}
+                <p>Price: {{ride.price}} Passengers: {{ride.passengers.length}}</p>
               </td>
             </tr>
             <tr>
@@ -29,6 +31,14 @@
         </td>
       </tr>
     </table>
+  </div>
+  <div *ngIf="ongoingRide">
+    <div style="margin-top:200px">
+      <button pButton pRipple class="p-button-success" label="End Ride" (click)="endRide()" style="width: 300px;height: 150px;"></button>
+    </div>
+    <div style="margin-top:200px">
+      <button pButton pRipple class="p-button-danger" label="Emergency Stop" (click)="emergencyStop()" style="width: 300px;height:150px;"></button>
+    </div>
   </div>
   <div class="map-container">
     <div class="map-frame">

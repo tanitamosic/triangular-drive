@@ -59,6 +59,12 @@ public class RideService{
         rideRepository.save(ride);
     }
 
+    public void setRideStatus(int id, RideStatus status){
+        Ride ride = rideRepository.findById(id).get();
+        ride.setStatus(status);
+        rideRepository.save(ride);
+    }
+
 
     public Ride getNextRideForDriver(int id){
         List<Ride> rides = rideRepository.findByDriverId(id);
