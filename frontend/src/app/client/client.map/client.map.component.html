@@ -123,8 +123,16 @@
         </td>
       </tr>
       <tr>
+        <td>
+          <button pButton pRipple label="Search" [style]="{'width': '100%'}" (click)="search()"></button>
+        </td>
+        <td>
+          <button pButton pRipple label="Request Ride" [style]="{'width': '100%'}" (click)="requestRide()"></button>
+        </td>
+      </tr>
+      <tr>
         <td colspan="2">
-          <button pButton pRipple label="Request Ride" [style]="{'width': '100%'}" (click)="search()"></button>
+          <button pButton pRipple label="Make Reservation" [style]="{'width': '100%'}" (click)="makeReservation()"></button>
         </td>
       </tr>
       <tr>
@@ -138,15 +146,13 @@
         </td>
       </tr>
     </table>
-     
   </div>
-  <div class="map-container" style="width: 75%;margin-left: 120px;">
+  <div class="map-container">
     <div class="map-frame">
       <div id="map-client"></div>
     </div>
   </div>
   <script src="leaflet-routing-machine.min.js"></script>
-  
 </div>
 
 

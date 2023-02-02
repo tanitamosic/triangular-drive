@@ -48,7 +48,7 @@ export class ClientMapComponent implements AfterViewInit {
   passenger5: String = '';
   passenger6: String = '';
   passenger7: String = '';
-  price: String = '0';
+  price: string = '0';
   distance: string = "0";
   selectedCity: any;
   cities: City[] = [];
@@ -184,10 +184,19 @@ export class ClientMapComponent implements AfterViewInit {
     this.getStops();
     this.getPassengers();
     this.drawToMap();
-   
     
-    this.requestRide();
-    
+  }
+
+  makeReservation(){
+    let time = new Date();
+    time.setHours(time.getHours()+1);
+    const request = this.http.get('api/client/make-reservation/'+this.userService.getUser().id,
+    {headers:{'stops':this.stops_string,'passengers':this.passengers_string,'petFriendly':String(this.petFriendly),
+    'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code,}});
+    let rideId: number = 0;
+    request.subscribe(data => {
+      rideId = Number(data);
+    });
   }
 
   async requestRide() {
@@ -195,16 +204,15 @@ export class ClientMapComponent implements AfterViewInit {
     await this.delay(5000);
     
     //alert(this.stops_string);
-    const request = this.http.get('api/client/requestRide/'+this.userService.getUser().id,{headers:{stops:this.stops_string, passengers:this.passengers_string,'petFriendly':String(this.petFriendly),'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code}});
+    const request = this.http.get('api/client/requestRide/'+this.userService.getUser().id,
+    {headers:{stops:this.stops_string, passengers:this.passengers_string,'petFriendly':String(this.petFriendly),
+    'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code,'price':this.price}});
     let rideId: number = 0;
     request.subscribe(data => {
       rideId = Number(data);
     });
 
     await this.delay(4000);
-
-    
-    
 
     if(rideId===-1){
       alert("Driver Could Not Be Found")
@@ -219,7 +227,7 @@ export class ClientMapComponent implements AfterViewInit {
       alert("Ride Requested Successfully With Id: "+rideId+', stops: '+this.stops_string);
       let request_ride_input:any = document.getElementById('request_ride_input');
       //request_ride_input.style.display = 'none';
-      request_ride_input.remove();
+      //request_ride_input.remove();
 
 
       }
@@ -359,9 +367,10 @@ export class ClientMapComponent implements AfterViewInit {
       previousStop.y = r[0].y;
 
       this.addStopToRoute(r);
+      this.getDistance();
+      this.getPrice();
     });
-    this.getDistance();
-    this.getPrice();
+
   }
 
   private addStopToRoute(r: SearchResult<Object>[]) {
