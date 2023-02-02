@@ -11,6 +11,7 @@ import com.NWT_KTS_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -76,8 +77,8 @@ public class ClientController {
 
 
     @GetMapping("/get-client-rides/{clientId}/{date1}/{date2}")
+    @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<List<Ride>> getTotalClientExpense(@PathVariable Integer clientId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
         LocalDate d1 = LocalDate.parse(date1, FORMATTER);
         LocalDateTime dateTime1 = d1.atStartOfDay();
         LocalDate d2 = LocalDate.parse(date2, FORMATTER);
@@ -87,11 +88,13 @@ public class ClientController {
     }
 
     @PostMapping("add-funds/{clientId}/{amount}")
+    @PreAuthorize("hasRole('CLIENT')")
     public float addFunds(@PathVariable Integer clientId,@PathVariable Double amount) {
         return paymentService.addFunds(clientId, Float.parseFloat(amount.toString()));
     }
 
     @GetMapping("get-funds/{clientId}")
+    @PreAuthorize("hasRole('CLIENT')")
     public float getFunds(@PathVariable Integer clientId) {
         return paymentService.getFunds(clientId);
     }

@@ -10,6 +10,7 @@ import com.NWT_KTS_project.service.RideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -59,12 +60,14 @@ public class DriverController {
     }
 
     @GetMapping("/set-status/{id}/{status}")
+    @PreAuthorize("hasRole('DRIVER')")
     public ResponseEntity<String> updateStatus(@PathVariable("id") Integer id, @PathVariable("status") DriverStatus status) {
         this.driverService.setDriverStatus(id, status);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("get-status/{id}")
+    @PreAuthorize("hasRole('DRIVER')")
     public ResponseEntity<DriverStatus> getStatus(@PathVariable("id") Integer id) {
         DriverStatus ds = this.driverService.getDriverStatus(id);
         return new ResponseEntity<>(ds, HttpStatus.OK);
@@ -72,8 +75,8 @@ public class DriverController {
 
 
     @GetMapping("/get-driver-rides/{driverId}/{date1}/{date2}")
+    @PreAuthorize("hasRole('DRIVER')")
     public ResponseEntity<List<Ride>> getTotalDriverIncome(@PathVariable Integer driverId, @PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
         LocalDate d1 = LocalDate.parse(date1, FORMATTER);
         LocalDateTime dateTime1 = d1.atStartOfDay();
         LocalDate d2 = LocalDate.parse(date2, FORMATTER);

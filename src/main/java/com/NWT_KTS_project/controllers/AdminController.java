@@ -64,6 +64,7 @@ public class AdminController {
     }
 
     @PostMapping("/register-driver")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> registerDriver(@RequestBody NewDriverDTO newDriverDTO) {
         try {
             if (this.userService.registerDriver(newDriverDTO)) {
@@ -135,8 +136,8 @@ public class AdminController {
     }
 
     @GetMapping("/get-rides/{date1}/{date2}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Ride>> getTotalDriverIncome(@PathVariable String date1, @PathVariable String date2) {
-        // TODO: IMPLEMENT
         LocalDate d1 = LocalDate.parse(date1, FORMATTER);
         LocalDateTime dateTime1 = d1.atStartOfDay();
         LocalDate d2 = LocalDate.parse(date2, FORMATTER);

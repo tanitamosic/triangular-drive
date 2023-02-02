@@ -62,6 +62,7 @@ public class RideController {
     }
 
     @GetMapping(value="/{driverId}/assigned-ride")
+    @PreAuthorize("hasRole('DRIVER')")
     public ResponseEntity<List<Ride>> getAssignedRide(@PathVariable("driverId") Integer id) {
         List<Ride> r = rideService.getAssignedRide(id);
         return new ResponseEntity<>(r, HttpStatus.OK);
