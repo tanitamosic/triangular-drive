@@ -49,9 +49,6 @@ export class DriverMapComponent implements AfterViewInit {
   user: User;
   rides: any;
   
-
-  simulation:DriverRideSimulation;
-
   carIcon = L.icon({
     iconUrl: 'assets/map_rescources/car.png',
 
@@ -68,7 +65,6 @@ export class DriverMapComponent implements AfterViewInit {
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
     this.mapService = mapService;
-    this.simulation = new DriverRideSimulation();
 
     this.user = this.userService.getUser();
 
@@ -312,8 +308,17 @@ export class DriverMapComponent implements AfterViewInit {
   }
 
   rejectRide($event: MouseEvent, id: Number) {
-    let reason = prompt("Why are you rejecting the ride? ")
-    alert(reason)
+    for (let i=0; i<this.rides.length; ++i){
+      if (this.rides[i].id == id){
+        let reason = prompt("Why are you rejecting the ride? ")
+        let rideId = this.rides[i].id;
+        const request = this.userService.reportDriver(rideId, reason);
+        request.subscribe();
+        const rejRequest = this.httpClient.post("/api/driver/reject-ride",{"rideId":rideId, "reason":reason});
+        rejRequest.subscribe();
+        break;
+      }
+    }
   }
 
 

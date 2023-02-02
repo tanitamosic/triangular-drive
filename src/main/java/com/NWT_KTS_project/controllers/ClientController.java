@@ -129,6 +129,6 @@ public class ClientController {
     @PostMapping("/report")
     public void reportDriver(@RequestBody ReportDTO dto){
         Ride ride = rideService.getRideById(dto.rideId);
-        reportService.makeReport(ride,dto.reason);
+        reportService.makeReport(ride.getPassengers().get(0),ride.getDriver(),dto.reason);
     }
 }
