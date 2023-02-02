@@ -15,6 +15,7 @@ import {Constants} from "../../constants";
 import { HttpClient } from '@angular/common/http';
 import { AllCarsSimulation } from 'src/app/model/simulation';
 import {ActivatedRoute} from "@angular/router";
+import {InputTextModule} from 'primeng/inputtext';
 
 declare var L: any;
 
@@ -56,6 +57,11 @@ export class ClientMapComponent implements AfterViewInit {
   stops_string: string = '';
   stop_strings_array: object|any= {};
   passengers_string: string= '';
+  hours_string="";
+  minutes_string="";
+  hours:number=0;
+  minutes:number=0;
+  reservationVisible:boolean = false;
 
   provider: OpenStreetMapProvider;
   searchControl: any;
@@ -88,7 +94,6 @@ export class ClientMapComponent implements AfterViewInit {
         this.simulation.allCars.push(c);
       });
       this.simulation.updatePositions();
-      this.drawCarMarkers();
     });
 
     const citiesRequest = this.profileService.getCitiesRequest();
@@ -187,16 +192,32 @@ export class ClientMapComponent implements AfterViewInit {
     
   }
 
+  showReservation(){
+    this.reservationVisible=!this.reservationVisible;
+  }
+
+  checkNumInput(event:Event){
+    
+  }
+
   makeReservation(){
-    let time = new Date();
-    time.setHours(time.getHours()+1);
-    const request = this.http.get('api/client/make-reservation/'+this.userService.getUser().id,
-    {headers:{'stops':this.stops_string,'passengers':this.passengers_string,'petFriendly':String(this.petFriendly),
-    'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code,}});
-    let rideId: number = 0;
-    request.subscribe(data => {
-      rideId = Number(data);
-    });
+    this.hours=Number.parseInt(this.hours_string);
+    this.minutes = Number.parseInt(this.minutes_string);
+    if (this.hours<5 && this.minutes<60){
+      let time = new Date();
+      time.setHours(time.getHours()+this.hours);
+      time.setMinutes(time.getMinutes()+this.minutes);
+      const request = this.http.get('api/client/make-reservation/'+this.userService.getUser().id,
+      {headers:{'stops':this.stops_string,'passengers':this.passengers_string,'petFriendly':String(this.petFriendly),
+      'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code,}});
+      let rideId: number = 0;
+      request.subscribe(data => {
+        rideId = Number(data);
+      });
+    } else{
+      alert("Your reservation can be a maximum of 5 hours in advance.")
+    }
+    
   }
 
   async requestRide() {
@@ -226,17 +247,11 @@ export class ClientMapComponent implements AfterViewInit {
     else{
       alert("Ride Requested Successfully");
       let request_ride_input:any = document.getElementById('request_ride_input');
-      //request_ride_input.style.display = 'none';
+      request_ride_input.style.display = 'none';
+
       //request_ride_input.remove();
-
-
       }
   }
-
-
-
-  
-  
 
   async getStops() {
     this.stops_string='';
@@ -279,8 +294,6 @@ export class ClientMapComponent implements AfterViewInit {
     });
 
     await this.delay(4000);
-
-    
 
     this.stops_string='';
     for (let i = 0; i < 6; i++) {
@@ -398,37 +411,6 @@ export class ClientMapComponent implements AfterViewInit {
     }).addTo(this.map);
   }
 
-
-  async drawMarker() {
-    var carIcon = L.icon({
-      iconUrl: 'assets/map_rescources/wheel.png',
-
-      iconSize:     [40, 90], // size of the icon
-      iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-      popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-    });
-    var lat:number =0;
-    var long:number = 0;
-    navigator.geolocation.getCurrentPosition((position) => {lat=position.coords.latitude;long=position.coords.longitude;});
-    await new Promise(r => setTimeout(r, 1));
-    const marker = L.marker([ lat,long],{icon:carIcon}).addTo(this.map);
-  }
-
-  drawCarMarkers() {
-    var carIcon = L.icon({
-      iconUrl: 'assets/map_rescources/car.png',
-
-      iconSize:     [40, 90], // size of the icon
-      iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-      popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-    });
-    this.simulation.allCars.forEach(c=>{
-      console.log("drawcars");
-        const marker = L.marker([ c.position[0],c.position[1]],{icon:carIcon}).addTo(this.map);
-    })
-  }
-
-
   addDest() {
     if (this.inputCounter === 4) { return; }
     this.inputCounter = this.inputCounter + 1;
@@ -448,14 +430,6 @@ export class ClientMapComponent implements AfterViewInit {
       this.dest1 = '';
       this.inputCounter -= 1;
     }
-  }
-
-  applyFilter($event: any) {
-    console.log(this.selectedCity);
-    console.log(this.selectedCarType);
-    console.log(this.babyFriendly);
-    console.log(this.petFriendly);
-    // TODO: FILTER AVAILABLE DRIVERS BY PARAMETERS (CHILD/PET FRIENDLY, CAR TYPE, CITY)
   }
 
   addPassenger() {
@@ -489,5 +463,6 @@ export class ClientMapComponent implements AfterViewInit {
       this.passengerInputCounter -= 1;
     }
   }
+
 
 }
