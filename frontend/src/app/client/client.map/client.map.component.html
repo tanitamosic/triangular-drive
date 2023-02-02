@@ -164,7 +164,7 @@
       </tr>
     </table>
   </div>
-  <div id="report-driver">
+  <div id="report-driver" *ngIf="rideStarted">
     <button pButton pRipple label="Report driver" class="p-button-danger" (click)="reportDriver()"></button>
   </div>
   <div class="map-container">

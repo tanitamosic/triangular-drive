@@ -83,6 +83,16 @@ export class ClientMapComponent implements AfterViewInit {
   petFriendly: boolean = false;
   minSeats: Number = 1;
 
+  carIcon = L.icon({
+    iconUrl: 'assets/map_rescources/car.png',
+
+    iconSize:     [40, 90], // size of the icon
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+  });
+
+  driverMarker = L.marker([45.235866, 19.807387], {icon: this.carIcon});
+
   constructor(private mapService: MapService,
               private profileService: ProfileService,
               private carService: CarService,
@@ -490,5 +500,6 @@ export class ClientMapComponent implements AfterViewInit {
   stopPolling() {
     clearInterval(this.pollingInterval);
   }
+
 
 }
