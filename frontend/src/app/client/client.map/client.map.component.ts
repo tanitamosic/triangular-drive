@@ -29,6 +29,9 @@ export class ClientMapComponent implements AfterViewInit {
   private map: any;
   inputCounter: number = 0;
   passengerInputCounter: number = 0;
+  simulationTime: number = 1000;
+  ridePollingTime: number = 1500;
+  
 
   start: String = '';
   dest1: String = '';
@@ -82,16 +85,21 @@ export class ClientMapComponent implements AfterViewInit {
   babyFriendly: boolean = false;
   petFriendly: boolean = false;
   minSeats: Number = 1;
+  simulationDriverMarkers: any[] = [];
+  simulationDriverPositions: any[] = [];
+  numSimulations: number = 40;
 
   carIcon = L.icon({
     iconUrl: 'assets/map_rescources/car.png',
 
-    iconSize:     [40, 90], // size of the icon
+    iconSize:     [25, 30], // size of the icon
     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
   });
 
-  driverMarker = L.marker([45.235866, 19.807387], {icon: this.carIcon});
+  driver_position: any = {x: 45.235866, y: 19.807387};
+
+  driverMarker = L.marker([this.driver_position.x, this.driver_position.y], {icon: this.carIcon});
 
   constructor(private mapService: MapService,
               private profileService: ProfileService,
@@ -147,6 +155,9 @@ export class ClientMapComponent implements AfterViewInit {
       this.final = params['dstreet'];
       this.final_number = params['dnumber'];
     }
+    this.initSimulationDrivers();
+    this.IdlePollingFunction();
+    this.IdlePolling();
 
   }
 
@@ -165,6 +176,23 @@ export class ClientMapComponent implements AfterViewInit {
     tiles.addTo(this.map);
   }
 
+
+  initSimulationDrivers(){
+    this.simulationDriverMarkers= [];
+    this.simulationDriverPositions= [];
+    let x_max = 45.28525483290174;
+    let x_min = 45.233218687593926;
+    let y_max = 19.852369000857784;
+    let y_min =19.785614918537252;
+    
+    for (let i = 0; i < this.numSimulations; i++) {
+      let x = Math.random() * (x_max - x_min) + x_min;
+      let y = Math.random() * (y_max - y_min) + y_min;
+      this.simulationDriverPositions.push({x: x, y: y});
+      let marker = L.marker([x, y], {icon: this.carIcon});
+      this.simulationDriverMarkers.push(marker);
+    }
+  }
 
   getDistance() {
     let dist = 0;
@@ -243,24 +271,35 @@ export class ClientMapComponent implements AfterViewInit {
     request.subscribe(data => {
       this.rideId = Number(data);
       if(this.rideId>0)
-        this.pendingRidesPolling();
+        this.stopIdlePolling();
+        this.stopPolling();
+        this.RidePolling();
     });
 
     await this.delay(4000);
 
     if(this.rideId===-1){
       alert("Driver Could Not Be Found")
+      window.location.reload();
     }
     else if(this.rideId===-2){
       alert("Payment Failed")
+      window.location.reload();
     }
     else if (this.rideId===-3){
       alert("One Or More Passengers Dont Exist")
+      window.location.reload();
     }
     else{
-      //alert("Ride Requested Successfully With Id: "+rideId+', stops: '+this.stops_string);
       alert("Ride Requested Successfully");
+      this.removeSimulationMarkers();
       }
+  }
+
+  removeSimulationMarkers(){
+    for (let i = 0; i < this.simulationDriverPositions.length; i++) {
+      this.map.removeLayer(this.simulationDriverMarkers[i]);
+    }
   }
 
   async getStops() {
@@ -268,38 +307,32 @@ export class ClientMapComponent implements AfterViewInit {
     this.stop_strings_array = {0:'',1:'',2:'',3:'',4:'',5:''}
 
     this.getQueryResult(this.start+" "+this.start_number + ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-      //this.stops_string += this.selectedCity.code+','+this.start+','+this.start_number+','+r[0].y+','+r[0].x;
       this.stop_strings_array[0] = this.selectedCity.code+','+this.start+','+this.start_number+','+r[0].y+','+r[0].x;
     });
 
     if (this.dest1!=='') {
       this.getQueryResult(this.dest1 +' '+this.dest1_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-        //this.stops_string +=";"+ this.selectedCity.code+','+this.dest1+','+this.dest1_number+','+r[0].y+','+r[0].x;
         this.stop_strings_array[1] =";"+ this.selectedCity.code+','+this.dest1+','+this.dest1_number+','+r[0].y+','+r[0].x;
       });
     }
     if (this.dest2!=='') {
       this.getQueryResult(this.dest2 +' '+this.dest2_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-        //this.stops_string +=";"+  this.selectedCity.code+','+this.dest2+','+this.dest2_number+','+r[0].y+','+r[0].x;
         this.stop_strings_array[2] =";"+ this.selectedCity.code+','+this.dest2+','+this.dest2_number+','+r[0].y+','+r[0].x;
       });
         setTimeout(()=>{},1000);
     }
     if (this.dest3!=='') {
       this.getQueryResult(this.dest3 +' '+this.dest3_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-        //this.stops_string +=";"+  this.selectedCity.code+','+this.dest3+','+this.dest3_number+','+r[0].y+','+r[0].x;
         this.stop_strings_array[3] = ";"+this.selectedCity.code+','+this.dest3+','+this.dest3_number+','+r[0].y+','+r[0].x;
       });
     }
     if (this.dest4!=='') {
       this.getQueryResult(this.dest4 +' '+this.dest4_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-        //this.stops_string += ";"+ this.selectedCity.code+','+this.dest4+','+this.dest4_number+','+r[0].y+','+r[0].x;
         this.stop_strings_array[4] = ";"+this.selectedCity.code+','+this.dest4+','+this.dest4_number+','+r[0].y+','+r[0].x;
       });
     }
 
     this.getQueryResult(this.final +' '+this.final_number+ ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
-      //this.stops_string +=";"+  this.selectedCity.code+','+this.final+','+this.final_number+','+r[0].y+','+r[0].x;
       this.stop_strings_array[5] =";"+ this.selectedCity.code+','+this.final+','+this.final_number+','+r[0].y+','+r[0].x;
     });
 
@@ -481,21 +514,78 @@ export class ClientMapComponent implements AfterViewInit {
   }
 
   
-  pendingRidesPolling() {
+  RidePolling() {
     this.pollingInterval = setInterval(() =>{
       const request = this.http.get('/api/ride/get/'+this.rideId);
       request.subscribe((response) => {
         let ride:any = response;
         console.log(response);
         if(ride.status==="ONGOING"){
+          this.RidePollingFunction();
           if(!this.rideStarted) this.rideStarted=true;
         } else if(ride.status==="FINISHED"){
           this.stopPolling();
           window.location.reload();
         }
       })
-    }, 5000) // 5s
+    }, this.ridePollingTime)
   };
+
+  RidePollingFunction(){
+    this.getDriverPosition();
+    this.updateDriverMarker();
+
+
+  }
+
+
+  IdlePollingFunction() {
+    this.simulatePositions();
+    this.updateSimulationMarkers();
+  }
+
+  IdlePolling() {
+    this.pollingInterval = setInterval(() =>{
+        this.IdlePollingFunction();
+        
+    }, this.simulationTime)
+
+  }
+
+  stopIdlePolling() {
+    clearInterval(this.pollingInterval);
+  }
+
+  getDriverPosition(){
+    const request = this.http.get('/api/ride/get-position/'+this.rideId);
+    request.subscribe((response:any) => {
+      this.driver_position.x = response.latitude;
+      this.driver_position.y = response.longitude;
+  });
+}
+ updateDriverMarker(){
+    this.map.removeLayer(this.driverMarker);
+    this.driverMarker = L.marker([this.driver_position.x, this.driver_position.y], {icon: this.carIcon});
+    this.driverMarker.addTo(this.map);
+
+ }
+
+ 
+ simulatePositions(){
+    for(let i=0; i< this.simulationDriverPositions.length; i++){
+      this.simulationDriverPositions[i].x = this.simulationDriverPositions[i].x + Math.random() * 0.001 - 0.0005;
+      this.simulationDriverPositions[i].y =this.simulationDriverPositions[i].y + Math.random() * 0.001 - 0.0005;
+    } 
+ }
+
+ updateSimulationMarkers(){
+    for (let i = 0; i < this.simulationDriverMarkers.length; i++) {
+      this.map.removeLayer(this.simulationDriverMarkers[i]);
+      this.simulationDriverMarkers[i] = L.marker([this.simulationDriverPositions[i].x, this.simulationDriverPositions[i].y], {icon: this.carIcon});
+      this.simulationDriverMarkers[i].addTo(this.map);
+    }
+  }
+
 
   stopPolling() {
     clearInterval(this.pollingInterval);
