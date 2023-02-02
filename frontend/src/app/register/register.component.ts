@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
   profileService: ProfileService;
   regService: RegistrationService;
 
-  constructor(regService:RegistrationService, profService: ProfileService, private router: Router, private route: ActivatedRoute) {
+  constructor(regService:RegistrationService, profService: ProfileService, private router: Router) {
     this.regService = regService;
     this.profileService = profService;
     // LOAD CITIES

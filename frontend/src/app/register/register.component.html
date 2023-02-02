@@ -8,37 +8,22 @@
     <tr class="cell">
       <td colspan="2">
         <span class="p-float-label">
-          <input [style]="{'width':'100%'}" id="float-input" type="text" pInputText [(ngModel)]="email">
-          <label for="float-input">Email</label>
+          <input [style]="{'width':'100%'}" id="float-input-email" type="text" pInputText name="email" [(ngModel)]="email">
+          <label for="float-input-email">Email</label>
         </span>
       </td>
     </tr>
     <tr class="cell">
       <td>
         <span class="p-float-label">
-          <input [style]="{'width':'100%'}" type="password" id="float-input-2" pInputText [(ngModel)]="password1">
-          <label for="float-input-2">Password</label>
+          <input [style]="{'width':'100%'}" type="password" id="float-input-password1" pInputText name="pass1" [(ngModel)]="password1">
+          <label for="float-input-password1">Password</label>
         </span>
       </td>
       <td>
         <span class="p-float-label">
-          <input [style]="{'width':'100%'}" id="float-input-6" type="password" pInputText [(ngModel)]="password2">
-          <label for="float-input-6">Confirm password</label>
-        </span>
-      </td>
-    </tr>
-
-    <tr class="cell">
-      <td>
-        <span class="p-float-label">
-          <input [style]="{'width':'100%'}" id="float-input-3" type="text" pInputText [(ngModel)]="name">
-          <label for="float-input-3">First name</label>
-        </span>
-      </td>
-      <td>
-        <span class="p-float-label">
-          <input [style]="{'width':'100%'}" id="float-input-4" type="text" pInputText [(ngModel)]="lastName">
-          <label for="float-input-4">Last name</label>
+          <input [style]="{'width':'100%'}" id="float-input-password2" type="password" pInputText name="pass2" [(ngModel)]="password2">
+          <label for="float-input-password2">Confirm password</label>
         </span>
       </td>
     </tr>
@@ -46,17 +31,32 @@
     <tr class="cell">
       <td>
         <span class="p-float-label">
-          <input [style]="{'width':'100%'}" id="float-input-5" type="text" pInputText [(ngModel)]="phone">
-          <label for="float-input-5">Phone</label>
+          <input [style]="{'width':'100%'}" id="float-input-name" type="text" pInputText name="name" [(ngModel)]="name">
+          <label for="float-input-name">First name</label>
         </span>
       </td>
       <td>
-        <p-dropdown [style]="{'width':'100%'}" [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name" [showClear]="true"></p-dropdown>
+        <span class="p-float-label">
+          <input [style]="{'width':'100%'}" id="float-input-lastName" type="text" pInputText name="lastName" [(ngModel)]="lastName">
+          <label for="float-input-lastName">Last name</label>
+        </span>
+      </td>
+    </tr>
+
+    <tr class="cell">
+      <td>
+        <span class="p-float-label">
+          <input [style]="{'width':'100%'}" id="float-input-phone" type="text" pInputText name="phone" [(ngModel)]="phone">
+          <label for="float-input-phone">Phone</label>
+        </span>
+      </td>
+      <td>
+        <p-dropdown id="city" name="city" [style]="{'width':'100%'}" [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name" [showClear]="true"></p-dropdown>
       </td>
     </tr>
     <tr>
       <td colspan="2">
-        <button pButton [style]="{'width':'100%'}" pRipple label="Register" (click)="register($event)"></button>
+        <button pButton name="regBtn" id="regBtn" [style]="{'width':'100%'}" pRipple label="Register" (click)="register($event)"></button>
       </td>
     </tr>
   </table>

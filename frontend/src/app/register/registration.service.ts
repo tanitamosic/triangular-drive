@@ -6,17 +6,14 @@ import { tap } from 'rxjs';
   providedIn: 'root'
 })
 export class RegistrationService {
-  http;
-  loginResponse: any;
 
   constructor(private httpClient: HttpClient) {
-    this.http = httpClient;
   }
 
 
 
   postRegisterRequest(body: Object){
-    const request = this.http.post('/api/register', body, {responseType: 'text'});
+    const request = this.httpClient.post('/api/register', body, {responseType: 'text'});
     request.pipe(
       tap(
         {
@@ -29,7 +26,7 @@ export class RegistrationService {
   }
 
   postActivationCode(body: Object) {
-    const request = this.http.post('/api/register/confirm', body, {responseType: 'text'});
+    const request = this.httpClient.post('/api/register/confirm', body, {responseType: 'text'});
     return request;
   }
 }
