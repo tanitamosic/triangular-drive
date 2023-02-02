@@ -131,4 +131,9 @@ public class ClientController {
         Ride ride = rideService.getRideById(dto.rideId);
         reportService.makeReport(ride.getPassengers().get(0),ride.getDriver(),dto.reason);
     }
+
+    @PostMapping("/favorite-route/{userid}/{routeId}")
+    public void favoriteRoute(@PathVariable Integer userId, @PathVariable Integer routeId){
+        userService.favoriteRoute(userId, routeId);
+    }
 }

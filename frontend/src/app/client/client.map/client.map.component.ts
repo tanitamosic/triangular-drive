@@ -200,7 +200,7 @@ export class ClientMapComponent implements AfterViewInit {
     this.distance="0.0";
     this.price="0.0";
     this.mapRoute.stops = [];
-    
+
     this.getStops();
     this.getPassengers();
     this.drawToMap(); 
@@ -494,6 +494,7 @@ export class ClientMapComponent implements AfterViewInit {
           window.location.reload();
         } else if(ride.status==="REJECTED"){
           alert("Your request has been rejected.");
+          this.stopPolling();
         }
       })
     }, 5000) // 5s

@@ -29,6 +29,9 @@
                     class="p-button-rounded p-button-success mr-2" (click)="orderRide(ride.route)"></button>
             <button [disabled]="!ride.isReviewable" pTooltip="Review this ride" tooltipPosition="top" pButton pRipple icon="pi pi-star-fill" class="p-button-rounded p-button-warning mr-2"
             (click)="displayReviewModal(ride)"> </button>
+            <button pTooltip="Favorite this ride" tooltipPosition="left" pButton pRipple icon="pi pi-heart-fill"
+            class="p-button-rounded mr-2" (click)="favoriteRide(ride.route)">
+          </button>
         </td>
       </tr>
     </ng-template>
