@@ -33,9 +33,7 @@ public class ReportService {
         }
     }
 
-    public void makeReport(Ride ride, String reason) {
-        User reporter = ride.getPassengers().get(0);
-        User reportee = ride.getDriver();
+    public void makeReport(User reporter, User reportee, String reason) {
         Report report = new Report();
         report.setReporter(reporter);
         report.setReportee(reportee);

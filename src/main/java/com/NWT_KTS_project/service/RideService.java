@@ -142,4 +142,7 @@ public class RideService{
     public List<Ride> getClientRides(Integer clientId, LocalDateTime dateTime1, LocalDateTime dateTime2) {
         return rideRepository.getClientRides(clientId, dateTime1, dateTime2);
     }
+    public void saveRide(Ride ride){
+        rideRepository.saveAndFlush(ride);
+    }
 }

@@ -58,8 +58,8 @@ export class ClientMapComponent implements AfterViewInit {
   passenger7: String = '';
   passengers_string: string= '';
 
-  price: string = '0';
-  distance: string = "0";
+  price: string = '0.0';
+  distance: string = "0.0";
 
   selectedCity: any;
   cities: City[] = [];
@@ -225,6 +225,10 @@ export class ClientMapComponent implements AfterViewInit {
   }
 
   async search() {
+    this.distance="0.0";
+    this.price="0.0";
+    this.mapRoute.stops = [];
+    
     this.getStops();
     this.getPassengers();
     this.drawToMap(); 
@@ -364,10 +368,6 @@ export class ClientMapComponent implements AfterViewInit {
   }
 
   drawToMap() {
-    if ((this.start === '' || this.final === '') || this.start.length < 10 || this.final.length < 10) {
-      alert('Your route needs beginning and the end, dummy.')
-      return;
-    }
     let previousStop = {x: 0, y: 0};
     this.getQueryResult(this.start+" "+this.start_number + ', ' + this.selectedCity.name + ', Republika Srbija').then(r => {
       let rf:any = this.filterByCity(r);
@@ -526,6 +526,8 @@ export class ClientMapComponent implements AfterViewInit {
         } else if(ride.status==="FINISHED"){
           this.stopPolling();
           window.location.reload();
+        } else if(ride.status==="REJECTED"){
+          alert("Your request has been rejected.");
         }
       })
     }, this.ridePollingTime)
