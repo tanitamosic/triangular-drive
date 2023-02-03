@@ -77,11 +77,13 @@ export class ClientMapComponent implements AfterViewInit {
   pollingInterval: NodeJS.Timer | undefined;
   idlePollingInterval: NodeJS.Timer | undefined;
   reservationPollingInterval: NodeJS.Timer | undefined;
+  mapPollingInterval: NodeJS.Timer | undefined;
 
   provider: OpenStreetMapProvider;
   searchControl: any;
 
   mapRoute: MapRoute;
+  routeDrawn = false;
 
   carTypes: CarType[] = [];
   selectedCarType: any;
@@ -235,7 +237,9 @@ export class ClientMapComponent implements AfterViewInit {
     this.getStops();
     this.getPassengers();
     this.drawToMap(); 
+    this.mapPolling();
   }
+
 
   showReservation(){
     this.reservationVisible=!this.reservationVisible;
@@ -447,10 +451,12 @@ export class ClientMapComponent implements AfterViewInit {
       previousStop.y = r[0].y;
 
       this.addStopToRoute(r);
-      this.getDistance();
-      this.getPrice();
     });
 
+  }
+
+  enableButtons(){
+    this.routeDrawn=true//!this.routeDrawn;
   }
 
   private addStopToRoute(r: SearchResult<Object>[]) {
@@ -598,7 +604,19 @@ export class ClientMapComponent implements AfterViewInit {
         this.IdlePollingFunction();
         
     }, this.simulationTime)
+  }
 
+  mapPolling() {
+    this.mapPollingInterval = setInterval(() =>{
+      if(this.stop_strings_array[0]!=""&&this.stop_strings_array[0]!=""){
+        this.getDistance();
+        this.getPrice();
+        this.enableButtons();
+      }
+      if(this.routeDrawn){
+        clearInterval(this.mapPollingInterval);
+      }
+    }, this.simulationTime)
   }
 
   stopIdlePolling() {

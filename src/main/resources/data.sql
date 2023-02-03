@@ -51,7 +51,7 @@ insert into users (type, name, last_name, email, password, phone, city, credit_a
 insert into users (type, name, last_name, email, password, phone, city, credit_available, credit_reserved, blocked, activated) values
 ('CL', 'Ivana', 'Petrović', 'ivanapetrovic@gmail.com', '{bcrypt}$2a$10$4H1TlPp1tmZBATqj4cgVl.BVW8GWpbQ2OXd80qNGrpy6eTTAzs0xG', '060287964','NS', 5200, 48, FALSE, TRUE);
 insert into users (type, name, last_name, email, password, phone, city, credit_available, credit_reserved, blocked, activated) values
-('CL', 'Vlada', 'Garović', 'valdagarovic@gmail.com', '{bcrypt}$2a$10$wRDr7j6Gc/zraG.r1iPMhO9pPzhlUTim5yWBVW7IZpav25154Qvma', '060264895','NS', 3000, 0, FALSE, TRUE);
+('CL', 'Vlada', 'Garović', 'valdagarovic@gmail.com', '{bcrypt}$2a$10$wRDr7j6Gc/zraG.r1iPMhO9pPzhlUTim5yWBVW7IZpav25154Qvma', '060264895','NS', 50, 0, FALSE, TRUE);
 insert into users (type, name, last_name, email, password, phone, city, credit_available, credit_reserved, blocked, activated) values
 ('CL', 'Dragor', 'Draganović', 'dragordraganovic@gmail.com', '{bcrypt}$2a$10$3.MtlmHbIwdHUm5m406zQu/vq9egwaXE7vgd4DKWhF19OmUplCa5.', '064785765','NS', 5200, 48, FALSE, TRUE);
 -- DRIVERS

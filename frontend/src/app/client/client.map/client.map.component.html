@@ -27,7 +27,7 @@
           <input id="start" [(ngModel)]="start" pInputText type="text" placeholder="Start Street" [style]="{'width': '100%'}"/>
         </td>
         <td>
-          <input pInputText [(ngModel)]="start_number"  type="text" placeholder="Start Number" [style]="{'width': '100%'}"/>
+          <input id="start_number" pInputText [(ngModel)]="start_number"  type="text" placeholder="Start Number" [style]="{'width': '100%'}"/>
         </td>
       </tr>
       <tr>
@@ -64,10 +64,10 @@
       </tr>
       <tr>
         <td>
-          <input pInputText [(ngModel)]="final" type="text" placeholder="Destination Street" [style]="{'width': '100%'}"/>
+          <input id="final" pInputText [(ngModel)]="final" type="text" placeholder="Destination Street" [style]="{'width': '100%'}"/>
         </td>
         <td>
-          <input pInputText [(ngModel)]="final_number"  type="text" placeholder="Destination Number" [style]="{'width': '100%'}"/>
+          <input id="final_number" pInputText [(ngModel)]="final_number"  type="text" placeholder="Destination Number" [style]="{'width': '100%'}"/>
         </td>
       </tr>
       <tr>
@@ -123,15 +123,15 @@
       </tr>
       <tr>
         <td>
-          <button pButton pRipple label="Search" [style]="{'width': '100%'}" (click)="search()"></button>
+          <button id="search_btn" pButton pRipple label="Search" [style]="{'width': '100%'}" (click)="search()"></button>
         </td>
         <td>
-          <button pButton pRipple label="Request Ride" [style]="{'width': '100%'}" (click)="requestRide()"></button>
+          <button id="request_btn" [disabled]="!routeDrawn" pButton pRipple label="Request Ride" [style]="{'width': '100%'}" (click)="requestRide()"></button>
         </td>
       </tr>
       <tr>
         <td colspan="2">
-          <button pButton pRipple label="Reserve a ride" [style]="{'width': '100%'}" (click)="showReservation()"></button>
+          <button pButton pRipple [disabled]="!routeDrawn" label="Reserve a ride" [style]="{'width': '100%'}" (click)="showReservation()"></button>
         </td>
       </tr>
       <tr *ngIf="reservationVisible">
@@ -154,7 +154,7 @@
       </tr>
       <tr>
         <td colspan="2" class="client-label">
-          <label>Distance: {{distance}}km</label>
+          <label id="distance">Distance: {{distance}}km</label>
         </td>
       </tr>
       <tr>

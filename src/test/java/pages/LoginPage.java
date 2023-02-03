@@ -57,6 +57,12 @@ public class LoginPage {
         inputPassword("markotrija");
     }
 
+    public void customFill(String email, String pass){
+        inputEmail(email);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.of(3L, ChronoUnit.SECONDS));
+        inputPassword(pass);
+    }
+
     private void inputPassword(String pass) {
         Actions a = new Actions(driver);
         a.moveToElement(passwordField);
