@@ -57,16 +57,17 @@ public class RideService{
     }
 
 
-    public void markRideAsFinished(int id){
+    public void markRideAsFinished(int id, RideStatus status){
         Ride ride = rideRepository.findById(id).get();
-        ride.setStatus(RideStatus.FINISHED);
-        rideRepository.save(ride);
+        ride.setArrivalTime(LocalDateTime.now());
+        ride.setStatus(status);
+        rideRepository.saveAndFlush(ride);
     }
 
     public void setRideStatus(int id, RideStatus status){
         Ride ride = rideRepository.findById(id).get();
         ride.setStatus(status);
-        rideRepository.save(ride);
+        rideRepository.saveAndFlush(ride);
     }
 
 
@@ -95,7 +96,7 @@ public class RideService{
     public Ride createRide(Driver driver, List<Address> addresses,
                            List<Client> clients, RideStatus status, String price){
         for (Address address : addresses) {
-            addressRepository.save(address);
+            addressRepository.saveAndFlush(address);
         }
         Ride ride = new Ride();
         ride.setDriver(driver);
@@ -124,7 +125,7 @@ public class RideService{
         Reservation res = new Reservation();
         res.setRide(ride);
         res.setTime(time);
-        reservationRepository.save(res);
+        reservationRepository.saveAndFlush(res);
         return res;
     }
 

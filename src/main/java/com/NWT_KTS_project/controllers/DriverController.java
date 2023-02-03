@@ -61,7 +61,7 @@ public class DriverController {
 
     @GetMapping("markRideAsFinished/{driverId}/{rideId}")
     public Ride markRideAsFinished(@PathVariable int driverId, @PathVariable int rideId){
-        rideService.markRideAsFinished(rideId);
+        rideService.markRideAsFinished(rideId,RideStatus.FINISHED);
         return rideService.getNextRideForDriver(driverId);
     }
 
@@ -100,16 +100,14 @@ public class DriverController {
     public void rejectRide(@RequestBody ReportDTO dto){
         Ride ride = rideService.getRideById(dto.rideId);
         reportService.makeReport(ride.getDriver(),ride.getPassengers().get(0),dto.reason);
-        ride.setStatus(RideStatus.REJECTED);
-        rideService.saveRide(ride);
+        rideService.setRideStatus(ride.getId(),RideStatus.REJECTED);
     }
 
     @PostMapping(value = "/end-with-emergency")
     public void endWithEmergency(@RequestBody ReportDTO dto){
         Ride ride = rideService.getRideById(dto.rideId);
         reportService.makeReport(ride.getDriver(),ride.getPassengers().get(0),dto.reason);
-        ride.setStatus(RideStatus.EMERGENCY);
-        rideService.saveRide(ride);
+        rideService.markRideAsFinished(dto.rideId, RideStatus.EMERGENCY);
 
     }
 
