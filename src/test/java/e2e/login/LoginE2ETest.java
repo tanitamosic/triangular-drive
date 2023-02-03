@@ -1,10 +1,11 @@
 package e2e.login;
 
+import e2e.E2ETestBase;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 
 
-public class LoginE2ETest extends LoginE2EBase{
+public class LoginE2ETest extends E2ETestBase {
 
     @Test
     public void successfulLogin() {
