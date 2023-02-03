@@ -6,8 +6,11 @@ import com.NWT_KTS_project.model.enums.City;
 import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.User;
 import com.NWT_KTS_project.repository.UserRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +18,10 @@ public class RegistrationService {
 
     @Autowired
     UserRepository repository;
+
+    @Autowired
+    @Lazy
+    PasswordEncoder pe;
 
     public boolean validate(RegistrationDTO dto){
         //TODO: set conditions
@@ -27,7 +34,7 @@ public class RegistrationService {
         if (!dto.password1.equals(dto.password2) || dto.password1.length() < 6 || dto.password1.length() > 16) {
             throw new Exception("Passwords do not match");
         }
-        c.setPassword(new BCryptPasswordEncoder().encode(dto.password1));
+        c.setPassword(pe.encode(dto.password1));
         c.setName(dto.name);
         c.setLastName(dto.lastName);
         c.setPhone(dto.phone);
