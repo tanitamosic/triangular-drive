@@ -451,6 +451,8 @@ export class ClientMapComponent implements AfterViewInit {
       previousStop.y = r[0].y;
 
       this.addStopToRoute(r);
+      this.getDistance();
+      this.getPrice();
     });
 
   }
