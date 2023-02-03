@@ -60,9 +60,9 @@ public class DriverController {
 
 
     @GetMapping("markRideAsFinished/{driverId}/{rideId}")
-    public Ride markRideAsFinished(@PathVariable int driverId, @PathVariable int rideId){
+    public ResponseEntity<String> markRideAsFinished(@PathVariable int driverId, @PathVariable int rideId){
         rideService.markRideAsFinished(rideId,RideStatus.FINISHED);
-        return rideService.getNextRideForDriver(driverId);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("setRideStatus/{rideId}/{status}")
