@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,12 +126,37 @@ public class RideService{
         Reservation res = new Reservation();
         res.setRide(ride);
         res.setTime(time);
+        ride.setDepartureTime(time);
         reservationRepository.saveAndFlush(res);
         return res;
     }
 
     public List<Ride> getAssignedRide(Integer id) {
         return rideRepository.getPendingRide(id);
+    }
+
+    public List<Ride> getDriverReservedRide(Integer id) {
+        List<Reservation> res = reservationRepository.findByDriver(id);
+        List<Ride> rides = new ArrayList<Ride>();
+        for(Reservation r : res){
+            long minutes =LocalDateTime.now().until(r.getTime(), ChronoUnit.MINUTES);
+            if(r.getRide().getDriver().getId()==id && minutes<=5){
+                rides.add(r.getRide());
+            }
+        }
+        return rides;
+    }
+
+    public Long getTimeUntilReservation(Integer id) {
+        List<Reservation> res = reservationRepository.findByPassenger(id);
+        List<Ride> rides = new ArrayList<Ride>();
+        for(Reservation r : res){
+            long minutes =LocalDateTime.now().until(r.getTime(), ChronoUnit.MINUTES);
+            if(r.getRide().getDriver().getId()==id && minutes<=15){
+                return minutes;
+            }
+        }
+        return -1L;
     }
 
     public List<Ride> getRides(LocalDateTime dateTime1, LocalDateTime dateTime2) {

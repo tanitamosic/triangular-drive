@@ -73,8 +73,10 @@ export class ClientMapComponent implements AfterViewInit {
 
   rideStarted:boolean=false;
   rideId:number = 0;
+
   pollingInterval: NodeJS.Timer | undefined;
   idlePollingInterval: NodeJS.Timer | undefined;
+  reservationPollingInterval: NodeJS.Timer | undefined;
 
   provider: OpenStreetMapProvider;
   searchControl: any;
@@ -239,10 +241,6 @@ export class ClientMapComponent implements AfterViewInit {
     this.reservationVisible=!this.reservationVisible;
   }
 
-  checkNumInput(event:Event){
-    
-  }
-
   makeReservation(){
     this.hours=Number.parseInt(this.hours_string);
     this.minutes = Number.parseInt(this.minutes_string);
@@ -259,6 +257,7 @@ export class ClientMapComponent implements AfterViewInit {
       request.subscribe(data => {
         this.rideId = Number(data);
       });
+      this.reservationPolling();
     } else{
       alert("Your reservation can be a maximum of 5 hours in advance.")
     }
@@ -524,7 +523,7 @@ export class ClientMapComponent implements AfterViewInit {
         if(ride.status==="ONGOING"){
           this.RidePollingFunction();
           if(!this.rideStarted) this.rideStarted=true;
-        } else if(ride.status==="FINISHED"){
+        } else if(ride.status==="FINISHED" || ride.status==="EMERGENCY"){
           this.stopPolling();
           window.location.reload();
         } else if(ride.status==="REJECTED"){
@@ -539,6 +538,30 @@ export class ClientMapComponent implements AfterViewInit {
     this.getDriverPosition();
     this.updateDriverMarker();
   }
+
+  reservationPolling(){
+    this.reservationPollingInterval = setInterval(() =>{
+      const request = this.http.get('/api/ride/'+this.userService.getUser().id+'/reservation');
+      request.subscribe((response) => {
+        let minutes:number = response as number;
+        if(minutes!=-1){
+          if (minutes>14){
+            alert("Your reserved ride will be here in 15 minutes!");
+          } else if (minutes>9){
+            alert("Your reserved ride will be here in 10 minutes!");
+          }else if (minutes>5){
+            alert("Your reserved ride will be here in 5 minutes!");
+            this.stopReservationPolling();
+          }
+        }
+      });
+    },60000);
+  }
+
+  stopReservationPolling(){
+    clearInterval(this.reservationPollingInterval);
+  }
+
 
 
   IdlePollingFunction() {

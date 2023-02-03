@@ -2,14 +2,11 @@ package com.NWT_KTS_project.controllers;
 
 import com.NWT_KTS_project.model.Position;
 import com.NWT_KTS_project.model.Ride;
-import com.NWT_KTS_project.model.Route;
-import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.Driver;
 import com.NWT_KTS_project.service.PositionService;
 import com.NWT_KTS_project.service.RideService;
 import com.NWT_KTS_project.util.comparators.ride.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,8 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -76,6 +71,20 @@ public class RideController {
     public ResponseEntity<List<Ride>> getAssignedRide(@PathVariable("driverId") Integer id) {
         List<Ride> r = rideService.getAssignedRide(id);
         return new ResponseEntity<>(r, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/{driverId}/reserved-ride")
+    @PreAuthorize("hasRole('DRIVER')")
+    public ResponseEntity<List<Ride>> getDriverReservedRide(@PathVariable("driverId") Integer id) {
+        List<Ride> r = rideService.getDriverReservedRide(id);
+        return new ResponseEntity<>(r, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/{passId}/reservation")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<Long> getPassengerReservedRide(@PathVariable("passId") Integer id) {
+        Long r = rideService.getTimeUntilReservation(id);
+        return new ResponseEntity<Long>(r, HttpStatus.OK);
     }
 
     @GetMapping(value = "/get/{rideId}")

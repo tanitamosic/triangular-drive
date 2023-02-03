@@ -176,7 +176,7 @@ export class DriverMapComponent implements AfterViewInit {
   getReservations(){
     const request = this.httpClient.get('/api/ride/' + this.user.id + '/reserved-ride');
     request.subscribe((response) => {
-      let res_rides:any = response;
+      let res_rides:any[] = response as any[];
       res_rides.forEach((ride) => {
         this.rides.push(ride);
       });
@@ -347,5 +347,7 @@ export class DriverMapComponent implements AfterViewInit {
     request.subscribe();
     const rejRequest = this.httpClient.post("/api/driver/end-with-emergency",{"rideId":rideId, "reason":reason});
     rejRequest.subscribe();
+    this.activeRide = null;
+    window.location.reload();
   }
 }

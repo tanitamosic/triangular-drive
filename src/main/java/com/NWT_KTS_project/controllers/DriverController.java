@@ -108,7 +108,6 @@ public class DriverController {
         Ride ride = rideService.getRideById(dto.rideId);
         reportService.makeReport(ride.getDriver(),ride.getPassengers().get(0),dto.reason);
         rideService.markRideAsFinished(dto.rideId, RideStatus.EMERGENCY);
-
     }
 
 }
