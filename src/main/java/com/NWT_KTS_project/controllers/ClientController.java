@@ -72,8 +72,10 @@ public class ClientController {
             return -3;
         }
         clients.add(0, (Client) userService.getUserById(userId));
-
         int numPassengers = passengers.split(";").length;
+        if(numPassengers+1 != clients.size()) return -3;
+
+
         Driver driver = driverService.getAvailableDriver(addresses.get(0).getLatitude(), addresses.get(0).getLongitude(), petFriendly, babyFriendly, numPassengers, carType);
         if(driver == null) return -1;
 

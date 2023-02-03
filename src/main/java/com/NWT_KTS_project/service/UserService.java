@@ -125,7 +125,7 @@ public class UserService implements UserDetailsService {
     public ArrayList<Client> getClientsFromPassangersString(String passangers){
         ArrayList<Client> users = new ArrayList<Client>();
 
-        for (String passanger : passangers.split(",")) {
+        for (String passanger : passangers.split(";")) {
             User user = userRepository.findUserByEmail(passanger);
             if (user != null) {
                 users.add((Client) user);

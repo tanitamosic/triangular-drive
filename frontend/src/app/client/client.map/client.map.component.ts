@@ -354,13 +354,13 @@ export class ClientMapComponent implements AfterViewInit {
 
   getPassengers() {
     this.passengers_string='';
-    if (this.passenger1!=='') this.passengers_string+=this.passenger1+';';
-    if (this.passenger2!=='') this.passengers_string+=this.passenger2+';';
-    if (this.passenger3!=='') this.passengers_string+=this.passenger3+';';
-    if (this.passenger4!=='') this.passengers_string+=this.passenger4+';';
-    if (this.passenger5!=='') this.passengers_string+=this.passenger5+';';
-    if (this.passenger6!=='') this.passengers_string+=this.passenger6+';';
-    if (this.passenger7!=='') this.passengers_string+=this.passenger7+';';
+    if (this.passenger1!=='') this.passengers_string+=this.passenger1;
+    if (this.passenger2!=='') this.passengers_string+=';'+this.passenger2;
+    if (this.passenger3!=='') this.passengers_string+=';'+this.passenger3;
+    if (this.passenger4!=='') this.passengers_string+=';'+this.passenger4;
+    if (this.passenger5!=='') this.passengers_string+=';'+this.passenger5;
+    if (this.passenger6!=='') this.passengers_string+=';'+this.passenger6;
+    if (this.passenger7!=='') this.passengers_string+=';'+this.passenger7;
   }
 
   delay(ms: number) {
@@ -616,5 +616,6 @@ export class ClientMapComponent implements AfterViewInit {
     clearInterval(this.pollingInterval);
   }
 
+  checkNumInput(event:any){}
 
 }
