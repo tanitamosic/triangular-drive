@@ -5,5 +5,6 @@ public enum RideStatus {
     PENDING,
     ONGOING,
     FINISHED,
-    REJECTED
+    REJECTED,
+    EMERGENCY
 }

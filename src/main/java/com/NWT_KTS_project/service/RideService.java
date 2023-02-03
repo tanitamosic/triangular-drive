@@ -107,6 +107,7 @@ public class RideService{
         for(int i = 1; i < addresses.size()-1; i++){
             stops.add(addresses.get(i));
         }
+        ride.setDepartureTime(LocalDateTime.now());
         route.setStops(stops);
         ride.setRoute(route);
         ride.setStatus(status);

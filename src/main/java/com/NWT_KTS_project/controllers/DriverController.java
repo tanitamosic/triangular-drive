@@ -104,4 +104,13 @@ public class DriverController {
         rideService.saveRide(ride);
     }
 
+    @PostMapping(value = "/end-with-emergency")
+    public void endWithEmergency(@RequestBody ReportDTO dto){
+        Ride ride = rideService.getRideById(dto.rideId);
+        reportService.makeReport(ride.getDriver(),ride.getPassengers().get(0),dto.reason);
+        ride.setStatus(RideStatus.EMERGENCY);
+        rideService.saveRide(ride);
+
+    }
+
 }

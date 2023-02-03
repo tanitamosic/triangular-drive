@@ -159,6 +159,7 @@ export class DriverMapComponent implements AfterViewInit {
 
   pollingFunction(){
     this.getAssignedRides();
+    this.getReservations();
     this.updateDriverPosition();
     this.updateDriverMarker();
     this.sendPosition();
@@ -170,6 +171,16 @@ export class DriverMapComponent implements AfterViewInit {
       this.rides = response;
     });
 
+  }
+
+  getReservations(){
+    const request = this.httpClient.get('/api/ride/' + this.user.id + '/reserved-ride');
+    request.subscribe((response) => {
+      let res_rides:any = response;
+      res_rides.forEach((ride) => {
+        this.rides.push(ride);
+      });
+    });
   }
   setActiveRide(ride:any) {
     this.activeRide = ride;
@@ -329,5 +340,12 @@ export class DriverMapComponent implements AfterViewInit {
     window.location.reload();
   }
 
-  emergencyStop(){}
+  emergencyStop(){
+    let reason = prompt("What is the emergency?")
+    let rideId = this.activeRide.id;
+    const request = this.userService.reportDriver(rideId, reason);
+    request.subscribe();
+    const rejRequest = this.httpClient.post("/api/driver/end-with-emergency",{"rideId":rideId, "reason":reason});
+    rejRequest.subscribe();
+  }
 }

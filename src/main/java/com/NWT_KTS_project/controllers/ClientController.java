@@ -97,6 +97,7 @@ public class ClientController {
         if(driver == null) return -1;
 
         if (!paymentService.processPaymentForRide(clients,addresses,driver.getCar())) return -2;
+
         LocalDateTime time = LocalDateTime.parse(timeString.substring(0,timeString.length()-5),TIME_FORMATTER);
         Reservation res = rideService.makeReservation(driver, addresses, clients, RideStatus.RESERVED,time,price);
         return res.getRide().getId();
