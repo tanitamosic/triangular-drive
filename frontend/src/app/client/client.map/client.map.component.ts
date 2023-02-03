@@ -249,13 +249,33 @@ export class ClientMapComponent implements AfterViewInit {
       time.setHours(time.getHours()+this.hours);
       time.setMinutes(time.getMinutes()+this.minutes);
       let timeString = time.toISOString();
-      console.log(timeString);
+
       const request = this.http.get('api/client/make-reservation/'+this.userService.getUser().id,
       {headers:{'stops':this.stops_string,'passengers':this.passengers_string,'petFriendly':String(this.petFriendly),
       'babyFriendly':String(this.babyFriendly),'carType':this.selectedCarType.code,'timeString':timeString,'price':this.price}});
+      
       this.rideId = 0;
       request.subscribe(data => {
         this.rideId = Number(data);
+        if(this.rideId===-1){
+          alert("Driver Could Not Be Found")
+          window.location.reload();
+        }
+        else if(this.rideId===-2){
+          alert("Payment Failed")
+          window.location.reload();
+        }
+        else if (this.rideId===-3){
+          alert("One Or More Passengers Dont Exist")
+          window.location.reload();
+        }else if (this.rideId===-4){
+          alert("Your account is blocked. You cannot make reservations.")
+          window.location.reload();
+        }
+        else{
+          alert("Ride Requested Successfully");
+          this.removeSimulationMarkers();
+          }
       });
       this.reservationPolling();
     } else{
@@ -292,6 +312,10 @@ export class ClientMapComponent implements AfterViewInit {
     }
     else if (this.rideId===-3){
       alert("One Or More Passengers Dont Exist")
+      window.location.reload();
+    } 
+    else if (this.rideId===-4){
+      alert("Your account is blocked. You cannot request rides.")
       window.location.reload();
     }
     else{

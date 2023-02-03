@@ -141,7 +141,7 @@
       </tr>
       <tr *ngIf="reservationVisible">
         <td>
-          <input id="hours" [(ngModel)]="hours_string" pInputText type="text" placeholder="Hours" [style]="{'width': '100%'}" (change)="checkNumInput($event)"/>
+          <input id="hours" [(ngModel)]="hours_string" pInputText type="text" placeholder="Hours" [style]="{'width': '100%'}"/>
         </td>
         <td>
           <input pInputText [(ngModel)]="minutes_string"  type="text" placeholder="Minutes" [style]="{'width': '100%'}"/>

@@ -72,7 +72,7 @@ public class ClientController {
             return -3;
         }
         clients.add(0, (Client) userService.getUserById(userId));
-
+        if (clients.get(0).getBlocked()) return -4;
         int numPassengers = passengers.split(";").length;
         Driver driver = driverService.getAvailableDriver(addresses.get(0).getLatitude(), addresses.get(0).getLongitude(), petFriendly, babyFriendly, numPassengers, carType);
         if(driver == null) return -1;
@@ -90,7 +90,13 @@ public class ClientController {
                                @RequestHeader String timeString, @RequestHeader String price){
         ArrayList<Address> addresses = addressService.getAddressesFromString(stops);
         ArrayList<Client> clients = userService.getClientsFromPassangersString(passengers);
+        try {
+            clients = userService.getClientsFromPassangersString(passengers);
+        }catch (Exception e){
+            return -3;
+        }
         clients.add(0, (Client) userService.getUserById(userId));
+        if (clients.get(0).getBlocked()) return -4;
 
         int numPassengers = passengers.split(";").length;
         Driver driver = driverService.reserveDriver(petFriendly, babyFriendly, numPassengers, carType);
