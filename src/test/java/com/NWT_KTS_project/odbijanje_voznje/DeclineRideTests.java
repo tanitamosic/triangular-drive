@@ -44,7 +44,7 @@ public class DeclineRideTests {
     @Mock
     private RideRepository rideRepository;
 
-    @Autowired
+    @Mock
     private RideService rideServiceMock;
 
     @Mock
@@ -52,6 +52,7 @@ public class DeclineRideTests {
 
     @Mock
     private ReportService reportServiceMock;
+
 
     @InjectMocks
     private RideService rideService;
@@ -78,14 +79,11 @@ public class DeclineRideTests {
 
     @BeforeMethod
     public void setUp() {
-        //-----rideRepository.findByRideId(id)
-        //-----rideRepository.findById(id);
-        //-----rideRepository.saveAndFlush(ride);
-        //-----reportRepository.saveAndFlush(report);
+
 
 
         MockitoAnnotations.initMocks(this);
-
+        RideStatus rideStatus = RideStatus.ONGOING;
         Client passenger = createMockClient();
         Car car = createMockCar();
         Driver driver = createMockDriver(car);
@@ -99,11 +97,16 @@ public class DeclineRideTests {
         reportDTO.reason = "Reason";
         Report report = getMockReport(passenger,driver);
 
-
+        when(rideRepository.findById(RIDE_ID)).thenReturn(Optional.of(ride));
+        when(reportRepository.saveAndFlush(any(Report.class))).thenReturn(report);
+        when(rideRepository.saveAndFlush(any(Ride.class))).thenReturn(ride);
         when(rideRepository.findByRideId(RIDE_ID)).thenReturn(ride);
         when(rideRepository.saveAndFlush(ride)).thenReturn(ride);
         when(rideRepository.findById(RIDE_ID)).thenReturn(Optional.of(ride));
         when(reportRepository.saveAndFlush(report)).thenReturn(report);
+
+        when(rideServiceMock.getRideById(RIDE_ID)).thenReturn(ride);
+        when(reportServiceMock.makeReport(driver,passenger,reportDTO.reason)).thenReturn(report);
 
     }
 
@@ -168,18 +171,25 @@ public class DeclineRideTests {
 
     @Test
     public void DriverController_declineRideTest_Ok() throws Exception {
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/api/driver/reject-ride")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(reportDTO));
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(driverController).build();
-        mockMvc.perform(requestBuilder);
+        driverController.rejectRide(reportDTO);
+        verify(rideServiceMock, times(1)).setRideStatus(RIDE_ID,RideStatus.REJECTED);
+    }
 
-        verify(rideServiceMock).getRideById(RIDE_ID);
-        verify(rideServiceMock).setRideStatus(RIDE_ID,RideStatus.REJECTED);
-        verify(reportServiceMock).makeReport(ride.getDriver(),ride.getPassengers().get(0),reportDTO.reason);
+    @Test
+    public void DriverController_declineRideTest_nullDTO() throws Exception {
+        assertThrows(NullPointerException.class, () -> {
+            driverController.rejectRide(null);
+        });
 
+    }
+
+    @Test
+    public void DriverController_declineRideTest_wrongRideId() throws Exception {
+        Report report = getMockReport(ride.getPassengers().get(0),ride.getDriver());
+        reportDTO.rideId = RIDE_ID+1;
+        assertThrows(NullPointerException.class, () -> {
+            driverController.rejectRide(null);
+        });
 
     }
 
