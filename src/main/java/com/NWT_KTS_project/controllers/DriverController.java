@@ -97,10 +97,11 @@ public class DriverController {
     }
 
     @PostMapping(value = "/reject-ride")
-    public void rejectRide(@RequestBody ReportDTO dto){
+    public ResponseEntity<String> rejectRide(@RequestBody ReportDTO dto){
         Ride ride = rideService.getRideById(dto.rideId);
         reportService.makeReport(ride.getDriver(),ride.getPassengers().get(0),dto.reason);
         rideService.setRideStatus(ride.getId(),RideStatus.REJECTED);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(value = "/end-with-emergency")
