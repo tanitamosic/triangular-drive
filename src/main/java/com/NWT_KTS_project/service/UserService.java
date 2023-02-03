@@ -250,8 +250,17 @@ public class UserService implements UserDetailsService {
         Optional<User> u = userRepository.findById(userId);
         Client client = (Client) u.get();
         Route route = routeRepository.findById(routeId).get();
-        
+        if(client.getSavedRoutes().contains(route)){
+            client.getSavedRoutes().remove(route);
+        } else{
+            client.getSavedRoutes().add(route);
+        }
+        userRepository.saveAndFlush(client);
+    }
 
+    public List<Route> getFavoriteRoutes(Integer userId){
+        Client client = (Client) userRepository.findById(userId).get();
+        return client.getSavedRoutes();
     }
 }
 

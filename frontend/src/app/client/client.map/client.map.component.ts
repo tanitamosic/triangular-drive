@@ -74,6 +74,7 @@ export class ClientMapComponent implements AfterViewInit {
   rideStarted:boolean=false;
   rideId:number = 0;
   pollingInterval: NodeJS.Timer | undefined;
+  idlePollingInterval: NodeJS.Timer | undefined;
 
   provider: OpenStreetMapProvider;
   searchControl: any;
@@ -537,8 +538,6 @@ export class ClientMapComponent implements AfterViewInit {
   RidePollingFunction(){
     this.getDriverPosition();
     this.updateDriverMarker();
-
-
   }
 
 
@@ -548,7 +547,7 @@ export class ClientMapComponent implements AfterViewInit {
   }
 
   IdlePolling() {
-    this.pollingInterval = setInterval(() =>{
+    this.idlePollingInterval = setInterval(() =>{
         this.IdlePollingFunction();
         
     }, this.simulationTime)
@@ -556,7 +555,7 @@ export class ClientMapComponent implements AfterViewInit {
   }
 
   stopIdlePolling() {
-    clearInterval(this.pollingInterval);
+    clearInterval(this.idlePollingInterval);
   }
 
   getDriverPosition(){

@@ -56,7 +56,8 @@ export class ClientRideHistoryComponent implements OnInit {
   }
 
   favoriteRide(route:any){
-    
+    const request = this.http.post("/api/client/favorite-route/"+this.user.id+"/"+route.id,{});
+    request.subscribe();
   }
 
   displayReviewModal(ride: any) {

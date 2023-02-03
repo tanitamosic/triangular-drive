@@ -3,11 +3,8 @@ package com.NWT_KTS_project.controllers;
 
 
 import com.NWT_KTS_project.DTO.ReportDTO;
-import com.NWT_KTS_project.model.Address;
-import com.NWT_KTS_project.model.Report;
-import com.NWT_KTS_project.model.Reservation;
+import com.NWT_KTS_project.model.*;
 import com.NWT_KTS_project.model.enums.CarType;
-import com.NWT_KTS_project.model.Ride;
 import com.NWT_KTS_project.model.enums.RideStatus;
 import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.Driver;
@@ -132,8 +129,14 @@ public class ClientController {
         reportService.makeReport(ride.getPassengers().get(0),ride.getDriver(),dto.reason);
     }
 
-    @PostMapping("/favorite-route/{userid}/{routeId}")
+    @PostMapping("/favorite-route/{userId}/{routeId}")
     public void favoriteRoute(@PathVariable Integer userId, @PathVariable Integer routeId){
         userService.favoriteRoute(userId, routeId);
+    }
+
+    @GetMapping(value = "/get-favorites/{userId}")
+    public ResponseEntity<List<Route>> getFavoriteRoutes(@PathVariable Integer userId){
+        List<Route> routes = userService.getFavoriteRoutes(userId);
+        return new ResponseEntity<List<Route>>(routes, HttpStatus.OK);
     }
 }

@@ -13,6 +13,11 @@ export class RideHistoryService {
     return request;
   }
 
+  getClientFavoriteRoutes(clientId: Number) {
+    const request = this.http.get('/api/client/get-favorites/' + clientId);
+    return request;
+  }
+
   getDriverRideHistory(driverId: Number) {
     const request = this.http.get('/api/ride/getRidesByUserId/' + driverId);
     return request;

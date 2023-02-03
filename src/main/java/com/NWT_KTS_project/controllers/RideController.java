@@ -2,6 +2,8 @@ package com.NWT_KTS_project.controllers;
 
 import com.NWT_KTS_project.model.Position;
 import com.NWT_KTS_project.model.Ride;
+import com.NWT_KTS_project.model.Route;
+import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.Driver;
 import com.NWT_KTS_project.service.PositionService;
 import com.NWT_KTS_project.service.RideService;
