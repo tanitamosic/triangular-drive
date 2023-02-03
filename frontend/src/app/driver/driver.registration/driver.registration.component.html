@@ -51,7 +51,7 @@
         </span>
       </td>
       <td>
-        <p-dropdown [style]="{'width':'100%'}" [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name" [showClear]="true"></p-dropdown>
+        <p-dropdown id="city" [style]="{'width':'100%'}" [options]="cities" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name" [showClear]="true"></p-dropdown>
       </td>
     </tr>
   </table>
@@ -64,10 +64,10 @@
     </thead>
     <tr class="cell">
       <td colspan="2">
-        <p-dropdown [style]="{'width': '100%'}" [options]="carMakes" [(ngModel)]="selectedCarMake" placeholder="Select car maker" optionLabel="name" [showClear]="true"></p-dropdown>
+        <p-dropdown [style]="{'width': '100%'}" id="carmake" [options]="carMakes" [(ngModel)]="selectedCarMake" placeholder="Select car maker" optionLabel="name" [showClear]="true"></p-dropdown>
       </td>
       <td colspan="2">
-        <p-dropdown [style]="{'width': '100%'}" [options]="carTypes" [(ngModel)]="selectedCarType" placeholder="Select car type" optionLabel="name" [showClear]="true"></p-dropdown>
+        <p-dropdown [style]="{'width': '100%'}" id="cartype" [options]="carTypes" [(ngModel)]="selectedCarType" placeholder="Select car type" optionLabel="name" [showClear]="true"></p-dropdown>
       </td>
       <td>
          <span class="p-float-label">
@@ -76,18 +76,18 @@
         </span>
       </td>
       <td>
-        <p-inputNumber [size]="10" [(ngModel)]="seats" suffix=" seats"></p-inputNumber>
+        <p-inputNumber id="seats" [size]="10" [(ngModel)]="seats" suffix=" seats"></p-inputNumber>
       </td>
     </tr>
     <tr>
       <td colspan="2">
-        <p-toggleButton [style]="{'width': '100%'}" [(ngModel)]="babyFriendly" onLabel="Child friendly" offLabel="Not child friendly" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+        <p-toggleButton id="babyfriendly" [style]="{'width': '100%'}" [(ngModel)]="babyFriendly" onLabel="Child friendly" offLabel="Not child friendly" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
       </td>
       <td colspan="2">
-        <p-toggleButton [style]="{'width': '100%'}" [(ngModel)]="petFriendly" onLabel="Pet friendly" offLabel="Not pet friendly" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+        <p-toggleButton id="childfriendly" [style]="{'width': '100%'}" [(ngModel)]="petFriendly" onLabel="Pet friendly" offLabel="Not pet friendly" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
       </td>
       <td colspan="2">
-        <p-dropdown [style]="{'width': '100%'}" [options]="colors" [(ngModel)]="selectedColor" placeholder="Select car color" optionLabel="name" [showClear]="true"></p-dropdown>
+        <p-dropdown id="color" [style]="{'width': '100%'}" [options]="colors" [(ngModel)]="selectedColor" placeholder="Select car color" optionLabel="name" [showClear]="true"></p-dropdown>
       </td>
     </tr>
     <tr>
