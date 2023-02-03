@@ -1,6 +1,7 @@
 package com.NWT_KTS_project.service;
 
 import com.NWT_KTS_project.model.Address;
+import com.NWT_KTS_project.model.Reservation;
 import com.NWT_KTS_project.model.Ride;
 import com.NWT_KTS_project.model.Route;
 import com.NWT_KTS_project.model.enums.DriverStatus;
@@ -8,6 +9,7 @@ import com.NWT_KTS_project.model.enums.RideStatus;
 import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.model.users.Driver;
 import com.NWT_KTS_project.repository.AddressRepository;
+import com.NWT_KTS_project.repository.ReservationRepository;
 import com.NWT_KTS_project.repository.RideRepository;
 import com.NWT_KTS_project.repository.RouteRepository;
 import com.NWT_KTS_project.util.comparators.ride.RideComparator;
@@ -34,6 +36,13 @@ public class RideService{
     @Autowired
     private DriverService driverService;
 
+    @Autowired
+    private ReservationRepository reservationRepository;
+
+    public Ride getRideById(int id){
+        return rideRepository.findByRideId(id);
+    }
+
     public List<Ride> getRidesByUserId(int id, RideComparator comparator) {
         List<Ride> rides = rideRepository.findByPassengersId(id);
         rides.addAll(rideRepository.findByDriverId(id));
@@ -51,6 +60,12 @@ public class RideService{
     public void markRideAsFinished(int id){
         Ride ride = rideRepository.findById(id).get();
         ride.setStatus(RideStatus.FINISHED);
+        rideRepository.save(ride);
+    }
+
+    public void setRideStatus(int id, RideStatus status){
+        Ride ride = rideRepository.findById(id).get();
+        ride.setStatus(status);
         rideRepository.save(ride);
     }
 
@@ -77,7 +92,8 @@ public class RideService{
     }
 
 
-    public Ride createRide(Driver driver, List<Address> addresses, List<Client> clients){
+    public Ride createRide(Driver driver, List<Address> addresses,
+                           List<Client> clients, RideStatus status, String price){
         for (Address address : addresses) {
             addressRepository.save(address);
         }
@@ -93,10 +109,22 @@ public class RideService{
         }
         route.setStops(stops);
         ride.setRoute(route);
-        ride.setStatus(RideStatus.PENDING);
-        routeRepository.save(route);
-        rideRepository.save(ride);
+        ride.setStatus(status);
+        ride.setPrice(Double.parseDouble(price));
+        routeRepository.saveAndFlush(route);
+        rideRepository.saveAndFlush(ride);
         return ride;
+    }
+
+    public Reservation makeReservation(Driver driver, List<Address> addresses,
+                                       List<Client> clients, RideStatus status,
+                                       LocalDateTime time, String price){
+        Ride ride = createRide(driver,addresses,clients,status,price);
+        Reservation res = new Reservation();
+        res.setRide(ride);
+        res.setTime(time);
+        reservationRepository.save(res);
+        return res;
     }
 
     public List<Ride> getAssignedRide(Integer id) {
@@ -113,5 +141,8 @@ public class RideService{
     }
     public List<Ride> getClientRides(Integer clientId, LocalDateTime dateTime1, LocalDateTime dateTime2) {
         return rideRepository.getClientRides(clientId, dateTime1, dateTime2);
+    }
+    public void saveRide(Ride ride){
+        rideRepository.saveAndFlush(ride);
     }
 }

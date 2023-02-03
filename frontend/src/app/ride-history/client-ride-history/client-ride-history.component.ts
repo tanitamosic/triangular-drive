@@ -3,6 +3,7 @@ import {UserService} from "../../user.service";
 import {RideHistoryService} from "../ride-history.service";
 import {User} from "../../model/user.class";
 import {Router} from "@angular/router";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-ride-history',
@@ -17,7 +18,9 @@ export class ClientRideHistoryComponent implements OnInit {
   deadlineDate: any = new Date();
   constructor(private userService: UserService,
               private rideHistoryService: RideHistoryService,
-              private router: Router) {
+              private router: Router,
+              private http:HttpClient) {
+    this.http = http;
     this.user = this.userService.getUser();
     const request = this.rideHistoryService.getClientRideHistory(this.user.id);
     this.deadlineDate.setDate(this.deadlineDate.getDate() - 3);
@@ -50,6 +53,11 @@ export class ClientRideHistoryComponent implements OnInit {
         + '/' + route.start.number + '/'+route.destination.street+'/'+route.destination.number;
     url = url.replace(/ /g, '%20');
     this.router.navigateByUrl(url);
+  }
+
+  favoriteRide(route:any){
+    const request = this.http.post("/api/client/favorite-route/"+this.user.id+"/"+route.id,{});
+    request.subscribe();
   }
 
   displayReviewModal(ride: any) {

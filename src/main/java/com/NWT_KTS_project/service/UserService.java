@@ -1,6 +1,7 @@
 package com.NWT_KTS_project.service;
 
 
+import com.NWT_KTS_project.model.Route;
 import com.NWT_KTS_project.model.users.Client;
 import com.NWT_KTS_project.DTO.UserDTO;
 import com.NWT_KTS_project.DTO.PasswordChangeDTO;
@@ -12,6 +13,7 @@ import com.NWT_KTS_project.model.Car;
 import com.NWT_KTS_project.model.enums.DriverStatus;
 import com.NWT_KTS_project.model.users.Driver;
 import com.NWT_KTS_project.repository.CarRepository;
+import com.NWT_KTS_project.repository.RouteRepository;
 import com.NWT_KTS_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -51,6 +53,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     @Lazy
     private PasswordEncoder pe;
+
+    @Autowired
+    private RouteRepository routeRepository;
 
     @Autowired
     private MailingService mailingService;
@@ -239,6 +244,23 @@ public class UserService implements UserDetailsService {
 
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    public void favoriteRoute(Integer userId, Integer routeId){
+        Optional<User> u = userRepository.findById(userId);
+        Client client = (Client) u.get();
+        Route route = routeRepository.findById(routeId).get();
+        if(client.getSavedRoutes().contains(route)){
+            client.getSavedRoutes().remove(route);
+        } else{
+            client.getSavedRoutes().add(route);
+        }
+        userRepository.saveAndFlush(client);
+    }
+
+    public List<Route> getFavoriteRoutes(Integer userId){
+        Client client = (Client) userRepository.findById(userId).get();
+        return client.getSavedRoutes();
     }
 }
 

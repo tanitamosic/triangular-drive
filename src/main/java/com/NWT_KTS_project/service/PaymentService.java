@@ -17,6 +17,9 @@ public class PaymentService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RouteService routeService;
+
     public static final double PRICE_PER_KM = 120;
     private double carTypeStaringPrice(CarType type){
         switch (type){
@@ -40,7 +43,7 @@ public class PaymentService {
     public boolean processPaymentForRide(ArrayList<Client> clients, ArrayList<Address> route, Car car){
         double distance = positionService.getDistanceForAddresses(route);
 
-        double price = carTypeStaringPrice(car.getType()) + (distance/1000)* PaymentService.PRICE_PER_KM;
+        double price = routeService.getPrice(distance/1000);
         double pricePerClient = price/clients.size();
         for (Client client: clients) {
             if(client.getCreditAvailable() < pricePerClient){

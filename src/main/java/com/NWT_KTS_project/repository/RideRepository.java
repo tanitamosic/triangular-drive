@@ -15,6 +15,9 @@ public interface RideRepository extends JpaRepository<Ride, Integer> {
 
     public List<Ride> findByPassengersId(int id);//??????? WHAT THE FUCK?????????
 
+    @Query(nativeQuery = true, value="SELECT * FROM rides WHERE rides.id=?1")
+    public Ride findByRideId(int id);
+
     public List<Ride> findByDriverId(int id);
 
     @Query(nativeQuery = true, value="SELECT * FROM rides WHERE rides.driver_id=?1 and rides.status='PENDING'")

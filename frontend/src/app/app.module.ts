@@ -53,6 +53,7 @@ import { DriverRideHistoryComponent } from './ride-history/driver-ride-history/d
 import { AdminRideHistoryComponent } from './ride-history/admin-ride-history/admin-ride-history.component';
 
 import {TooltipModule} from 'primeng/tooltip';
+import { FavoriteRidesComponent } from './favorite-rides/favorite-rides.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import {TooltipModule} from 'primeng/tooltip';
     ClientRideHistoryComponent,
     DriverRideHistoryComponent,
     AdminRideHistoryComponent,
+    FavoriteRidesComponent,
   ],
   imports: [
     BrowserModule,

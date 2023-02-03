@@ -22,12 +22,24 @@ declare var L: any;
 })
 export class DriverMapComponent implements AfterViewInit {
 
+  pollingTime: number = 1500;
+  driverPathLength: number = 10;
+
+
+
   private map: any;
   inputCounter: number = 0;
   pollingInterval: NodeJS.Timer | undefined;
 
   price: String = '0';
   distance: string = "0";
+  driver_position:any;
+  
+  activeRide: any = null;
+  pathToRide: any = null;
+  currPathStep: number = 0;
+  ongoingRide: boolean = false;
+
 
   provider: OpenStreetMapProvider;
   searchControl: any;
@@ -36,10 +48,16 @@ export class DriverMapComponent implements AfterViewInit {
   mapRoute: MapRoute;
   user: User;
   rides: any;
+  
+  carIcon = L.icon({
+    iconUrl: 'assets/map_rescources/car.png',
 
-  simulation:DriverRideSimulation;
-  latitude: number = 0;
-  longitude: number = 0;
+    iconSize:     [25, 30], // size of the icon
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+  });
+
+  driverMarker = L.marker([45.235866, 19.807387], {icon: this.carIcon});
 
   constructor(mapService:MapService, private profileService: ProfileService,
               private httpClient: HttpClient,
@@ -47,29 +65,49 @@ export class DriverMapComponent implements AfterViewInit {
     this.provider = new OpenStreetMapProvider();
     this.mapRoute = new MapRoute();
     this.mapService = mapService;
-    this.simulation = new DriverRideSimulation();
 
     this.user = this.userService.getUser();
 
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this.initMap();
-    this.sendPosition();
+    this.initDriverPosition();
+    this.pollingFunction();
+    this.driverPolling();
   }
 
-  async  sendPosition() {
-    //get coordinates using navigator.geolocation
-    let latitude: number = 0;
-    let longitude: number = 0;
-    navigator.geolocation.getCurrentPosition((position) => {latitude=position.coords.latitude;longitude=position.coords.longitude;this.latitude=latitude;this.longitude=longitude;});
+ 
 
-    await new Promise(r => setTimeout(r, 1000));
 
-    const request = this.httpClient.post('api/driver/updatePosition/'+this.userService.getUser().id+'/'+latitude+'/'+longitude, null);
-    request.subscribe();
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
+  updateDriverPosition(){
+    if(this.ongoingRide && this.pathToRide !=null){
+      this.driver_position.x = this.pathToRide[this.currPathStep].x;
+      this.driver_position.y = this.pathToRide[this.currPathStep].y;
+      this.currPathStep++;
+      if(this.currPathStep == this.pathToRide.length){
+        this.currPathStep--;
+      }
+    }
+    else{
+      this.driver_position.x += Math.random() * 0.001 - 0.0005;
+      this.driver_position.y += Math.random() * 0.001 - 0.0005;
+    }
+  }
+
+  updateDriverMarker(){
+    this.map.removeLayer(this.driverMarker);
+    this.driverMarker = L.marker([this.driver_position.x, this.driver_position.y], {icon: this.carIcon});
+    this.driverMarker.addTo(this.map);
+  }
+
+  private addMarker(lat: number, lng: number): void {
+    const marker = L.marker([ lat,lng]).addTo(this.map);
+  }
 
   private initMap(): void {
     // console.log(L.map())
@@ -86,15 +124,104 @@ export class DriverMapComponent implements AfterViewInit {
     tiles.addTo(this.map);
   }
 
+  initDriverPosition(){
+    let noviSad = {x:45.25, y:19.834}
+    let beograd = {x:44.80567919897563, y:20.462132567172574}
+    let jagodina = {x:43.98027021185065, y:21.257504465671992}
+    let kragujevac = {x:44.01452576545675, y:20.912502147344274}
+    let nis = {x:43.313168397041885, y:21.89867323870089}
+    let subotica = {x:46.10433877318924, y:19.6595365451995}
+    if(this.user.city == "NS"){
+      this.driver_position = noviSad;
+    }
+    else if(this.user.city == "BG"){
+      this.driver_position = beograd;
+    }
+    else if(this.user.city == "JA"){
+      this.driver_position = jagodina;
+    }
+    else if(this.user.city == "KG"){
+      this.driver_position = kragujevac;
+    }
+    else if(this.user.city == "NI"){
+      this.driver_position = nis;
+    }
+    else if(this.user.city == "SU"){
+      this.driver_position = subotica;
+    }
+  }
 
-  pendingRidesPolling() {
+  driverPolling() {
     this.pollingInterval = setInterval(() =>{
-      const request = this.httpClient.get('/api/ride/' + this.user.id + '/assigned-ride');
-      request.subscribe((response) => {
-        this.rides = response;
-      })
-    }, 5000) // 5s
+      this.pollingFunction();
+    }, this.pollingTime)
   };
+
+  pollingFunction(){
+    this.getAssignedRides();
+    this.updateDriverPosition();
+    this.updateDriverMarker();
+    this.sendPosition();
+  }
+
+  getAssignedRides(){
+    const request = this.httpClient.get('/api/ride/' + this.user.id + '/assigned-ride');
+    request.subscribe((response) => {
+      this.rides = response;
+    });
+
+  }
+  setActiveRide(ride:any) {
+    this.activeRide = ride;
+    this.drawRoute(ride.route);
+    this.calculatePathToRide(ride.route);
+    this.ongoingRide = true;
+    this.setRideStatus(ride.id, "ONGOING");
+  }
+
+  drawRoute(route:any){
+    let lastx = route.start.latitude;
+    let lasty = route.start.longitude;
+    for(let i=0; i<route.stops.length; ++i){
+      let stop = route.stops[i];
+      this.drawPath(lastx,lasty,stop.latitude,stop.longitude);
+      lastx = stop.latitude;
+      lasty = stop.longitude;
+    }
+    this.drawPath(lastx,lasty,route.destination.latitude,route.destination.longitude);
+  }
+
+  calculatePathToRide(route:any){
+    this.pathToRide = this.divideToSteps(this.driver_position.x,this.driver_position.y,route.start.latitude,route.start.longitude,this.driverPathLength);
+    let lastx = route.start.latitude;
+    let lasty = route.start.longitude;
+    for(let i=0; i<route.stops.length; ++i){
+      let stop = route.stops[i];
+      let path = this.divideToSteps(lastx,lasty,stop.latitude,stop.longitude,this.driverPathLength);
+      this.pathToRide = this.pathToRide.concat(path);
+      lastx = stop.latitude;
+      lasty = stop.longitude;
+    }
+    let path = this.divideToSteps(lastx,lasty,route.destination.latitude,route.destination.longitude,this.driverPathLength);
+    this.pathToRide = this.pathToRide.concat(path);
+  }
+
+  divideToSteps(startx:number, starty:number, endx:number, endy:number, steps:number){
+    let stepx = (endx-startx)/steps;
+    let stepy = (endy-starty)/steps;
+    let path = [];
+    let pathString = "";
+    for(let i=0; i<steps; ++i){
+      path.push({x:startx+stepx*i, y:starty+stepy*i});
+    }
+    path.push({x:endx, y:endy});
+    return path;
+  }
+
+  async  sendPosition() {
+    const request = this.httpClient.post('api/driver/updatePosition/'+this.userService.getUser().id+'/'+this.driver_position.x+'/'+this.driver_position.y, null);
+    request.subscribe();
+  }
 
   stopPolling() {
     clearInterval(this.pollingInterval);
@@ -149,11 +276,11 @@ export class DriverMapComponent implements AfterViewInit {
     return result;
   }
 
-  drawRoute(x1: number, y1: number, x2: number, y2: number) {
+  drawPath(x1: number, y1: number, x2: number, y2: number) {
     L.Routing.control({
       waypoints: [
-        L.latLng(y1, x1),
-        L.latLng(y2, x2)
+        L.latLng(x1, y1),
+        L.latLng(x2, y2)
       ],
 
       routeWhileDragging: false
@@ -161,29 +288,46 @@ export class DriverMapComponent implements AfterViewInit {
   }
 
 
-  async drawMarker() {
-    var carIcon = L.icon({
-      iconUrl: 'assets/map_rescources/wheel.png',
-
-      iconSize:     [40, 90], // size of the icon
-      iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-      popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-    });
-    var lat:number =0;
-    var long:number = 0;
-    navigator.geolocation.getCurrentPosition((position) => {lat=position.coords.latitude;long=position.coords.longitude;});
-    await new Promise(r => setTimeout(r, 1));
-    const marker = L.marker([ lat,long],{icon:carIcon}).addTo(this.map);
+  setRideStatus(rideId:number,status: string) {
+    const request = this.httpClient.post('api/driver/setRideStatus/'+rideId+'/'+status, null);
+    request.subscribe();
   }
+ 
 
 
   // TODO: IMPLEMENT THESE BUTTONS
   acceptRide($event: MouseEvent, id: Number) {
-    alert('TODO: ACCEPT RIDE')
+    //alert('TODO: ACCEPT RIDE')
+    //foreach of rides
+    for (let i=0; i<this.rides.length; ++i){
+      if (this.rides[i].id == id){
+        this.setActiveRide(this.rides[i]);
+        break;
+      }
+    }
   }
 
   rejectRide($event: MouseEvent, id: Number) {
-    let reason = prompt("Thou must state thy reasoning for rejection (uwu): ")
-    alert(reason)
+    for (let i=0; i<this.rides.length; ++i){
+      if (this.rides[i].id == id){
+        let reason = prompt("Why are you rejecting the ride? ")
+        let rideId = this.rides[i].id;
+        const request = this.userService.reportDriver(rideId, reason);
+        request.subscribe();
+        const rejRequest = this.httpClient.post("/api/driver/reject-ride",{"rideId":rideId, "reason":reason});
+        rejRequest.subscribe();
+        break;
+      }
+    }
   }
+
+
+  endRide(){
+    this.ongoingRide = false;
+    this.setRideStatus(this.activeRide.id,"FINISHED");
+    this.activeRide = null;
+    window.location.reload();
+  }
+
+  emergencyStop(){}
 }

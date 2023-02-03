@@ -1,0 +1,29 @@
+<div class="card">
+    <p-table [value]="routes" [tableStyle]="{'max-width': '100%'}"
+             #dt1
+             [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5, 10, 15]">
+      <ng-template pTemplate="header">
+        <tr>
+        <th pSortableColumn="route.distance" style="width:auto">Distance(km) <p-sortIcon field="route.distance"></p-sortIcon></th>
+        <th pSortableColumn="route.start.street" style="width:auto">Start <p-sortIcon field="route.start.street"></p-sortIcon></th>
+        <th pSortableColumn="route.destination.street" style="width:auto">Destination <p-sortIcon field="route.destination.street"></p-sortIcon></th>
+        <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-route>
+        <tr>
+
+          <td>{{route.distance}}</td>
+          <td>{{route.start.street}} {{route.start.number}} {{route.start.city}}</td>
+          <td>{{route.destination.street}} {{route.destination.number}} {{route.destination.city}}</td>
+          <td><button pTooltip="Order this ride" tooltipPosition="left" pButton pRipple icon="pi pi-map"
+                      class="p-button-rounded p-button-success mr-2" (click)="orderRide(route)"></button>
+              <button pTooltip="Favorite this ride" tooltipPosition="left" pButton pRipple icon="pi pi-heart-fill"
+              class="p-button-rounded mr-2" (click)="favoriteRide(route)">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  

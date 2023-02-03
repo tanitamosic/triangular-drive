@@ -1,11 +1,14 @@
 package com.NWT_KTS_project.controllers;
 
+import com.NWT_KTS_project.DTO.ReportDTO;
 import com.NWT_KTS_project.model.Position;
 
 import com.NWT_KTS_project.model.Ride;
 import com.NWT_KTS_project.model.enums.DriverStatus;
+import com.NWT_KTS_project.model.enums.RideStatus;
 import com.NWT_KTS_project.service.DriverService;
 import com.NWT_KTS_project.service.PositionService;
+import com.NWT_KTS_project.service.ReportService;
 import com.NWT_KTS_project.service.RideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +30,9 @@ public class DriverController {
 
     @Autowired
     private PositionService positionService;
+
+    @Autowired
+    private ReportService reportService;
 
     @Autowired
     private RideService rideService;
@@ -59,6 +65,11 @@ public class DriverController {
         return rideService.getNextRideForDriver(driverId);
     }
 
+    @PostMapping("setRideStatus/{rideId}/{status}")
+    public void setRideStatus(@PathVariable int rideId, @PathVariable RideStatus status){
+        rideService.setRideStatus(rideId, status);
+    }
+
     @GetMapping("/set-status/{id}/{status}")
     @PreAuthorize("hasRole('DRIVER')")
     public ResponseEntity<String> updateStatus(@PathVariable("id") Integer id, @PathVariable("status") DriverStatus status) {
@@ -83,6 +94,14 @@ public class DriverController {
         LocalDateTime dateTime2 = d2.atStartOfDay();
         List<Ride> retval = rideService.getDriverRides(driverId, dateTime1, dateTime2);
         return new ResponseEntity<>(retval, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/reject-ride")
+    public void rejectRide(@RequestBody ReportDTO dto){
+        Ride ride = rideService.getRideById(dto.rideId);
+        reportService.makeReport(ride.getDriver(),ride.getPassengers().get(0),dto.reason);
+        ride.setStatus(RideStatus.REJECTED);
+        rideService.saveRide(ride);
     }
 
 }

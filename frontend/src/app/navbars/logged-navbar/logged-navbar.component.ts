@@ -69,8 +69,15 @@ export class LoggedNavbarComponent implements OnInit {
       icon: 'pi pi-fw pi-calendar-times',
       command: () => this.clientHistory()
     }
+    let favRoutes = {
+      
+      label: 'Favorite routes',
+      icon: 'pi pi-fw pi-heart',
+      command: () => this.favoriteRoutes()
+    }
     if (this.user.role === 'ROLE_CLIENT') {
       this.items.push(history);
+      this.items.push(favRoutes);
     }
   }
 
@@ -208,6 +215,10 @@ export class LoggedNavbarComponent implements OnInit {
 
   clientHistory() {
     this.router.navigateByUrl('client/ride-history').then(r => {});
+  }
+
+  favoriteRoutes() {
+    this.router.navigateByUrl('client/favorite-routes').then(r => {});
   }
 
   driverHistory() {
