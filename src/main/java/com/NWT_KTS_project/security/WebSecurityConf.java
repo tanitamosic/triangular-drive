@@ -41,9 +41,9 @@ public class WebSecurityConf {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
                 .authorizeRequests().antMatchers("/").permitAll().and()
                 .authorizeRequests().antMatchers("/h2-console/**").permitAll().and()
-                .authorizeRequests().antMatchers("/client/*").hasRole("CLIENT").and()
-                .authorizeRequests().antMatchers("/driver/*").hasRole("DRIVER").and()
-                .authorizeRequests().antMatchers("/history/**").hasRole("ADMIN").and()
+                .authorizeRequests().antMatchers("/api/client/*").hasRole("CLIENT").and()
+                .authorizeRequests().antMatchers("/api/driver/*").hasRole("DRIVER").and()
+                .authorizeRequests().antMatchers("/api/admin/**").hasRole("ADMIN").and()
 //                .authorizeRequests().antMatchers("/api/**").permitAll().and()
 
                 // ALWAYS AT THE END OF THE CHAIN

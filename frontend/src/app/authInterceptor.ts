@@ -13,11 +13,19 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private auth: AuthorizationService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let jwtToken = this.auth.getToken();
+    let reqClone;
+    let jwtToken = 'Bearer ' + this.auth.getToken();
     if (jwtToken != '') {
-      req.headers.set("Authorization", jwtToken);
+      reqClone = req.clone({
+        setHeaders: {
+          'Authorization': jwtToken
+        }
+      });
     }
-    return next.handle(req);
+    if (reqClone == undefined) {
+      return next.handle(req);
+    }
+    return next.handle(reqClone);
   }
 
 
