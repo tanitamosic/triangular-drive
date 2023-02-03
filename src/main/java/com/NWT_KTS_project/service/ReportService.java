@@ -33,13 +33,14 @@ public class ReportService {
         }
     }
 
-    public void makeReport(User reporter, User reportee, String reason) {
+    public Report makeReport(User reporter, User reportee, String reason) {
         Report report = new Report();
         report.setReporter(reporter);
         report.setReportee(reportee);
         report.setSolved(false);
         report.setText(reason);
         reportRepository.saveAndFlush(report);
+        return report;
 
     }
 
