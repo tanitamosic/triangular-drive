@@ -21,7 +21,7 @@
             </tr>
             <tr>
               <td>
-                <button pButton pRipple class="p-button-success" label="Accept" (click)="acceptRide($event, ride.id)"></button>
+                <button pButton pRipple class="p-button-success" label="Accept" id="acceptBtn" (click)="acceptRide($event, ride.id)"></button>
               </td>
               <td>
                 <button pButton pRipple class="p-button-danger" label="Reject" (click)="rejectRide($event, ride.id)"></button>
@@ -34,10 +34,10 @@
   </div>
   <div *ngIf="ongoingRide">
     <div style="margin-top:200px">
-      <button pButton pRipple class="p-button-success" label="End Ride" (click)="endRide()" style="width: 300px;height: 150px;"></button>
+      <button pButton pRipple class="p-button-success" label="End Ride" id="endRideBtn" (click)="endRide()" style="width: 300px;height: 150px;"></button>
     </div>
     <div style="margin-top:200px">
-      <button pButton pRipple class="p-button-danger" label="Emergency Stop" (click)="emergencyStop()" style="width: 300px;height:150px;"></button>
+      <button pButton pRipple class="p-button-danger" label="Emergency Stop" id="emergencyStopBtn" (click)="emergencyStop()" style="width: 300px;height:150px;"></button>
     </div>
   </div>
   <div class="map-container">
